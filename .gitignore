@@ -1,9 +1,14 @@
+.history
+
 *.class
 *.log
+.*.swp
+._*
+.DS_Store
 
 # sbt specific
-.cache
-.history
+.cache/
+.history/
 .lib/
 dist/*
 target/
