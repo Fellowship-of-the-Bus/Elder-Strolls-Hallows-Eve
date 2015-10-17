@@ -32,14 +32,12 @@ class ControllerInput(gc: GameContainer, sbg: StateBasedGame) extends InputAdapt
 		var i = 0
 	    var colors = List(Color.red, Color.green, Color.yellow, Color.gray)
 	    for(i <- 0 until controllerCount) {
-	      println(s"Creating player with color ${colors.head}")
 	      players = players :+ new TempPlayer(400,300,colors.head)
 	      colors = colors.tail
 	    }
 	}
 
 	override def controllerButtonPressed(controller: Int, button: Int) = {
-		println(s"$button")
 		if (button == BUTTON_START) {
 			gc.setPaused(!gc.isPaused)
 		}
