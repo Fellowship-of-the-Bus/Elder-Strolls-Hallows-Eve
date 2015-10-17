@@ -1,12 +1,12 @@
 package com.github.fellowship_of_the_bus
-package draconia
+package eshe
 package state
 import org.newdawn.slick.{AppGameContainer, GameContainer, Graphics, SlickException, Color, Input}
 import org.newdawn.slick.state.{BasicGameState, StateBasedGame}
 
 import game._
 import game.IDMap._
-import ui.Image
+import lib.ui.Image
 import lib.game.GameConfig.{Width,Height}
 
 object Battle extends BasicGameState {

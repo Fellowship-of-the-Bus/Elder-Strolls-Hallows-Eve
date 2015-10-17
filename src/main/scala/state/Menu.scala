@@ -1,5 +1,5 @@
 package com.github.fellowship_of_the_bus
-package draconia
+package eshe
 package state
 
 import lib.ui.{Button, ToggleButton}

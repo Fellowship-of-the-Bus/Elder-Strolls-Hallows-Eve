@@ -1,5 +1,5 @@
 package com.github.fellowship_of_the_bus
-package draconia
+package eshe
 package game
 import IDMap._
 import lib.game.GameConfig.{Width}
