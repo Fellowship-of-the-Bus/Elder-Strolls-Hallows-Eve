@@ -11,7 +11,6 @@ import game.IDMap._
 
 class ControllerInput(g: game.Game, gc: GameContainer, sbg: StateBasedGame) extends InputAdapter() {
     var input : Input = null
-    var players : Array[TempPlayer] = Array()
 	var controllerCount = 0
     val game = g
 
@@ -30,12 +29,6 @@ class ControllerInput(g: game.Game, gc: GameContainer, sbg: StateBasedGame) exte
 		in.addControllerListener(this)
 		input = in
 		controllerCount = in.getControllerCount()
-		var i = 0
-	    var colors = List(Color.red, Color.green, Color.yellow, Color.gray)
-	    for(i <- 0 until controllerCount) {
-	      players = players :+ new TempPlayer(400,300,colors.head)
-	      colors = colors.tail
-	    }
 	}
 
 	override def controllerButtonPressed(controller: Int, button: Int) = {
@@ -51,7 +44,7 @@ class ControllerInput(g: game.Game, gc: GameContainer, sbg: StateBasedGame) exte
 			}
 		} else {
 			if (button == BUTTON_A) {
-				
+
 			}
 		}
 	}
@@ -63,7 +56,7 @@ class ControllerInput(g: game.Game, gc: GameContainer, sbg: StateBasedGame) exte
 			var i = 0
 			for (i <- 0 until controllerCount) {
 				var j = 0
-				var p = players(i)
+				var p = game.players(i)
 				p.y += 3*input.getAxisValue(i,0)
 				if (p.y < HUD.height) p.y = HUD.height
 				if (p.y > (HUD.height + GameArea.height - 10)) p.y = HUD.height + GameArea.height - 10

@@ -40,9 +40,9 @@ object Battle extends BasicGameState {
 
     val lightBlue = new Color(150,150,255,0)
     g.setBackground(lightBlue)
-    for(p <- controller.getPlayers) {
-      g.setColor(p.color)
-      g.fillRect(p.x, p.y, 10, 10)
+    for(i <- 0 until controller.controllerCount) {
+      val p = game.players(i)
+      images(p.id).draw(p.x,p.y)
     }
 
     if (game.isGameOver) {

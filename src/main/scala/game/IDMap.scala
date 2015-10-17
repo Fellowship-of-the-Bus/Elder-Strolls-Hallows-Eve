@@ -7,11 +7,17 @@ object IDMap{
 
   val IVGuyID = 10
 
+  val GhostID = 20
+  val ElsaID = 21
+
   val FotBLogoID = 1000
   val GameOverID = 1001
 
 
   val imageMap = Map(
+    IVGuyID -> Array("img/IVWalk1.png", "img/IVWalk2.png"),
+    GhostID -> Array("img/GhostRun1.png", "img/GhostRun2.png"),
+    ElsaID -> "img/Elsa.png",
     FotBLogoID -> "img/FotB-Logo.png",
     GameOverID -> "img/GameOver.png",
     12345 -> Array("img/GameOver.png", "img/FotB-Logo.png")
