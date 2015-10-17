@@ -14,12 +14,14 @@ trait EnemyType extends CharacterType {
 }
 
 object Enemy {
-  private lazy val names = read("names.txt")
-  private lazy val facts = read("true-facts.txt")
+  private lazy val names = read("data/names.txt")
+  private lazy val facts = read("data/true-facts.txt")
 
   def read(filename: String): List[String] = {
     var lst = List[String]()
-    val sc = new Scanner(new File(filename))
+
+    val stream = ElderStrolls.getClass.getClassLoader().getResourceAsStream(filename)
+    val sc = new Scanner(stream)
     while (sc.hasNextLine) {
       lst = sc.nextLine::lst 
     }

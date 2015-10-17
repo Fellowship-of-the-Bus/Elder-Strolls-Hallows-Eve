@@ -16,7 +16,10 @@ abstract class GameObject(xc: Float, yc: Float) {
   def active = isActive
   def inactivate = isActive = false
 
-  def move(xamt: Float, yamt: Float)
-
+  def move(xamt: Float, yamt: Float): Unit = {
+    x = x + xamt
+    y = y + yamt
+  }
+  
   def topLeftCoord = (x-width/2, y-height/2)
 }
