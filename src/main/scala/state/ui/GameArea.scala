@@ -12,7 +12,7 @@ import org.newdawn.slick.state.{StateBasedGame}
 import game._
 import game.IDMap._
 
-object GameArea extends Pane(0, HUD.height, Width, Height)(Color.blue) {
+object GameArea extends Pane(0, HUD.height, Width, Height - HUD.height)(Color.blue) {
   override def draw(gc: GameContainer, sbg: StateBasedGame, g: Graphics): Unit = {
     super.draw(gc, sbg, g)
   }
