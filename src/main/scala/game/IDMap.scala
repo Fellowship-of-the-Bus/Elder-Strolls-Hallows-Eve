@@ -7,6 +7,10 @@ object IDMap{
 
   val IVGuyID = 10
 
+  val GhostID = 20
+  val ElsaID = 21
+  val PowerRangerID = 22
+
   val FotBLogoID = 1000
   val GameOverID = 1001
 

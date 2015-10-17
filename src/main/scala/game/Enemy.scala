@@ -40,3 +40,39 @@ abstract class Enemy(xc: Float, yc: Float, override val base: EnemyType) extends
     
   }
 }
+
+object Ghost extends EnemyType {
+  val id = GhostID
+  val maxHp = 10
+  val attack = 2
+  val defense = 1 
+  val speed = 1
+}
+
+class Ghost(xc: Float, yc: Float) extends Enemy(xc, yc, Ghost) {
+  
+}
+
+object Elsa extends EnemyType {
+  val id = ElsaID
+  val maxHp = 15
+  val attack = 4
+  val defense = 3 
+  val speed = 2
+}
+
+class Elsa(xc: Float, yc: Float) extends Enemy(xc, yc, Elsa) {
+
+}
+
+object PowerRanger extends EnemyType {
+  val id = PowerRangerID
+  val maxHp = 20
+  val attack = 10
+  val defense = 6 
+  val speed = 4
+}
+
+class PowerRanger(xc: Float, yc: Float) extends Enemy(xc, yc, PowerRanger) {
+
+}
