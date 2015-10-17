@@ -27,8 +27,8 @@ object IDMap{
   lazy val images: Map[Int, lib.ui.Drawable] = imageMap.map { x =>
     val (id, loc) = x
     val img = loc match {
-      case xs: Array[String] => Animation(xs)
-      case str: String => Image(str)
+      case xs: Array[String] => Animation(xs, eshe.state.ui.GameArea.scaleFactor)
+      case str: String => Image(str, eshe.state.ui.GameArea.scaleFactor)
     }
     id -> img
   }

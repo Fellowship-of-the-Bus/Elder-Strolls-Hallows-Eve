@@ -3,6 +3,7 @@ package eshe
 package game
 import IDMap._
 import lib.game.GameConfig.{Width,Height}
+import state.ui.GameArea
 
 trait CharacterType {
   def id: Int
@@ -22,16 +23,26 @@ abstract class Character(xc: Float, yc: Float, val base: CharacterType) extends 
   def speed = base.speed
 
   def id: Int = base.id
+  
+  val image = images(base.id).copy
+  val height = image.getHeight
+  val width = image.getWidth
 
   override def move(xamt: Float, yamt: Float): Unit = {
-    if (x < 0)  x = 0;
-    if (x > Width - width) x = Width - width;
+    if (x < 0)  {
+      x = 0
+    }
+    if (x > (Width - width)) {
+      x = Width - width
+    }
     x = x + xamt
-    if (y < state.ui.HUD.height) y = state.ui.HUD.height
-    if (y > (Height - height)) y = Height - height
+    if (y < 0) {
+       y = 0
+    }
+    if (y > (GameArea.height - height)) {
+       y = GameArea.height - height
+    }
     y = y + yamt
+    //println(s"$x, $y")
   }
-  val animation = images(base.id).copy
-  val height = animation.getHeight
-  val width = animation.getWidth
 }
