@@ -13,7 +13,7 @@ import game._
 import game.IDMap._
 
 class PlayerHUD(x: Float, y: Float, width: Float, height: Float, player: Player) extends Pane(x, y, width, height)(Color.white) {
-  implicit val color: Color = Color.white
+  implicit val color: Color = new Color(0.8f, 0.8f, 0.9f, 1f)
   override def draw(gc: GameContainer, sbg: StateBasedGame, g: Graphics): Unit = {
     super.draw(gc, sbg, g)
   }
@@ -21,7 +21,7 @@ class PlayerHUD(x: Float, y: Float, width: Float, height: Float, player: Player)
   override def init(gc: GameContainer, sbg: StateBasedGame) = {
     val nameText = new TextBox(0, 0, width, height, () => player.name)
     val hp = new Lifebar(0, 20, player)
-    val facts = new FactBox(0, 40, width, height, player)
+    val facts = new FactBox(0, 40, width, height, player, color)
 
     // val lives = new TextBox(5, 15+buttonHeight, buttonWidth, buttonHeight,
     //   () => s"Lives: ${game.getLives}")(Color.white)

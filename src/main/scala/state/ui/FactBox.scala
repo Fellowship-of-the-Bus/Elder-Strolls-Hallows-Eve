@@ -12,13 +12,13 @@ import lib.ui.{Pane,TextBox}
 
 import eshe.game.{GameObject,Player,Enemy}
 
-class FactBox(x: Float, y: Float, width: Float, height: Float, player: Player) 
-extends Pane(x, y, width, height)(Color.white) with PlayerListener {
+class FactBox(x: Float, y: Float, width: Float, height: Float, player: Player, parentCol: Color) 
+extends Pane(x, y, width, height)(parentCol) with PlayerListener {
   var enemy: Option[Enemy] = None
   var enemyQueue = Queue[Enemy]()
 
   override def init(gc: GameContainer, sbg: StateBasedGame) = {
-    implicit val color = Color.white
+    implicit val color = parentCol
 
     val name = new TextBox(0, 0, width, height, () => {
       enemy.map(_.name) getOrElse "Name"
