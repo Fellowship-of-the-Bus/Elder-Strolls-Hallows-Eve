@@ -11,10 +11,11 @@ import lib.game.GameConfig.{Width,Height}
 import ui._
 
 object Battle extends BasicGameState {
-  var game = new eshe.game.Game
+  var game = new Game
+  var players: List[state.Player] = List()
 
   val ui = new Pane(0, 0, Width, Height)(Color.white)
-
+  var controller: ControllerInput = null
   var pauseTimer = 0
   def update(gc: GameContainer, sbg: StateBasedGame, delta: Int) = {
     implicit val input = gc.getInput
@@ -26,6 +27,9 @@ object Battle extends BasicGameState {
 
     if (! gc.isPaused) {
       game.update(gc, sbg, delta)
+      if (controller != null) {
+        controller.update();
+      }
     }
 
     pauseTimer = Math.max(0, pauseTimer-1)
@@ -36,6 +40,10 @@ object Battle extends BasicGameState {
 
     val lightBlue = new Color(150,150,255,0)
     g.setBackground(lightBlue)
+    for(p <- controller.getPlayers) {
+      g.setColor(p.color)
+      g.fillRect(p.x, p.y, 10, 10)
+    }
 
     if (game.isGameOver) {
       g.setColor(new Color(255, 0, 0, (0.5 * 255).asInstanceOf[Int]))
@@ -49,6 +57,8 @@ object Battle extends BasicGameState {
     ui.setState(getID)
     ui.resetGame(game)
     ui.init(gc, sbg)
+    controller = new ControllerInput(gc, sbg)
+    controller.setInput(gc.getInput)
   }
 
   def getID() = Mode.BattleID
