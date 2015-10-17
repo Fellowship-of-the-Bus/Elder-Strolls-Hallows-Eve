@@ -13,7 +13,7 @@ import game._
 
 class ControllerInput(gc: GameContainer, sbg: StateBasedGame) extends InputAdapter() {
     var input : Input = null
-    var players : Array[Player] = Array()
+    var players : Array[TempPlayer] = Array()
 	var controllerCount = 0
 
 	val BUTTON_A = 1
@@ -33,7 +33,7 @@ class ControllerInput(gc: GameContainer, sbg: StateBasedGame) extends InputAdapt
 	    var colors = List(Color.red, Color.green, Color.yellow, Color.gray)
 	    for(i <- 0 until controllerCount) {
 	      println(s"Creating player with color ${colors.head}")
-	      players = players :+ new Player(400,300,colors.head)
+	      players = players :+ new TempPlayer(400,300,colors.head)
 	      colors = colors.tail
 	    }
 	}
