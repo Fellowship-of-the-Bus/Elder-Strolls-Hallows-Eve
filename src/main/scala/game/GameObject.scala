@@ -18,6 +18,8 @@ abstract class GameObject(xc: Float, yc: Float) {
   def active = isActive
   def inactivate = isActive = false
 
+  val img = images(id).copy
+
   def move(xamt: Float, yamt: Float): Unit = {
     x = x + xamt
     y = y + yamt
@@ -34,7 +36,11 @@ abstract class GameObject(xc: Float, yc: Float) {
     g.scale(1/scale, 1/scale)
   }
 
+  def update(delta: Int) = {
+    img.update(delta)
+  }
+
   def draw(g: Graphics) = {
-    drawScaledImage(images(id), x, y, g)
+    drawScaledImage(img, x, y, g)
   }
 }
