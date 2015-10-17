@@ -57,7 +57,7 @@ object Battle extends BasicGameState {
     ui.setState(getID)
     ui.resetGame(game)
     ui.init(gc, sbg)
-    controller = new ControllerInput(gc, sbg)
+    controller = new ControllerInput(game, gc, sbg)
     controller.setInput(gc.getInput)
   }
 

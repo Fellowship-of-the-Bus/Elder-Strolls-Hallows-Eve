@@ -9,10 +9,11 @@ import org.newdawn.slick.util.InputAdapter
 
 import game.IDMap._
 
-class ControllerInput(gc: GameContainer, sbg: StateBasedGame) extends InputAdapter() {
+class ControllerInput(g: game.Game, gc: GameContainer, sbg: StateBasedGame) extends InputAdapter() {
     var input : Input = null
     var players : Array[TempPlayer] = Array()
 	var controllerCount = 0
+    val game = g
 
 	val BUTTON_A = 1
 	val BUTTON_B = 2
@@ -47,6 +48,10 @@ class ControllerInput(gc: GameContainer, sbg: StateBasedGame) extends InputAdapt
 			}
 			else if (button == BUTTON_B) {
 				System.exit(0)
+			}
+		} else {
+			if (button == BUTTON_A) {
+				
 			}
 		}
 	}
