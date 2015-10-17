@@ -2,7 +2,7 @@ package com.github.fellowship_of_the_bus
 package eshe
 package game
 import IDMap._
-import lib.game.GameConfig.{Width}
+import lib.game.GameConfig.{Width,Height}
 
 trait CharacterType {
   def id: Int
@@ -24,10 +24,14 @@ abstract class Character(xc: Float, yc: Float, val base: CharacterType) extends 
   def id: Int = base.id
 
   def move(xamt: Float, yamt: Float): Unit = {
+    if (x < 0)  x = 0;
+    if (x > Width - width) x = Width - width;
     x = x + xamt
+    if (y < state.ui.HUD.height) y = state.ui.HUD.height
+    if (y > (Height - height)) y = Height - height
     y = y + yamt
   }
-
-  def width: Int = 10
-  def height: Int = 10
+  val animation = images(base.id).copy
+  val height = animation.getHeight
+  val width = animation.getWidth
 }

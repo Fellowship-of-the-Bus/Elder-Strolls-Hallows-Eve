@@ -55,12 +55,7 @@ class ControllerInput(g: game.Game, gc: GameContainer, sbg: StateBasedGame) exte
 			for (i <- 0 until controllerCount) {
 				var j = 0
 				var p = game.players(i)
-				p.y += 3*input.getAxisValue(i,0)
-				if (p.y < HUD.height) p.y = HUD.height
-				if (p.y > (HUD.height + GameArea.height - 10)) p.y = HUD.height + GameArea.height - 10
-				p.x += 3*input.getAxisValue(i,1)
-				if (p.x < 0) p.x = 0
-				if (p.x > GameArea.width - 10) p.x = GameArea.width - 10
+				p.move(3*input.getAxisValue(i,1),3*input.getAxisValue(i,0))
 			}
 		}
 	}

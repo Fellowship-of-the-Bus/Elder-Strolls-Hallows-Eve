@@ -9,8 +9,8 @@ abstract class GameObject(xc: Float, yc: Float) {
   var y = yc
 
   def id: Int
-  def width: Int
-  def height: Int
+  def width: Float
+  def height: Float
 
   private var isActive = true
   def active = isActive

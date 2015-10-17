@@ -21,8 +21,8 @@ class ElderStrolls(gamename: String) extends StateBasedGame(gamename) {
 object ElderStrolls extends App {
   def makeImg(loc: String) = new Image(loc)
 
-  GameConfig.Width = 800
-  GameConfig.Height = 600
+  GameConfig.Width = 1280
+  GameConfig.Height = 1024
   GameConfig.FrameRate = 60
 
   try {

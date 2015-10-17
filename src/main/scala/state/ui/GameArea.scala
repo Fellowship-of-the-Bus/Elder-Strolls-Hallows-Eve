@@ -13,8 +13,26 @@ import game._
 import game.IDMap._
 
 object GameArea extends Pane(0, HUD.height, Width, Height - HUD.height)(Color.blue) {
+
+  val scaleFactor = 0.2f
+
+  val widthRatio = width
+  val heightRatio = height
+
+  def drawScaledImage(im: Drawable, x: Float, y: Float, g: Graphics) = {
+    g.scale(scaleFactor,scaleFactor)
+
+    im.draw(x,y)
+  
+    g.scale(1/scaleFactor, 1/scaleFactor)
+  }
+
   override def draw(gc: GameContainer, sbg: StateBasedGame, g: Graphics): Unit = {
     super.draw(gc, sbg, g)
+    for(i <- 0 until Battle.controller.controllerCount) {
+      val p = Battle.game.players(i)
+      drawScaledImage(images(p.id), p.x, p.y, g)
+    }
   }
 
   override def init(gc: GameContainer, sbg: StateBasedGame) = {
