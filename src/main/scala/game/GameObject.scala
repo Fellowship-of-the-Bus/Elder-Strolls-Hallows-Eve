@@ -3,6 +3,8 @@ package eshe
 package game
 import IDMap._
 import lib.game.GameConfig.{Width}
+import org.newdawn.slick.{Graphics}
+import lib.ui.{Drawable}
 
 abstract class GameObject(xc: Float, yc: Float) {
   var x = xc
@@ -22,4 +24,17 @@ abstract class GameObject(xc: Float, yc: Float) {
   }
   
   def topLeftCoord = (x-width/2, y-height/2)
+
+  def drawScaledImage(im: Drawable, x: Float, y: Float, g: Graphics) = {
+    val scale = state.ui.GameArea.scaleFactor
+    g.scale(scale,scale)
+
+    im.draw(x,y)
+  
+    g.scale(1/scale, 1/scale)
+  }
+
+  def draw(g: Graphics) = {
+    drawScaledImage(images(id), x, y, g)
+  }
 }

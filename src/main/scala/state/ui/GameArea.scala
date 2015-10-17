@@ -18,24 +18,33 @@ object GameArea extends Pane(0, HUD.height, Width, Height - HUD.height)(Color.bl
 
   val widthRatio = width
   val heightRatio = height
-
-  def drawScaledImage(im: Drawable, x: Float, y: Float, g: Graphics) = {
-    g.scale(scaleFactor,scaleFactor)
-
-    im.draw(x,y)
+  var controller: ControllerInput = null
   
-    g.scale(1/scaleFactor, 1/scaleFactor)
-  }
 
   override def draw(gc: GameContainer, sbg: StateBasedGame, g: Graphics): Unit = {
+    val thegame = game.asInstanceOf[eshe.game.Game]
     super.draw(gc, sbg, g)
-    for(i <- 0 until Battle.controller.controllerCount) {
-      val p = Battle.game.players(i)
-      drawScaledImage(images(p.id), p.x, p.y, g)
+
+    if (! gc.isPaused) {
+      if (controller != null) {
+        controller.update();
+      }
+    }
+
+    for(i <- 0 until controller.controllerCount) {
+      val p = thegame.players(i)
+      p.draw(g)
+    }
+    for (e <- thegame.enemies) {
+      e.draw(g)
+    }
+    for(p <- thegame.projectiles) {
+      //p.draw(g)
     }
   }
 
   override def init(gc: GameContainer, sbg: StateBasedGame) = {
+    val thegame = game.asInstanceOf[eshe.game.Game]
     // val lives = new TextBox(5, 15+buttonHeight, buttonWidth, buttonHeight,
     //   () => s"Lives: ${game.getLives}")(Color.white)
 
@@ -44,5 +53,7 @@ object GameArea extends Pane(0, HUD.height, Width, Height - HUD.height)(Color.bl
 
     // addChildren(lives, money, waveNum, sendWave, menu, speed, waveBar)
     super.init(gc, sbg)
+    controller = new ControllerInput(thegame, gc, sbg)
+    controller.setInput(gc.getInput)
   }
 }

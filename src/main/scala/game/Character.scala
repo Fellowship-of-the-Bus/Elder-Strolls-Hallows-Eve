@@ -43,6 +43,6 @@ abstract class Character(xc: Float, yc: Float, val base: CharacterType) extends 
        y = GameArea.height - height
     }
     y = y + yamt
-    //println(s"$x, $y")
   }
+
 }
