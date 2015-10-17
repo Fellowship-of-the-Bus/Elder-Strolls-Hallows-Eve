@@ -19,9 +19,9 @@ object Menu extends BasicGameState {
   implicit var SBGame: StateBasedGame = null
 
   lazy val choices = List(
-    Button("New Game", centerx, 200, () => SBGame.enterState(Mode.BattleID)),
+    Button("New Game (A/X)", centerx, 200, () => SBGame.enterState(Mode.BattleID)),
     Button("Options", centerx, 200+30, () => SBGame.enterState(Mode.OptionsID)), 
-    Button("Quit", centerx, 200+60, () => System.exit(0)))
+    Button("Quit (B/O)", centerx, 200+60, () => System.exit(0)))
 
   def update(gc: GameContainer, game: StateBasedGame, delta: Int) = {
     implicit val input = gc.getInput
