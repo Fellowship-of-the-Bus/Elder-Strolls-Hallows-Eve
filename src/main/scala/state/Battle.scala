@@ -11,7 +11,7 @@ import lib.game.GameConfig.{Width,Height}
 import ui._
 
 object Battle extends BasicGameState {
-  var game = new Game
+  var game = new eshe.game.Game
 
   val ui = new Pane(0, 0, Width, Height)(Color.white)
 
@@ -47,6 +47,7 @@ object Battle extends BasicGameState {
   def init(gc: GameContainer, sbg: StateBasedGame) = {
     ui.addChildren(HUD, GameArea)
     ui.setState(getID)
+    ui.resetGame(game)
     ui.init(gc, sbg)
   }
 

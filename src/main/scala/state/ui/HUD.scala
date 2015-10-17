@@ -18,13 +18,14 @@ object HUD extends Pane(0, 0, Width, Height/4)(Color.white) {
   }
 
   override def init(gc: GameContainer, sbg: StateBasedGame) = {
-    // val lives = new TextBox(5, 15+buttonHeight, buttonWidth, buttonHeight,
-    //   () => s"Lives: ${game.getLives}")(Color.white)
+    val game = HUD.game.asInstanceOf[Game]
 
-    // val money = new TextBox(width-100, 10, buttonWidth, buttonHeight,
-    //   () => s"$$${game.getMoney}")(Color.white)
+    val players = new Array[PlayerHUD](game.maxPlayers)
+    for (i <- 0 until game.maxPlayers) {
+      players(i) = new PlayerHUD(width*i/game.maxPlayers, 0, width/game.maxPlayers, height, game.players(i))
+    }
 
-    // addChildren(lives, money, waveNum, sendWave, menu, speed, waveBar)
+    addChildren(players.toList)
     super.init(gc, sbg)
   }
 }
