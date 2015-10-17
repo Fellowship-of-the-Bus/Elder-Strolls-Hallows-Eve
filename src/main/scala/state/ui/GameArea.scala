@@ -14,7 +14,7 @@ import game.IDMap._
 
 object GameArea extends Pane(0, HUD.height, Width, Height - HUD.height)(Color.blue) {
 
-  val scaleFactor = 0.2f
+  val scaleFactor = 0.42f
 
   val widthRatio = width
   val heightRatio = height
@@ -30,16 +30,21 @@ object GameArea extends Pane(0, HUD.height, Width, Height - HUD.height)(Color.bl
         controller.update();
       }
     }
-
+    images(BackgroundID).draw(0,0)
+    var objects = List[GameObject]()
     for(i <- 0 until controller.controllerCount) {
       val p = thegame.players(i)
-      p.draw(g)
+      objects = p :: objects
     }
     for (e <- thegame.enemies) {
-      e.draw(g)
+      objects = e :: objects
     }
     for(p <- thegame.projectiles) {
-      //p.draw(g)
+      objects = p :: objects
+    }
+    val sorted = objects.sortBy((o) => (o.y + o.height))
+    for (o <- sorted) {
+      o.draw(g)
     }
   }
 

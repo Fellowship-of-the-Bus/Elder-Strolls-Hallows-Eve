@@ -15,7 +15,7 @@ object Battle extends BasicGameState {
   var players: List[TempPlayer] = List()
 
   val ui = new Pane(0, 0, Width, Height)(Color.white)
-  var controller: ControllerInput = null
+  
   var pauseTimer = 0
   def update(gc: GameContainer, sbg: StateBasedGame, delta: Int) = {
     implicit val input = gc.getInput
@@ -27,9 +27,6 @@ object Battle extends BasicGameState {
 
     if (! gc.isPaused) {
       game.update(gc, sbg, delta)
-      if (controller != null) {
-        controller.update();
-      }
     }
 
     pauseTimer = Math.max(0, pauseTimer-1)
@@ -54,8 +51,7 @@ object Battle extends BasicGameState {
     ui.setState(getID)
     ui.resetGame(game)
     ui.init(gc, sbg)
-    controller = new ControllerInput(game, gc, sbg)
-    controller.setInput(gc.getInput)
+
   }
 
   def getID() = Mode.BattleID
