@@ -18,8 +18,8 @@ abstract class Character(xc: Float, yc: Float, val base: CharacterType) extends 
   var hp: Float = base.maxHp
   def maxHp = base.maxHp
   def attack = base.attack
-  def defense = base.maxHp
-  def speed = base.maxHp
+  def defense = base.defense
+  def speed = base.speed
 
   def id: Int = base.id
 
