@@ -6,14 +6,17 @@ import org.newdawn.slick.state.{BasicGameState, StateBasedGame}
 
 import game._
 import game.IDMap._
-import lib.ui.Image
+import lib.ui.{Image,Pane}
 import lib.game.GameConfig.{Width,Height}
+import ui._
 
 object Battle extends BasicGameState {
-  var gameState = new Game
+  var game = new Game
+
+  val ui = new Pane(0, 0, Width, Height)(Color.white)
 
   var pauseTimer = 0
-  def update(gc: GameContainer, game: StateBasedGame, delta: Int) = {
+  def update(gc: GameContainer, sbg: StateBasedGame, delta: Int) = {
     implicit val input = gc.getInput
 
     if (pauseTimer == 0 && input.isKeyDown(Input.KEY_P)) {
@@ -22,25 +25,29 @@ object Battle extends BasicGameState {
     }
 
     if (! gc.isPaused) {
-      gameState.update(gc, game, delta)
+      game.update(gc, sbg, delta)
     }
 
     pauseTimer = Math.max(0, pauseTimer-1)
   }
 
-  def render(gc: GameContainer, game: StateBasedGame, g: Graphics) = {
+  def render(gc: GameContainer, sbg: StateBasedGame, g: Graphics) = {
+    ui.render(gc, sbg, g)
+    
     val lightBlue = new Color(150,150,255,0)
     g.setBackground(lightBlue)
 
-    if (gameState.isGameOver) {
+    if (game.isGameOver) {
       g.setColor(new Color(255, 0, 0, (0.5 * 255).asInstanceOf[Int]))
       g.fillRect(0, 0, Width, Height)
       images(GameOverID).draw(0,0)
     }
   }
 
-  def init(gc: GameContainer, game: StateBasedGame) = {
-    
+  def init(gc: GameContainer, sbg: StateBasedGame) = {
+    ui.addChildren(HUD)
+    ui.setState(getID)
+    ui.init(gc, sbg)
   }
 
   def getID() = Mode.BattleID

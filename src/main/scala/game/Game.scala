@@ -7,17 +7,11 @@ import org.newdawn.slick.state.{BasicGameState, StateBasedGame}
 import IDMap._
 import lib.game.GameConfig.{Height,Width}
 
-class Game {
+class Game extends lib.game.Game {
   var counter = 0
 
   def update(gc: GameContainer, game: StateBasedGame, delta: Int) = {
     implicit val input = gc.getInput
-
-  }
-
-  var isGameOver = false
-  def gameOver() = {
-    isGameOver = true
 
   }
 }
