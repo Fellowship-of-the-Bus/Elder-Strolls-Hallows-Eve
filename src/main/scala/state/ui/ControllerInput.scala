@@ -22,7 +22,9 @@ class ControllerInput(gc: GameContainer, sbg: StateBasedGame) extends InputAdapt
 	val BUTTON_RB = 6
 	val BUTTON_BACK = 7
 	val BUTTON_START = 8
-	
+	val BUTTON_LS = 9
+	val BUTTON_RS = 10
+
 	override def setInput(in: Input) = {
 		in.addControllerListener(this)
 		input = in
@@ -59,7 +61,7 @@ class ControllerInput(gc: GameContainer, sbg: StateBasedGame) extends InputAdapt
 			for (i <- 0 until controllerCount) {
 				var j = 0
 				var p = players(i)
-				p.y += input.getAxisValue(i,0)
+				p.y += 3*input.getAxisValue(i,0)
 				if (p.y < HUD.height) p.y = HUD.height
 				if (p.y > (HUD.height + GameArea.height - 10)) p.y = HUD.height + GameArea.height - 10
 				p.x += 3*input.getAxisValue(i,1)
