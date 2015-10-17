@@ -33,7 +33,7 @@ object Battle extends BasicGameState {
 
   def render(gc: GameContainer, sbg: StateBasedGame, g: Graphics) = {
     ui.render(gc, sbg, g)
-    
+
     val lightBlue = new Color(150,150,255,0)
     g.setBackground(lightBlue)
 
@@ -45,7 +45,7 @@ object Battle extends BasicGameState {
   }
 
   def init(gc: GameContainer, sbg: StateBasedGame) = {
-    ui.addChildren(HUD)
+    ui.addChildren(HUD, GameArea)
     ui.setState(getID)
     ui.init(gc, sbg)
   }
