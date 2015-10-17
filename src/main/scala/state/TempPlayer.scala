@@ -12,7 +12,7 @@ import org.newdawn.slick.state.{BasicGameState, StateBasedGame}
 
 
 
-class Player(px: Float, py: Float, pc: Color) {
+class TempPlayer(px: Float, py: Float, pc: Color) {
   var x: Float = px
   var y: Float = py
   var color: Color = pc
