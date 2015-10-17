@@ -4,6 +4,41 @@ package game
 import IDMap._
 import lib.game.GameConfig.{Width}
 
-abstract class Player(xc: Float, yc: Float, maxHp: Float) extends game.Character(xc, yc, maxHp) {
+import eshe.state.ui.PlayerListener
+
+trait PlayerType extends CharacterType {
+
+}
+
+abstract class Player(xc: Float, yc: Float, override val base: PlayerType) extends game.Character(xc, yc, base) {
+  def hit(e: Enemy) = {
+    e.hp = e.hp - (attack - e.defense) 
+    if (e.hp <= 0) {
+      notify(x => x.enemyDied(e))
+    }
+  }
+
+  var listeners = List[PlayerListener]()
+  def addListener(l: PlayerListener) = {
+    listeners = l::listeners
+  }
+
+  def notify(event: (PlayerListener) => Unit) = {
+    for (l <- listeners) {
+      event(l)
+    }
+  }
+}
+
+object IVGuy extends PlayerType {
+  val id = IVGuyID
+  val maxHp = 100
+  val attack = 30
+  val defense = 20
+  val speed = 10
+}
+
+class IVGuy(xc: Float, yc: Float) extends Player(xc, yc, IVGuy) {
+  val name = "Herbert"
 
 }

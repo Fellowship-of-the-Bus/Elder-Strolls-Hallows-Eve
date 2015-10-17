@@ -5,8 +5,11 @@ import lib.ui.{Image, Animation}
 
 object IDMap{
 
+  val IVGuyID = 10
+
   val FotBLogoID = 1000
   val GameOverID = 1001
+
 
   val imageMap = Map(
     FotBLogoID -> "img/FotB-Logo.png",

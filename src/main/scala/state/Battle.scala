@@ -12,7 +12,8 @@ import ui._
 
 object Battle extends BasicGameState {
   var game = new Game
-  var players: List[Player] = List()
+  var players: List[state.Player] = List()
+
   val ui = new Pane(0, 0, Width, Height)(Color.white)
   var controller: ControllerInput = null
   var pauseTimer = 0
@@ -54,6 +55,7 @@ object Battle extends BasicGameState {
   def init(gc: GameContainer, sbg: StateBasedGame) = {
     ui.addChildren(HUD, GameArea)
     ui.setState(getID)
+    ui.resetGame(game)
     ui.init(gc, sbg)
     controller = new ControllerInput(gc, sbg)
     controller.setInput(gc.getInput)

@@ -8,8 +8,6 @@ import org.newdawn.slick.state.{StateBasedGame}
 import org.newdawn.slick.util.InputAdapter
 
 import game.IDMap._
-import game._
-
 
 class ControllerInput(gc: GameContainer, sbg: StateBasedGame) extends InputAdapter() {
     var input : Input = null

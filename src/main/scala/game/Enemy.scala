@@ -4,6 +4,15 @@ package game
 import IDMap._
 import lib.game.GameConfig.{Width}
 
-abstract class Enemy(xc: Float, yc: Float, maxHp: Float) extends game.Character(xc, yc, maxHp) {
-  
+trait EnemyType extends CharacterType {
+
+}
+
+abstract class Enemy(xc: Float, yc: Float, override val base: EnemyType) extends game.Character(xc, yc, base) {
+  def age: Int
+  def fact: String
+
+  def move() = {
+    
+  }
 }

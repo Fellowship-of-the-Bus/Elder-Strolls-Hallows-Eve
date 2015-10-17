@@ -10,6 +10,12 @@ import lib.game.GameConfig.{Height,Width}
 class Game extends lib.game.Game {
   var counter = 0
 
+  val maxPlayers = 4
+  val players = new Array[Player](maxPlayers)
+  for (i <- 0 until maxPlayers) {
+    players(i) = new IVGuy(0, 0)
+  }
+
   def update(gc: GameContainer, game: StateBasedGame, delta: Int) = {
     implicit val input = gc.getInput
 
