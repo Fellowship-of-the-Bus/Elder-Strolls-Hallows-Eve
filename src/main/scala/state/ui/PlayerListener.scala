@@ -6,6 +6,6 @@ package ui
 import eshe.game.{Player,Enemy}
 
 trait PlayerListener {
-  def enemyDied(e: Enemy): Unit
-  def playerDied(p: Player): Unit
+  def enemyDied(e: Enemy): Unit = ()
+  def playerDied(p: Player): Unit = ()
 }
