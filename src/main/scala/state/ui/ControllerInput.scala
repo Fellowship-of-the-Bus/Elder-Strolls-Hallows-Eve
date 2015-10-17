@@ -58,8 +58,13 @@ class ControllerInput(gc: GameContainer, sbg: StateBasedGame) extends InputAdapt
 			var i = 0
 			for (i <- 0 until controllerCount) {
 				var j = 0
-				players(i).y += input.getAxisValue(i,0)
-				players(i).x += input.getAxisValue(i,1)
+				var p = players(i)
+				p.y += input.getAxisValue(i,0)
+				if (p.y < HUD.height) p.y = HUD.height
+				if (p.y > (HUD.height + GameArea.height - 10)) p.y = HUD.height + GameArea.height - 10
+				p.x += 3*input.getAxisValue(i,1)
+				if (p.x < 0) p.x = 0
+				if (p.x > GameArea.width - 10) p.x = GameArea.width - 10
 			}
 		}
 	}
