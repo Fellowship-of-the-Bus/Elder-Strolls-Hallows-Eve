@@ -49,8 +49,6 @@ class ControllerInput(g: game.Game, gc: GameContainer, sbg: StateBasedGame) exte
 		}
 	}
 
-	def getPlayers() = players
-
 	def update() = {
 		if (!gc.isPaused) {
 			var i = 0
