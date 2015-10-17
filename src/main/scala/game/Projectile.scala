@@ -8,9 +8,6 @@ object Projectile {
 }
 
 class Projectile(xc: Float, yc: Float, val id: Int, dir: Int) extends GameObject(xc, yc) {
-  def width: Float = 20
-  def height: Float = 20
-
   def move() = x = x + dir
 }
 

@@ -11,14 +11,14 @@ abstract class GameObject(xc: Float, yc: Float) {
   var y = yc
 
   def id: Int
-  def width: Float
-  def height: Float
 
   private var isActive = true
   def active = isActive
   def inactivate = isActive = false
 
   val img = images(id).copy
+  val height = img.getHeight
+  val width = img.getWidth
 
   def move(xamt: Float, yamt: Float): Unit = {
     x = x + xamt

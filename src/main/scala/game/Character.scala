@@ -24,10 +24,6 @@ abstract class Character(xc: Float, yc: Float, val base: CharacterType) extends 
 
   def id: Int = base.id
   
-  val image = images(base.id).copy
-  val height = image.getHeight
-  val width = image.getWidth
-
   override def move(xamt: Float, yamt: Float): Unit = {
     if (x < 0)  {
       x = 0
