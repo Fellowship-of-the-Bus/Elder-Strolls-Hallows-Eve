@@ -40,12 +40,16 @@ class Game extends lib.game.Game {
       e.update(delta)
     }
 
-    for (p <- players) {
+    for (p <- projectiles; if (p.active)) {
       p.update(delta)
     }
 
-    for (p <- projectiles) {
+    for (p <- players; if (p.active)) {
       p.update(delta)
+      if (p.hp < 0) {
+        p.hp = 0
+        p.inactivate
+      }
     }
   }
 }
