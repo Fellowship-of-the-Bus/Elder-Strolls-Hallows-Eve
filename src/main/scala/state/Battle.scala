@@ -12,7 +12,6 @@ import ui._
 
 object Battle extends BasicGameState {
   var game = new Game
-  var players: List[TempPlayer] = List()
 
   val ui = new Pane(0, 0, Width, Height)(Color.white)
   
