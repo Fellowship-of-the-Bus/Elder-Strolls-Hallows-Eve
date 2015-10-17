@@ -37,6 +37,15 @@ class Game extends lib.game.Game {
 
     for (e <- enemies; if (e.active)) {
       e.move
+      e.update(delta)
+    }
+
+    for (p <- players) {
+      p.update(delta)
+    }
+
+    for (p <- projectiles) {
+      p.update(delta)
     }
   }
 }
