@@ -16,8 +16,27 @@ class Game extends lib.game.Game {
     players(i) = new IVGuy(0, 0)
   }
 
+  var projectiles = List[Projectile]()
+  var enemies = List[Enemy](new Ghost(1000, 0), new Ghost(1000, 400))
+
+  var cleanUpPeriod = 120
+  var timer = 0
+  def cleanup() = {
+    enemies = enemies.filter(_.active)
+    projectiles = projectiles.filter(_.active)
+  }
+
   def update(gc: GameContainer, game: StateBasedGame, delta: Int) = {
     implicit val input = gc.getInput
+    if (timer == 0) {
+      cleanup
+      timer = cleanUpPeriod
+    } else {
+       timer -= 1
+    }
 
+    for (e <- enemies; if (e.active)) {
+      e.move
+    }
   }
 }

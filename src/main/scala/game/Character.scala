@@ -23,7 +23,7 @@ abstract class Character(xc: Float, yc: Float, val base: CharacterType) extends 
 
   def id: Int = base.id
 
-  def move(xamt: Float, yamt: Float): Unit = {
+  override def move(xamt: Float, yamt: Float): Unit = {
     if (x < 0)  x = 0;
     if (x > Width - width) x = Width - width;
     x = x + xamt

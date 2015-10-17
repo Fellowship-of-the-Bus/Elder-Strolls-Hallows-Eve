@@ -14,6 +14,7 @@ abstract class Player(xc: Float, yc: Float, override val base: PlayerType) exten
   def hit(e: Enemy) = {
     e.hp = e.hp - (attack - e.defense) 
     if (e.hp <= 0) {
+      e.inactivate
       notify(x => x.enemyDied(e))
     }
   }
