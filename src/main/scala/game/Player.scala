@@ -13,13 +13,16 @@ trait PlayerType extends CharacterType {
 }
 
 abstract class Player(xc: Float, yc: Float, override val base: PlayerType) extends game.Character(xc, yc, base) {
-
   def tryAttack() = {
 
   }
+  var score = 0
 
   def hit(e: Enemy) = {
-    e.hp = e.hp - (attack - e.defense) 
+    val damage = (attack - e.defense)
+    e.hp = e.hp - damage
+    score += damage
+
     if (e.hp <= 0) {
       e.inactivate
       notify(x => x.enemyDied(e))
