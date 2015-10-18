@@ -82,6 +82,8 @@ abstract class Character(xc: Float, yc: Float, val base: CharacterType) extends 
   }
 
   override def move(xamt: Float, yamt: Float): Unit = {
+    if (xamt < 0) direction = GameObject.Left
+    else direction = GameObject.Right
     if (x < 0)  {
       x = 0
     }

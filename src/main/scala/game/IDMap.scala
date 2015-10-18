@@ -94,4 +94,5 @@ object IDMap{
     }
     id -> img
   }
+  images(BackgroundID).scaleFactor = 1.0f
 }
