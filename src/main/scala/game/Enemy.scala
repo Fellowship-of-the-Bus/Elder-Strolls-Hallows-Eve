@@ -11,7 +11,6 @@ import java.io.File
 import lib.util.rand
 
 trait EnemyType extends CharacterType {
-
 }
 
 object Enemy {
@@ -71,6 +70,7 @@ abstract case class Enemy(xc: Float, yc: Float, override val base: EnemyType) ex
       x = x + knockVelocity
       if (knockTicks <= 0) {
         flying = false
+        img = images(GhostW1ID).copy
       }
     } else {
       if (target == null) {
@@ -106,6 +106,7 @@ abstract case class Enemy(xc: Float, yc: Float, override val base: EnemyType) ex
     flying = true
     knockVelocity = distance / 15
     knockTicks = 15
+    img = images(GhostKnockbackID).copy
   }
 }
 
@@ -146,10 +147,10 @@ class Elsa(xc: Float, yc: Float) extends Enemy(xc, yc, Elsa) {
 
 object PowerRanger extends EnemyType {
   val id = PowerRangerW1ID
-  val maxHp = 50
+  val maxHp = 20
   val attack = 10
   val defense = 6 
-  val speed = 5
+  val speed = 3
   val walk1 = images(PowerRangerW1ID)
   val walk2 = images(PowerRangerW2ID)
   val imgs = Array[Drawable](walk1, walk2)
