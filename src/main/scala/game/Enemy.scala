@@ -160,9 +160,8 @@ class HorseMask(xc: Float, yc: Float) extends Enemy(xc, yc, Enemy.random) {
 
   override def draw(g: org.newdawn.slick.Graphics) = {
     super.draw(g)
-    images(HorseMaskID).draw(0, 0)
+    drawScaledImage(images(HorseMaskID), x, y, g)
   }
-
 
   override def update(delta: Long, game: Game) = {
     move(-speed, 0)

@@ -6,9 +6,10 @@ import org.newdawn.slick.state.{BasicGameState, StateBasedGame}
 
 import IDMap._
 import lib.game.GameConfig.{Height,Width}
+import lib.util.rand
 
 class Game extends lib.game.Game {
-  var counter = 0
+  private var counter = 0
 
   val maxPlayers = 4
   var players = new Array[Player](maxPlayers)
@@ -30,16 +31,32 @@ class Game extends lib.game.Game {
 
 
   var projectiles = List[Projectile]()
-  var enemies = List[Enemy](new Ghost(1000, 0), new Ghost(1000, 400))
+  var enemies = List[Enemy]()
 
   var cleanUpPeriod = 120
+  private val spawnTimer = 300
+  private var numSpawns = 0
   var timer = 0
   def cleanup() = {
     enemies = enemies.filter(_.active)
     projectiles = projectiles.filter(_.active)
   }
 
+  def createEnemy() : Enemy = {
+    val t = rand(0, 3)
+    val y = rand(300, 1000)
+
+    t match {
+      case 0 => return new Ghost(1400, y)
+      case 1 => return new Elsa(1400, y)
+      case 2 => return new PowerRanger(1400, y)
+      case _ => return new HorseMask(1400, y)
+    }
+  }
+
   def update(gc: GameContainer, game: StateBasedGame, delta: Int) = {
+    counter += 1
+
     implicit val input = gc.getInput
     if (timer == 0) {
       cleanup
@@ -62,6 +79,11 @@ class Game extends lib.game.Game {
         p.hp = 0
         p.inactivate
       }
+    }
+
+    if (counter >= spawnTimer) {
+      enemies = createEnemy :: enemies
+      counter = 0
     }
   }
 }
