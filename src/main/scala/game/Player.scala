@@ -29,6 +29,10 @@ abstract case class Player(xc: Float, yc: Float, override val base: PlayerType) 
   }
 }
 
+object IVGuys {
+  val guys = Array(IVGuy, IVGuy2, IVGuy3, IVGuy4)
+}
+
 object IVGuy extends PlayerType {
   val id = IVGuyW1ID
   val maxHp = 100
@@ -36,12 +40,48 @@ object IVGuy extends PlayerType {
   val defense = 20
   val speed = 10
 
-  val walk1 = images(IVGuyW1ID)
-  val walk2 = images(IVGuyW2ID)
-  val imgs = Array[Drawable](walk1, walk2)
+  var walk1 = images(IVGuyW1ID)
+  var walk2 = images(IVGuyW2ID)
+  var imgs = Array[Drawable](walk1, walk2)
 }
 
-class IVGuy(xc: Float, yc: Float) extends Player(xc, yc, IVGuy) {
+object IVGuy2 extends PlayerType {
+  val id = IVGuy.id
+  val maxHp = IVGuy.maxHp
+  val attack = IVGuy.attack
+  val defense = IVGuy.defense
+  val speed = IVGuy.speed
+
+  var walk1 = images(IVGuy2W1ID)
+  var walk2 = images(IVGuy2W2ID)
+  var imgs = Array[Drawable](walk1, walk2)
+}
+
+object IVGuy3 extends PlayerType {
+  val id = IVGuy.id
+  val maxHp = IVGuy.maxHp
+  val attack = IVGuy.attack
+  val defense = IVGuy.defense
+  val speed = IVGuy.speed
+
+  var walk1 = images(IVGuy3W1ID)
+  var walk2 = images(IVGuy3W2ID)
+  var imgs = Array[Drawable](walk1, walk2)
+}
+
+object IVGuy4 extends PlayerType {
+  val id = IVGuy.id
+  val maxHp = IVGuy.maxHp
+  val attack = IVGuy.attack
+  val defense = IVGuy.defense
+  val speed = IVGuy.speed
+
+  var walk1 = images(IVGuy4W1ID)
+  var walk2 = images(IVGuy4W2ID)
+  var imgs = Array[Drawable](walk1, walk2)
+}
+
+class IVGuy(xc: Float, yc: Float, playerNum: Int) extends Player(xc, yc, IVGuys.guys(playerNum)) {
   val name = "Herbert"
 
   val armDefault = images(IVGuyArmID).copy

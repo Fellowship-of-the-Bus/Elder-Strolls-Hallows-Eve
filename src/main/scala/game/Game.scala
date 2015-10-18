@@ -13,7 +13,7 @@ class Game extends lib.game.Game {
   val maxPlayers = 4
   var players = new Array[Player](maxPlayers)
   for (i <- 0 until maxPlayers) {
-    players(i) = new IVGuy(0, 0)
+    players(i) = new IVGuy(0, 0, i)
   }
 
   def setPlayers(nplayers: Int) = {
