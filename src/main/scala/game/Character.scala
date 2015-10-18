@@ -61,16 +61,18 @@ abstract class Character(xc: Float, yc: Float, val base: CharacterType) extends 
     }
   }
   
-  def getTargets(y:Float, range: Float, enemy: Boolean, game: Game) = {
+  def getTargets(y:Float, w: Float, range: Float, enemy: Boolean, game: Game) = {
     val tolerance: Float = 20.0f
     var targets: List[Character] = null
+    var inrange: List[Character] = List()
     if (enemy) targets = game.players.toList
     else targets = game.enemies
     for (t <- targets; if (t.active)) {
-      if ((y+tolerance <= t.y+t.height) && (y-tolerance >= t.y) && (x + width + range >= t.x) && (x + width + range <= t.x + t.width)) {
-        hit(t)
+      if ((y+tolerance <= t.y+t.height) && (y-tolerance >= t.y) && (x + w + range >= t.x) && (x + w + range <= t.x + t.width)) {
+        inrange = t :: inrange
       }
     }
+    inrange
   }
 
   override def move(xamt: Float, yamt: Float): Unit = {
@@ -90,7 +92,7 @@ abstract class Character(xc: Float, yc: Float, val base: CharacterType) extends 
     y = y + yamt
     if ((xamt != 0) || (yamt != 0)) {
       steps = Math.max(0, steps-1)
-      if (steps == 0) {
+      if ((steps == 0) && (imgs.indexOf(img) != -1)) {
         steps = numSteps
         index = (index + 1) % imgs.length
         img = imgs(index)

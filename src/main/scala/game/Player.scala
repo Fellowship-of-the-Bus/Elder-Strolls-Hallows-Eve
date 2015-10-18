@@ -16,6 +16,9 @@ abstract case class Player(xc: Float, yc: Float, override val base: PlayerType) 
   def tryAttack(game: Game) = {
 
   }
+  def tryAttack2(game: Game) = {
+
+  }
   var score = 0
 
   override def hit(c: Character) = {
@@ -86,19 +89,47 @@ class IVGuy(xc: Float, yc: Float, playerNum: Int) extends Player(xc, yc, IVGuys.
 
   val armDefault = images(IVGuyArmID).copy
   val armPunch = images(IVGuyArmPunchID).copy
+  val kick = images(IVGuyKickID).copy
+  val jump = images(IVGuyJumpID).copy
   var currArm = armDefault
   var time = 0
+  var thegame: Game = null
   override def tryAttack(game: Game) = {
+    thegame = game
     time = 10
     currArm = armPunch
-    getTargets(y+(370* state.ui.GameArea.scaleFactor), (60 * state.ui.GameArea.scaleFactor), false,game);
+    var targs = getTargets(y+(370* state.ui.GameArea.scaleFactor), width, (60 * state.ui.GameArea.scaleFactor), false,game)
+    for (t <- targs){
+      hit(t)
+    }
+  }
+
+  override def tryAttack2(game: Game) = {
+    thegame = game
+    time = 45
+    img = jump
   }
 
   override def draw(g: Graphics) = {
     time = Math.max(0, time-1)
-    if ((time == 0)&&(currArm == armPunch)) currArm = armDefault
+    if ((time == 0)) {
+      currArm = armDefault
+      img = imgs(index)
+    }
+    if ((time == 30) && (img == jump)) {
+      img = kick
+      var targs = getTargets(y+(500* state.ui.GameArea.scaleFactor), kick.getWidth, 0, false,thegame)
+      for (t <- targs) {
+        hit(t)
+      }
+    }
+    if ((time == 15) && (img == kick)) {
+      img = jump
+    }
     drawScaledImage(img, x, y, g)
-    drawScaledImage(currArm, x + (130 * state.ui.GameArea.scaleFactor), y + (240 * state.ui.GameArea.scaleFactor), g)
+    if (currArm != null) {
+      drawScaledImage(currArm, x + (130 * state.ui.GameArea.scaleFactor), y + (240 * state.ui.GameArea.scaleFactor), g)
+    }
   }
 
 }
