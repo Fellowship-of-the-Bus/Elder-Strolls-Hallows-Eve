@@ -59,10 +59,14 @@ abstract case class Enemy(xc: Float, yc: Float, override val base: EnemyType) ex
   var flying = false
   var knockTicks = 0
   var knockVelocity = 0f
+  var count = 0
+  var atkInterval = 60
 
   var target: Player = null
   override def update(delta: Long, game: Game) = {
     super.update(delta, game)
+    count = count + 1
+    
 
     // Knocked back behaviour
     if (flying) {
@@ -79,11 +83,17 @@ abstract case class Enemy(xc: Float, yc: Float, override val base: EnemyType) ex
         val xVec = (target.x + target.width / 2) - (x + width / 2)
         val yVec = (target.y + target.height / 2) - (y + height / 2)
 
-        val inRange = getTargets(atkHeight, atkWidth, 0, true, game) 
-        if (! inRange.isEmpty) {
+       /* val inRange = getTargets(atkHeight, atkWidth, 0, true, game) 
+       / if (! inRange.isEmpty) {
           // if target is in range, attack
           for (obj <- inRange) {
             hit(obj)
+          } */
+
+        if (xVec + yVec < 100) {
+          if(count >= atkInterval) {
+            hit(target)
+            count = 0
           }
         } else {
           // otherwise move until enemy is in range
