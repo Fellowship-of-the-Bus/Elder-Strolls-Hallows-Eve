@@ -90,8 +90,7 @@ abstract case class Enemy(xc: Float, yc: Float, override val base: EnemyType) ex
     
           val norm = ((1 / Math.sqrt((xVec * xVec) + (yVec * yVec))) * speed).asInstanceOf[Float]
 
-          x += xVec * norm
-          y += yVec * norm
+          super.move(xVec * norm, yVec * norm)
         }
       }
     }
