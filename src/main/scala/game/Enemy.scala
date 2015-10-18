@@ -34,29 +34,46 @@ object Enemy {
 }
 
 abstract class Enemy(xc: Float, yc: Float, override val base: EnemyType) extends game.Character(xc, yc, base) {
-  val age: Int = rand(10, 15)
+  val age: Int = rand(6, 12)
 
   val name = Enemy.name
   val fact = Enemy.fact
+  var flying = true
+  var knockTicks = 20
+  var knockVelocity = 2f
 
   var target: Player = null
   override def update(delta: Long, game: Game) = {
     super.update(delta, game)
 
-    if (target == null) {
-      target = game.players(rand(game.maxPlayers))
+    // Knocked back behaviour
+    if (flying) {
+      knockTicks -= 1
+      x = x + knockVelocity
+      if (knockTicks <= 0) {
+        flying = false
+      }
     } else {
-      if (false) {
-        // if target is in range, attack
+      if (target == null) {
+        target = game.players(rand(game.maxPlayers))
       } else {
-        // otherwise move until enemy is in range
-        move
+        if (false) {
+          // if target is in range, attack
+        } else {
+          // otherwise move until enemy is in range
+          move
+        }
       }
     }
   }
 
   def move() = {
     
+  }
+
+  def knockback(distance: Float) {
+    knockVelocity = distance / 30
+    knockTicks = 30
   }
 }
 
