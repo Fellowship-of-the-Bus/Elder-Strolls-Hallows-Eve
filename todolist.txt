@@ -1,9 +1,3 @@
--hitbox detection
-
 -sidescrolling
 
 -enemy spawning
-
--score?
-
--
