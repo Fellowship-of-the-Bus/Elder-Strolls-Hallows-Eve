@@ -16,6 +16,9 @@ trait CharacterType {
   def speed: Int
 
   def imgs: Array[Drawable]
+
+  def atkHeight: Float
+  def atkWidth: Float
 }
 
 abstract class Character(xc: Float, yc: Float, val base: CharacterType) extends GameObject(xc, yc) {
@@ -26,6 +29,9 @@ abstract class Character(xc: Float, yc: Float, val base: CharacterType) extends 
   def attack = base.attack
   def defense = base.defense
   def speed = base.speed
+
+  def atkHeight = base.atkHeight
+  def atkWidth = base.atkWidth
 
   def id: Int = base.id
 
@@ -38,7 +44,7 @@ abstract class Character(xc: Float, yc: Float, val base: CharacterType) extends 
   var index = 0
 
   def hit(c: Character) = {
-    val damage = (attack - c.defense)
+    val damage = attack // - c.defense // ignore defense for now
     c.hp = c.hp - damage
 
     if (c.hp <= 0) {

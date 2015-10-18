@@ -46,6 +46,11 @@ object IVGuy extends PlayerType {
   var walk1 = images(IVGuyW1ID)
   var walk2 = images(IVGuyW2ID)
   var imgs = Array[Drawable](walk1, walk2)
+
+  val atkHeight = 370.0f
+  val atkWidth = 60.0f
+
+  val atkHeight2 = 500.0f
 }
 
 object IVGuy2 extends PlayerType {
@@ -58,6 +63,9 @@ object IVGuy2 extends PlayerType {
   var walk1 = images(IVGuy2W1ID)
   var walk2 = images(IVGuy2W2ID)
   var imgs = Array[Drawable](walk1, walk2)
+
+  val atkHeight = IVGuy.atkHeight
+  val atkWidth = IVGuy.atkWidth
 }
 
 object IVGuy3 extends PlayerType {
@@ -70,6 +78,9 @@ object IVGuy3 extends PlayerType {
   var walk1 = images(IVGuy3W1ID)
   var walk2 = images(IVGuy3W2ID)
   var imgs = Array[Drawable](walk1, walk2)
+
+  val atkHeight = IVGuy.atkHeight
+  val atkWidth = IVGuy.atkWidth
 }
 
 object IVGuy4 extends PlayerType {
@@ -82,10 +93,15 @@ object IVGuy4 extends PlayerType {
   var walk1 = images(IVGuy4W1ID)
   var walk2 = images(IVGuy4W2ID)
   var imgs = Array[Drawable](walk1, walk2)
+
+  val atkHeight = IVGuy.atkHeight
+  val atkWidth = IVGuy.atkWidth
 }
 
 class IVGuy(xc: Float, yc: Float, playerNum: Int) extends Player(xc, yc, IVGuys.guys(playerNum)) {
   val name = "Herbert"
+
+  def atkHeight2 = IVGuy.atkHeight2
 
   val armDefault = images(IVGuyArmID).copy
   val armPunch = images(IVGuyArmPunchID).copy
@@ -98,7 +114,7 @@ class IVGuy(xc: Float, yc: Float, playerNum: Int) extends Player(xc, yc, IVGuys.
     thegame = game
     time = 10
     currArm = armPunch
-    var targs = getTargets(y+(370* state.ui.GameArea.scaleFactor), width, (60 * state.ui.GameArea.scaleFactor), false,game)
+    var targs = getTargets(y+(atkHeight* state.ui.GameArea.scaleFactor), width, (atkWidth * state.ui.GameArea.scaleFactor), false,game)
     for (t <- targs){
       hit(t)
     }
@@ -118,7 +134,7 @@ class IVGuy(xc: Float, yc: Float, playerNum: Int) extends Player(xc, yc, IVGuys.
     }
     if ((time == 30) && (img == jump)) {
       img = kick
-      var targs = getTargets(y+(500* state.ui.GameArea.scaleFactor), kick.getWidth, 0, false,thegame)
+      var targs = getTargets(y+(atkHeight2* state.ui.GameArea.scaleFactor), kick.getWidth, 0, false,thegame)
       for (t <- targs) {
         hit(t)
       }

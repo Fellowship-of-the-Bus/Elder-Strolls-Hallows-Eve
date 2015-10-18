@@ -79,8 +79,13 @@ abstract case class Enemy(xc: Float, yc: Float, override val base: EnemyType) ex
         val xVec = (target.x + target.width / 2) - (x + width / 2)
         val yVec = (target.y + target.height / 2) - (y + height / 2)
 
-        if (xVec > -50 && xVec < 50) {
+        val inRange = getTargets(atkHeight, atkWidth, 0, true, game) 
+        println(inRange)
+        if (! inRange.isEmpty) {
           // if target is in range, attack
+          for (obj <- inRange) {
+            hit(obj)
+          }
         } else {
           // otherwise move until enemy is in range
           move
@@ -113,6 +118,9 @@ object Ghost extends EnemyType {
   val walk1 = images(GhostW1ID).copy
   val walk2 = images(GhostW2ID).copy
   val imgs = Array[Drawable](walk1, walk2)
+
+  val atkHeight = 5.0f
+  val atkWidth = 5.0f
 }
 
 class Ghost(xc: Float, yc: Float) extends Enemy(xc, yc, Ghost) {
@@ -126,6 +134,9 @@ object Elsa extends EnemyType {
   val speed = 3
   val walk1 = images(ElsaID).copy
   val imgs = Array[Drawable](walk1)
+
+  val atkHeight = 5.0f
+  val atkWidth = 5.0f
 }
 
 class Elsa(xc: Float, yc: Float) extends Enemy(xc, yc, Elsa) {
@@ -141,6 +152,9 @@ object PowerRanger extends EnemyType {
   val walk1 = images(PowerRangerW1ID)
   val walk2 = images(PowerRangerW2ID)
   val imgs = Array[Drawable](walk1, walk2)
+
+  val atkHeight = 5.0f
+  val atkWidth = 5.0f
 }
 
 class PowerRanger(xc: Float, yc: Float) extends Enemy(xc, yc, PowerRanger) {
