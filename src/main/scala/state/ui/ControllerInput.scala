@@ -86,7 +86,9 @@ class ControllerInput(g: game.Game, gc: GameContainer, sbg: StateBasedGame) exte
       if (button == BUTTON_A) {
         game.players(controller).tryAttack(game)
       } else if (button == BUTTON_B) {
-        game.players(controller).tryAttack2(game)
+        if (game.players(controller).imgs.indexOf(game.players(controller).img) != -1) {
+          game.players(controller).tryAttack2(game)
+        }
       }
     }
   }
