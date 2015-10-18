@@ -41,7 +41,7 @@ abstract class GameObject(xc: Float, yc: Float) {
       //im.setRotation(180.0f)
 //      g.rotate(x,y,180.0f)
       //im.scaleFactor = -im.scaleFactor
-      im.draw(x,y)
+      im.draw(x,y, true, false)
       //im.scaleFactor = -im.scaleFactor
 //      g.rotate(x,y,180.0f)
       //im.setRotation(0.0f)

@@ -144,7 +144,11 @@ class IVGuy(xc: Float, yc: Float, playerNum: Int) extends Player(xc, yc, IVGuys.
     }
     drawScaledImage(img, x, y, g)
     if (currArm != null) {
-      drawScaledImage(currArm, x + (130 * state.ui.GameArea.scaleFactor), y + (240 * state.ui.GameArea.scaleFactor), g)
+      if (direction == GameObject.Left) {
+        drawScaledImage(currArm, x + ((width - 130) * state.ui.GameArea.scaleFactor), y + (240 * state.ui.GameArea.scaleFactor), g)
+      } else {
+        drawScaledImage(currArm, x + (130 * state.ui.GameArea.scaleFactor), y + (240 * state.ui.GameArea.scaleFactor), g)
+      }
     }
   }
 
