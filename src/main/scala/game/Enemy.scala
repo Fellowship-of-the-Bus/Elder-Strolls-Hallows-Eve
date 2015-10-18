@@ -76,8 +76,8 @@ abstract case class Enemy(xc: Float, yc: Float, override val base: EnemyType) ex
       if (target == null) {
         target = Enemy.randInSeq(game.players)
       } else {
-        val xVec = target.x - x
-        val yVec = target.y - y
+        val xVec = (target.x + target.width / 2) - (x + width / 2)
+        val yVec = (target.y + target.height / 2) - (y + height / 2)
 
         if (xVec > -50 && xVec < 50) {
           // if target is in range, attack
