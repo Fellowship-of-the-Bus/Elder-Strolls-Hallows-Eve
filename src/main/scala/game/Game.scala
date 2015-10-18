@@ -9,7 +9,7 @@ import lib.game.GameConfig.{Height,Width}
 import lib.util.rand
 
 class Game extends lib.game.Game {
-  private var counter = 0
+  private var counter = 100
 
   val maxPlayers = 4
   var players = new Array[Player](maxPlayers)
@@ -34,7 +34,7 @@ class Game extends lib.game.Game {
   var enemies = List[Enemy]()
 
   var cleanUpPeriod = 120
-  private val spawnTimer = 300
+  private val spawnTimer = 240
   private var numSpawns = 0
   var timer = 0
   def cleanup() = {
