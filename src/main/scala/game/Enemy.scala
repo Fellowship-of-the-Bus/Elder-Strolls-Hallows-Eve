@@ -29,8 +29,12 @@ object Enemy {
     lst
   }
 
-  def name() = names(rand(names.length-1))
-  def fact() = facts(rand(facts.length-1))  
+  def randInSeq[T](s: Seq[T]): T = s(rand(s.length-1))
+  def name() = randInSeq(names)
+  def fact() = randInSeq(facts)
+
+  private val enemyKinds = Vector(Ghost, Elsa, PowerRanger)
+  def random() = randInSeq(enemyKinds)
 }
 
 abstract class Enemy(xc: Float, yc: Float, override val base: EnemyType) extends game.Character(xc, yc, base) {
@@ -92,13 +96,12 @@ object Ghost extends EnemyType {
   val attack = 2
   val defense = 1 
   val speed = 4
-}
-
-class Ghost(xc: Float, yc: Float) extends Enemy(xc, yc, Ghost) {
   val walk1 = images(GhostW1ID).copy
   val walk2 = images(GhostW2ID).copy
   val imgs = Array[Drawable](walk1, walk2)
-  var currImage = walk1
+}
+
+class Ghost(xc: Float, yc: Float) extends Enemy(xc, yc, Ghost) {
 }
 
 object Elsa extends EnemyType {
@@ -107,12 +110,12 @@ object Elsa extends EnemyType {
   val attack = 4
   val defense = 3 
   val speed = 3
+  val walk1 = images(ElsaID).copy
+  val imgs = Array[Drawable](walk1)
 }
 
 class Elsa(xc: Float, yc: Float) extends Enemy(xc, yc, Elsa) {
-  val walk1 = images(ElsaID).copy
-  val imgs = Array[Drawable](walk1)
-  var currImage = walk1
+
 }
 
 object PowerRanger extends EnemyType {
@@ -121,11 +124,34 @@ object PowerRanger extends EnemyType {
   val attack = 10
   val defense = 6 
   val speed = 5
+  val walk1 = images(PowerRangerW1ID)
+  val walk2 = images(PowerRangerW2ID)
+  val imgs = Array[Drawable](walk1, walk2)
 }
 
 class PowerRanger(xc: Float, yc: Float) extends Enemy(xc, yc, PowerRanger) {
-  val walk1 = images(PowerRangerW1ID).copy
-  val walk2 = images(PowerRangerW2ID).copy
-  val imgs = Array[Drawable](walk1, walk2)
-  var currImage = walk1
+
+}
+
+// this doesn't need to be an enemy type
+object HorseMask {
+  val id = HorseMaskID
+
+  val mask = images(HorseMaskID)
+  val imgs = Array[Drawable](mask)
+}
+
+class HorseMask(xc: Float, yc: Float) extends Enemy(xc, yc, Enemy.random) {
+  val kind = Enemy.random
+
+  override def draw(g: org.newdawn.slick.Graphics) = {
+    super.draw(g)
+    images(HorseMaskID).draw(0, 0)
+  }
+
+
+  override def update(delta: Long, game: Game) = {
+    move(-speed, 0)
+    // TODO: inactive when goes off left edge
+  }
 }

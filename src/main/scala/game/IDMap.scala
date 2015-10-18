@@ -18,6 +18,8 @@ object IDMap{
   val PowerRangerW1ID = 23
   val PowerRangerW2ID = 24
 
+  val HorseMaskID = 40
+
   val FotBLogoID = 1000
   val GameOverID = 1001
   val BackgroundID = 1002
@@ -35,6 +37,7 @@ object IDMap{
     ElsaID -> "img/Elsa.png",
     PowerRangerW1ID -> "img/PowerRangerRun1.png",
     PowerRangerW2ID -> "img/PowerRangerRun2.png",
+    HorseMaskID -> "img/HorseMask.png",
     FotBLogoID -> "img/FotB-Logo.png",
     GameOverID -> "img/GameOver.png",
     BackgroundID -> "img/BackGround.png",

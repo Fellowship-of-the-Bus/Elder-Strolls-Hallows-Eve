@@ -12,6 +12,8 @@ trait CharacterType {
   def attack: Int
   def defense: Int
   def speed: Int
+
+  def imgs: Array[Drawable]
 }
 
 abstract class Character(xc: Float, yc: Float, val base: CharacterType) extends GameObject(xc, yc) {
@@ -25,8 +27,10 @@ abstract class Character(xc: Float, yc: Float, val base: CharacterType) extends 
 
   def id: Int = base.id
 
-  def imgs: Array[Drawable]
-  var currImage: Drawable
+  def copy(imgs: Array[Drawable]) = imgs.map(_.copy)
+
+  val imgs: Array[Drawable] = copy(base.imgs)
+  var currImage: Drawable = imgs(0)
   val numSteps = 20
   var steps = numSteps
   var index = 0
