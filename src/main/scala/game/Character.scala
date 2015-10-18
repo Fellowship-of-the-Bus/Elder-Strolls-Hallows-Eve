@@ -6,6 +6,8 @@ import lib.game.GameConfig.{Width,Height}
 import lib.ui.{Drawable}
 import state.ui.GameArea
 
+import eshe.state.ui.PlayerListener
+
 trait CharacterType {
   def id: Int
   def maxHp: Int
@@ -30,7 +32,43 @@ abstract class Character(xc: Float, yc: Float, val base: CharacterType) extends 
   val numSteps = 20
   var steps = numSteps
   var index = 0
+
+  def hit(c: Character) = {
+    val damage = (attack - c.defense)
+    c.hp = c.hp - damage
+
+    if (c.hp <= 0) {
+      c.inactivate
+      c match {
+        case e: Enemy => notify(x => x.enemyDied(e))
+        case p: Player => notify(x => x.playerDied(p))
+      }
+    }
+  }
+
+  var listeners = List[PlayerListener]()
+  def addListener(l: PlayerListener) = {
+    listeners = l::listeners
+  }
+
+  def notify(event: (PlayerListener) => Unit) = {
+    for (l <- listeners) {
+      event(l)
+    }
+  }
   
+  def getTargets(y:Float, range: Float, enemy: Boolean, game: Game) = {
+    val tolerance: Float = 20.0f
+    var targets: List[Character] = null
+    if (enemy) targets = game.players.toList
+    else targets = game.enemies
+    for (t <- targets; if (t.active)) {
+      if ((y+tolerance <= t.y+t.height) && (y-tolerance >= t.y) && (x + width + range >= t.x) && (x + width + range <= t.x + t.width)) {
+        hit(t)
+      }
+    }
+  }
+
   override def move(xamt: Float, yamt: Float): Unit = {
     if (x < 0)  {
       x = 0

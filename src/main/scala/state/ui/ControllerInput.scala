@@ -71,8 +71,6 @@ class ControllerInput(g: game.Game, gc: GameContainer, sbg: StateBasedGame) exte
   }
 
   override def controllerButtonPressed(controller: Int, button: Int) = {
-    println(button)
-
     if (button == BUTTON_START) {
       gc.setPaused(!gc.isPaused)
     }
@@ -85,7 +83,7 @@ class ControllerInput(g: game.Game, gc: GameContainer, sbg: StateBasedGame) exte
       }
     } else {
       if (button == BUTTON_A) {
-        game.players(controller).tryAttack()
+        game.players(controller).tryAttack(game)
       }
     }
   }

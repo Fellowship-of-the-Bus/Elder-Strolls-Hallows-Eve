@@ -12,32 +12,16 @@ trait PlayerType extends CharacterType {
 
 }
 
-abstract class Player(xc: Float, yc: Float, override val base: PlayerType) extends game.Character(xc, yc, base) {
-  def tryAttack() = {
+abstract case class Player(xc: Float, yc: Float, override val base: PlayerType) extends game.Character(xc, yc, base) {
+  def tryAttack(game: Game) = {
 
   }
   var score = 0
 
-  def hit(e: Enemy) = {
-    val damage = (attack - e.defense)
-    e.hp = e.hp - damage
+  override def hit(c: Character) = {
+    val damage = (attack - c.defense)
     score += damage
-
-    if (e.hp <= 0) {
-      e.inactivate
-      notify(x => x.enemyDied(e))
-    }
-  }
-
-  var listeners = List[PlayerListener]()
-  def addListener(l: PlayerListener) = {
-    listeners = l::listeners
-  }
-
-  def notify(event: (PlayerListener) => Unit) = {
-    for (l <- listeners) {
-      event(l)
-    }
+    super.hit(c)
   }
 }
 
@@ -59,10 +43,10 @@ class IVGuy(xc: Float, yc: Float) extends Player(xc, yc, IVGuy) {
   val walk2 = images(IVGuyW2ID).copy
   val imgs = Array[Drawable](walk1, walk2)
   var currImage = walk1
-  override def tryAttack() = {
+  override def tryAttack(game: Game) = {
     time = 10
     currArm = armPunch
-
+    getTargets(y+(370* state.ui.GameArea.scaleFactor), (60 * state.ui.GameArea.scaleFactor), false,game);
   }
 
   override def draw(g: Graphics) = {

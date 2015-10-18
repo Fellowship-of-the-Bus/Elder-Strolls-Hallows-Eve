@@ -33,7 +33,7 @@ object Enemy {
   def fact() = facts(rand(facts.length-1))  
 }
 
-abstract class Enemy(xc: Float, yc: Float, override val base: EnemyType) extends game.Character(xc, yc, base) {
+abstract case class Enemy(xc: Float, yc: Float, override val base: EnemyType) extends game.Character(xc, yc, base) {
   val age: Int = rand(6, 12)
 
   val name = Enemy.name

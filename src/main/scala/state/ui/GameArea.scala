@@ -43,7 +43,7 @@ object GameArea extends Pane(0, HUD.height, Width, Height - HUD.height)(Color.bl
       objects = p :: objects
     }
     val sorted = objects.sortBy((o) => (o.y + o.height))
-    for (o <- sorted) {
+    for (o <- sorted; if (o.active)) {
       o.draw(g)
     }
   }
