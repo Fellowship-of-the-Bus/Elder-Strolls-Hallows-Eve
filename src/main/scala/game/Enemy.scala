@@ -38,9 +38,9 @@ abstract class Enemy(xc: Float, yc: Float, override val base: EnemyType) extends
 
   val name = Enemy.name
   val fact = Enemy.fact
-  var flying = true
-  var knockTicks = 20
-  var knockVelocity = 2f
+  var flying = false
+  var knockTicks = 0
+  var knockVelocity = 0f
 
   var target: Player = null
   override def update(delta: Long, game: Game) = {

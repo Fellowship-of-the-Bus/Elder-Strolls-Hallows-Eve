@@ -21,6 +21,7 @@ abstract class Player(xc: Float, yc: Float, override val base: PlayerType) exten
   def hit(e: Enemy) = {
     val damage = (attack - e.defense)
     e.hp = e.hp - damage
+    e.knockback(damage * 3)
     score += damage
 
     if (e.hp <= 0) {
