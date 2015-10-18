@@ -22,7 +22,7 @@ abstract case class Player(xc: Float, yc: Float, override val base: PlayerType) 
     val damage = (attack - c.defense)
     c match {
       case e: Enemy => e.knockback(damage * 3)
-      _ => ()
+      case _ => ()
     }
     score += damage
     super.hit(c)
@@ -43,22 +43,12 @@ object IVGuy extends PlayerType {
 
 class IVGuy(xc: Float, yc: Float) extends Player(xc, yc, IVGuy) {
   val name = "Herbert"
-  var time = 0
 
   val armDefault = images(IVGuyArmID).copy
   val armPunch = images(IVGuyArmPunchID).copy
   var currArm = armDefault
-<<<<<<< HEAD
   var time = 0
-  val walk1 = images(IVGuyW1ID).copy
-  val walk2 = images(IVGuyW2ID).copy
-  val imgs = Array[Drawable](walk1, walk2)
-  var currImage = walk1
   override def tryAttack(game: Game) = {
-=======
-
-  override def tryAttack() = {
->>>>>>> origin/master
     time = 10
     currArm = armPunch
     getTargets(y+(370* state.ui.GameArea.scaleFactor), (60 * state.ui.GameArea.scaleFactor), false,game);
