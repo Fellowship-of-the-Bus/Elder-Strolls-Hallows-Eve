@@ -90,7 +90,7 @@ abstract case class Enemy(xc: Float, yc: Float, override val base: EnemyType) ex
             hit(obj)
           } */
 
-        if (xVec + yVec < 100) {
+        if (xVec > -100 && xVec < 100 && yVec > -100 && yVec < 100 ) {
           if(count >= atkInterval) {
             hit(target)
             count = 0
