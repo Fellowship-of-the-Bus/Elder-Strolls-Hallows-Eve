@@ -77,7 +77,7 @@ abstract case class Enemy(xc: Float, yc: Float, override val base: EnemyType) ex
         img = images(GhostW1ID).copy
       }
     } else {
-      if (target == null) {
+      if (target == null || ! target.active) {
         target = Enemy.randInSeq(game.players)
       } else {
         val xVec = (target.x + target.width / 2) - (x + width / 2)
