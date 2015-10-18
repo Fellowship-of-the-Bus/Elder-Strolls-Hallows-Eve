@@ -29,7 +29,7 @@ object Enemy {
     lst
   }
 
-  def randInSeq[T](s: Seq[T]): T = s(rand(s.length-1))
+  def randInSeq[T](s: Seq[T]): T = s(rand(s.length))
   def name() = randInSeq(names)
   def fact() = randInSeq(facts)
 
@@ -59,7 +59,7 @@ abstract class Enemy(xc: Float, yc: Float, override val base: EnemyType) extends
       }
     } else {
       if (target == null) {
-        target = game.players(rand(game.maxPlayers))
+        target = Enemy.randInSeq(game.players)
       } else {
         val xVec = target.x - x
         val yVec = target.y - y

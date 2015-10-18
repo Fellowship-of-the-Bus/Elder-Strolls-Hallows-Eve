@@ -11,10 +11,23 @@ class Game extends lib.game.Game {
   var counter = 0
 
   val maxPlayers = 4
-  val players = new Array[Player](maxPlayers)
+  var players = new Array[Player](maxPlayers)
   for (i <- 0 until maxPlayers) {
     players(i) = new IVGuy(0, 0)
   }
+
+  def setPlayers(nplayers: Int) = {
+    val ps = players
+    players = new Array[Player](nplayers)
+    for (i <- 0 until maxPlayers) {
+      if (i < nplayers) {
+        players(i) = ps(i)
+      } else {
+        ps(i).inactivate
+      } 
+    }
+  }
+
 
   var projectiles = List[Projectile]()
   var enemies = List[Enemy](new Ghost(1000, 0), new Ghost(1000, 400))

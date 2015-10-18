@@ -68,6 +68,7 @@ class ControllerInput(g: game.Game, gc: GameContainer, sbg: StateBasedGame) exte
     in.addControllerListener(this)
     input = in
     controllerCount = in.getControllerCount()
+    game.setPlayers(controllerCount)
   }
 
   override def controllerButtonPressed(controller: Int, button: Int) = {
