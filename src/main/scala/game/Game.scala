@@ -36,16 +36,15 @@ class Game extends lib.game.Game {
     }
 
     for (e <- enemies; if (e.active)) {
-      e.move
-      e.update(delta)
+      e.update(delta, this)
     }
 
     for (p <- projectiles; if (p.active)) {
-      p.update(delta)
+      p.update(delta, this)
     }
 
     for (p <- players; if (p.active)) {
-      p.update(delta)
+      p.update(delta, this)
       if (p.hp < 0) {
         p.hp = 0
         p.inactivate

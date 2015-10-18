@@ -39,14 +39,18 @@ abstract class Enemy(xc: Float, yc: Float, override val base: EnemyType) extends
   val fact = Enemy.fact
 
   var target: Player = null
-  override def update(delta: Float, game: Game) = {
+  override def update(delta: Long, game: Game) = {
     super.update(delta, game)
 
     if (target == null) {
-      target = game.player(rand(game.maxPlayers))
+      target = game.players(rand(game.maxPlayers))
     } else {
-      // if target is in range, attack
-      // otherwise move until enemy is in range
+      if (false) {
+        // if target is in range, attack
+      } else {
+        // otherwise move until enemy is in range
+        move
+      }
     }
   }
 

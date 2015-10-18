@@ -36,7 +36,7 @@ abstract class GameObject(xc: Float, yc: Float) {
     g.scale(1/scale, 1/scale)
   }
 
-  def update(delta: Int, game: Game) = {
+  def update(delta: Long, game: Game) = {
     img.update(delta)
   }
 
