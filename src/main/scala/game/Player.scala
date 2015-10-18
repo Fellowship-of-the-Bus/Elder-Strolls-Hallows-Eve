@@ -41,7 +41,7 @@ object IVGuy extends PlayerType {
   val maxHp = 100
   val attack = 30
   val defense = 20
-  val speed = 10
+  val speed = 5
 
   var walk1 = images(IVGuyW1ID)
   var walk2 = images(IVGuyW2ID)

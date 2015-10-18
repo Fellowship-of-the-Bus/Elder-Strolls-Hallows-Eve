@@ -108,7 +108,7 @@ class ControllerInput(g: game.Game, gc: GameContainer, sbg: StateBasedGame) exte
       for (i <- 0 until controllerCount) {
         var j = 0
         var p = game.players(i)
-        p.move(3*input.getAxisValue(i,AXIS_X),3*input.getAxisValue(i,AXIS_Y))
+        p.move(p.speed*input.getAxisValue(i,AXIS_X),p.speed*input.getAxisValue(i,AXIS_Y))
       }
     }
   }
