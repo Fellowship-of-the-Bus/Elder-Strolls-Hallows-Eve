@@ -57,19 +57,28 @@ abstract class Enemy(xc: Float, yc: Float, override val base: EnemyType) extends
       if (target == null) {
         target = game.players(rand(game.maxPlayers))
       } else {
-        if (false) {
+        val xVec = target.x - x
+        val yVec = target.y - y
+
+        if (xVec > -50 && xVec < 50) {
           // if target is in range, attack
         } else {
           // otherwise move until enemy is in range
           move
         }
+
+        def move() = {
+    
+          val norm = ((1 / Math.sqrt((xVec * xVec) + (yVec * yVec))) * speed).asInstanceOf[Float]
+
+          x += xVec * norm
+          y += yVec * norm
+        }
       }
     }
   }
 
-  def move() = {
-    
-  }
+  
 
   def knockback(distance: Float) {
     knockVelocity = distance / 30
@@ -82,7 +91,7 @@ object Ghost extends EnemyType {
   val maxHp = 10
   val attack = 2
   val defense = 1 
-  val speed = 1
+  val speed = 4
 }
 
 class Ghost(xc: Float, yc: Float) extends Enemy(xc, yc, Ghost) {
@@ -97,7 +106,7 @@ object Elsa extends EnemyType {
   val maxHp = 15
   val attack = 4
   val defense = 3 
-  val speed = 2
+  val speed = 3
 }
 
 class Elsa(xc: Float, yc: Float) extends Enemy(xc, yc, Elsa) {
@@ -111,7 +120,7 @@ object PowerRanger extends EnemyType {
   val maxHp = 20
   val attack = 10
   val defense = 6 
-  val speed = 4
+  val speed = 5
 }
 
 class PowerRanger(xc: Float, yc: Float) extends Enemy(xc, yc, PowerRanger) {
