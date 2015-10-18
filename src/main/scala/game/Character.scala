@@ -3,6 +3,7 @@ package eshe
 package game
 import IDMap._
 import lib.game.GameConfig.{Width,Height}
+import lib.ui.{Drawable}
 import state.ui.GameArea
 
 trait CharacterType {
@@ -23,6 +24,12 @@ abstract class Character(xc: Float, yc: Float, val base: CharacterType) extends 
   def speed = base.speed
 
   def id: Int = base.id
+
+  def imgs: Array[Drawable]
+  var currImage: Drawable
+  val numSteps = 20
+  var steps = numSteps
+  var index = 0
   
   override def move(xamt: Float, yamt: Float): Unit = {
     if (x < 0)  {
@@ -39,6 +46,14 @@ abstract class Character(xc: Float, yc: Float, val base: CharacterType) extends 
        y = GameArea.height - height
     }
     y = y + yamt
+    if ((xamt != 0) || (yamt != 0)) {
+      steps = Math.max(0, steps-1)
+      if (steps == 0) {
+        steps = numSteps
+        index = (index + 1) % imgs.length
+        img = imgs(index)
+      }
+    }
   }
 
 }
