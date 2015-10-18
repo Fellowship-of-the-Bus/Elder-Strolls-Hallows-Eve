@@ -104,19 +104,21 @@ abstract case class Enemy(xc: Float, yc: Float, override val base: EnemyType) ex
   
 
   def knockback(distance: Float) {
-    knockVelocity = distance / 30
-    knockTicks = 30
+    flying = true
+    knockVelocity = distance / 15
+    knockTicks = 15
   }
 }
 
 object Ghost extends EnemyType {
   val id = GhostW1ID
-  val maxHp = 10
+  val maxHp = 100
   val attack = 2
   val defense = 1 
   val speed = 4
   val walk1 = images(GhostW1ID).copy
   val walk2 = images(GhostW2ID).copy
+  val knockback = images(GhostKnockbackID).copy
   val imgs = Array[Drawable](walk1, walk2)
 
   val atkHeight = 5.0f
@@ -145,7 +147,7 @@ class Elsa(xc: Float, yc: Float) extends Enemy(xc, yc, Elsa) {
 
 object PowerRanger extends EnemyType {
   val id = PowerRangerW1ID
-  val maxHp = 20
+  val maxHp = 50
   val attack = 10
   val defense = 6 
   val speed = 5

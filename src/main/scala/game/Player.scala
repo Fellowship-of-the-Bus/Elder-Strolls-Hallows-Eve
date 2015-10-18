@@ -24,7 +24,7 @@ abstract case class Player(xc: Float, yc: Float, override val base: PlayerType) 
   override def hit(c: Character) = {
     val damage = (attack - c.defense)
     c match {
-      case e: Enemy => e.knockback(damage * 3)
+      case e: Enemy => e.knockback(damage * 5)
       case _ => ()
     }
     score += damage
