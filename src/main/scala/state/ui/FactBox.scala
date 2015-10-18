@@ -9,51 +9,51 @@ import org.newdawn.slick.{AppGameContainer, GameContainer, Graphics, SlickExcept
 import org.newdawn.slick.state.{BasicGameState, StateBasedGame}
 
 import lib.ui.{Pane,TextBox}
+import lib.util.{TickTimer,TimerListener,RepeatForever}
 
 import eshe.game.{GameObject,Player,Enemy}
 
 class FactBox(x: Float, y: Float, width: Float, height: Float, player: Player, parentCol: Color) 
-extends Pane(x, y, width, height)(parentCol) with PlayerListener {
+extends Pane(x, y, width, height)(parentCol) with PlayerListener with TimerListener {
   var enemy: Option[Enemy] = None
   var enemyQueue = Queue[Enemy]()
 
   override def init(gc: GameContainer, sbg: StateBasedGame) = {
     implicit val color = parentCol
 
-    val name = new TextBox(0, 0, width, height, () => {
+    val name = new TextBox(0, 0, width/2, 20, () => {
       enemy.map(_.name) getOrElse "Name"
     })
 
-    val age = new TextBox(width/2, 0, width, height, () => {
+    val age = new TextBox(width/2, 0, width/2, 20, () => {
       enemy.map(_.age.toString) getOrElse "Age" 
     })
 
-    val fact = new TextBox(0, 20, width, height, () => {
+    val fact = new TextBox(0, 20, width, 40, () => {
       enemy.map(_.fact) getOrElse "Fact"  
     })
+
+    // setup timer to trigger facts
+    def nextEnemy() = {
+      enemy = None
+      if (! enemyQueue.isEmpty) {
+        val (e, eq) = enemyQueue.dequeue
+        enemy = Some(e)
+        enemyQueue = eq
+      }
+    }
+    addTimer(new TickTimer(5*60, nextEnemy _, RepeatForever))
+
+    setIsVisible(() => ! enemy.isEmpty)
 
     addChildren(name, age, fact)
 
     player.addListener(this)
   }
 
-  val timeToNext = 5*60
-  var timer = 0
   override def update(gc: GameContainer, sbg: StateBasedGame, delta: Int): Unit = {
     super.update(gc, sbg, delta)
-
-    if (timer <= 0) {
-      enemy = None
-
-      if (! enemyQueue.isEmpty) {
-        val (e, eq) = enemyQueue.dequeue
-        enemy = Some(e)
-        enemyQueue = eq
-        timer = timeToNext
-      }
-    } else {
-      timer = timer - 1
-    }
+    super.update(delta)
   }
 
   override def enemyDied(e: Enemy): Unit = {

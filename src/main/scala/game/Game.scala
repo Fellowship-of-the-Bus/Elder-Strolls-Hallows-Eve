@@ -19,14 +19,8 @@ class Game extends lib.game.Game with TimerListener {
   }
 
   def setPlayers(nplayers: Int) = {
-    val ps = players
-    players = new Array[Player](nplayers)
-    for (i <- 0 until maxPlayers) {
-      if (i < nplayers) {
-        players(i) = ps(i)
-      } else {
-        ps(i).inactivate
-      } 
+    for (i <- nplayers until maxPlayers) {
+      players(i).inactivate
     }
   }
 

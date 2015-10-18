@@ -47,11 +47,10 @@ object Battle extends BasicGameState {
   }
 
   def init(gc: GameContainer, sbg: StateBasedGame) = {
-    ui.addChildren(HUD, GameArea)
+    ui.addChildren(GameArea, HUD)
     ui.setState(getID)
     ui.resetGame(game)
     ui.init(gc, sbg)
-
   }
 
   def getID() = Mode.BattleID
