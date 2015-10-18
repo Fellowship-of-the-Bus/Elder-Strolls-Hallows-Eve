@@ -48,18 +48,20 @@ object IVGuy extends PlayerType {
   val attack = 30
   val defense = 20
   val speed = 10
+
+  val walk1 = images(IVGuyW1ID)
+  val walk2 = images(IVGuyW2ID)
+  val imgs = Array[Drawable](walk1, walk2)
 }
 
 class IVGuy(xc: Float, yc: Float) extends Player(xc, yc, IVGuy) {
   val name = "Herbert"
+  var time = 0
+
   val armDefault = images(IVGuyArmID).copy
   val armPunch = images(IVGuyArmPunchID).copy
   var currArm = armDefault
-  var time = 0
-  val walk1 = images(IVGuyW1ID).copy
-  val walk2 = images(IVGuyW2ID).copy
-  val imgs = Array[Drawable](walk1, walk2)
-  var currImage = walk1
+
   override def tryAttack() = {
     time = 10
     currArm = armPunch
