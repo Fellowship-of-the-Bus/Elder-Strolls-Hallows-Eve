@@ -3,6 +3,7 @@ package eshe
 package game
 import IDMap._
 import lib.game.GameConfig.{Width}
+import lib.ui.{Drawable}
 
 import java.util.Scanner
 import java.io.File
@@ -60,7 +61,7 @@ abstract class Enemy(xc: Float, yc: Float, override val base: EnemyType) extends
 }
 
 object Ghost extends EnemyType {
-  val id = GhostID
+  val id = GhostW1ID
   val maxHp = 10
   val attack = 2
   val defense = 1 
@@ -68,7 +69,10 @@ object Ghost extends EnemyType {
 }
 
 class Ghost(xc: Float, yc: Float) extends Enemy(xc, yc, Ghost) {
-  
+  val walk1 = images(GhostW1ID).copy
+  val walk2 = images(GhostW2ID).copy
+  val imgs = Array[Drawable](walk1, walk2)
+  var currImage = walk1
 }
 
 object Elsa extends EnemyType {
@@ -80,11 +84,13 @@ object Elsa extends EnemyType {
 }
 
 class Elsa(xc: Float, yc: Float) extends Enemy(xc, yc, Elsa) {
-
+  val walk1 = images(ElsaID).copy
+  val imgs = Array[Drawable](walk1)
+  var currImage = walk1
 }
 
 object PowerRanger extends EnemyType {
-  val id = PowerRangerID
+  val id = PowerRangerW1ID
   val maxHp = 20
   val attack = 10
   val defense = 6 
@@ -92,5 +98,8 @@ object PowerRanger extends EnemyType {
 }
 
 class PowerRanger(xc: Float, yc: Float) extends Enemy(xc, yc, PowerRanger) {
-
+  val walk1 = images(PowerRangerW1ID).copy
+  val walk2 = images(PowerRangerW2ID).copy
+  val imgs = Array[Drawable](walk1, walk2)
+  var currImage = walk1
 }

@@ -85,7 +85,7 @@ class ControllerInput(g: game.Game, gc: GameContainer, sbg: StateBasedGame) exte
       }
     } else {
       if (button == BUTTON_A) {
-
+        game.players(controller).tryAttack()
       }
     }
   }
@@ -109,5 +109,4 @@ class ControllerInput(g: game.Game, gc: GameContainer, sbg: StateBasedGame) exte
       }
     }
   }
-
 }

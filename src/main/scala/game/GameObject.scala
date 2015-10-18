@@ -16,7 +16,7 @@ abstract class GameObject(xc: Float, yc: Float) {
   def active = isActive
   def inactivate = isActive = false
 
-  val img = images(id).copy
+  var img = images(id).copy
   val height = img.getHeight
   val width = img.getWidth
 
