@@ -26,6 +26,7 @@ object Battle extends BasicGameState {
 
     if (! gc.isPaused) {
       game.update(gc, sbg, delta)
+      ui.update(gc, sbg, delta)
     }
 
     pauseTimer = Math.max(0, pauseTimer-1)

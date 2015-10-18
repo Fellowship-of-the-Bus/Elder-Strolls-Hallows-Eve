@@ -16,7 +16,22 @@ trait EnemyType extends CharacterType {
 
 object Enemy {
   private lazy val names = read("data/names.txt")
-  private lazy val facts = read("data/true-facts.txt")
+  private lazy val facts = wordwrap(read("data/true-facts.txt"), 35)
+
+  def wordwrap(words: Seq[String],maxlen: Int): Seq[String] = {
+    def wrap(word: String): String = {
+      if (word.length <= maxlen) word
+      else {
+        var i = maxlen
+        while (word(i) != ' ') i = i-1
+        val chars = word.toCharArray
+        chars(i) = '\n'
+        new String(chars)
+      }
+    }
+
+    for (w <- words) yield wrap(w) 
+  }
 
   def read(filename: String): List[String] = {
     var lst = List[String]()

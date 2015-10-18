@@ -24,11 +24,11 @@ extends Pane(x, y, width, height)(parentCol) with PlayerListener {
       enemy.map(_.name) getOrElse "Name"
     })
 
-    val age = new TextBox(0, 20, width, height, () => {
+    val age = new TextBox(width/2, 0, width, height, () => {
       enemy.map(_.age.toString) getOrElse "Age" 
     })
 
-    val fact = new TextBox(0, 40, width, height, () => {
+    val fact = new TextBox(0, 20, width, height, () => {
       enemy.map(_.fact) getOrElse "Fact"  
     })
 
@@ -37,11 +37,10 @@ extends Pane(x, y, width, height)(parentCol) with PlayerListener {
     player.addListener(this)
   }
 
-  val timeToNext = 120
+  val timeToNext = 5*60
   var timer = 0
   override def update(gc: GameContainer, sbg: StateBasedGame, delta: Int): Unit = {
     super.update(gc, sbg, delta)
-    // modify queue
 
     if (timer <= 0) {
       enemy = None
@@ -53,11 +52,12 @@ extends Pane(x, y, width, height)(parentCol) with PlayerListener {
         timer = timeToNext
       }
     } else {
-      timer = timer - delta
+      timer = timer - 1
     }
   }
 
   override def enemyDied(e: Enemy): Unit = {
     enemyQueue = enemyQueue :+ e
+    println("added enemy")
   }
 }
