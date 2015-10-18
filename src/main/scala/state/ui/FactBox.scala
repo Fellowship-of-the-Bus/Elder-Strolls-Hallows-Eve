@@ -58,6 +58,5 @@ extends Pane(x, y, width, height)(parentCol) with PlayerListener {
 
   override def enemyDied(e: Enemy): Unit = {
     enemyQueue = enemyQueue :+ e
-    println("added enemy")
   }
 }
