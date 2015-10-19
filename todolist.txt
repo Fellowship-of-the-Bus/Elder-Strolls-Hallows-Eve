@@ -8,3 +8,5 @@
 
 -findTargets should take lib.math.Rect hit box, then it can just call intersect
  with ever other game object
+
+-projectiles inactivate after moving a set distance
