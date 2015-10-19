@@ -143,7 +143,7 @@ class IVGuy(xc: Float, yc: Float, playerNum: Int) extends Player(xc, yc, IVGuys.
       img = jump
     }
     drawScaledImage(img, x, y, g)
-    if (currArm != null) {
+    if (currArm != null && img != jump && img != kick) {
       if (direction == GameObject.Left) {
         drawScaledImage(currArm, x + ((width - 130) * state.ui.GameArea.scaleFactor), y + (240 * state.ui.GameArea.scaleFactor), g)
       } else {
