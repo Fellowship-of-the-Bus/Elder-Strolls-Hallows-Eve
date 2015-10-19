@@ -2,21 +2,23 @@ package com.github.fellowship_of_the_bus
 package eshe
 package game
 import IDMap._
-import lib.game.GameConfig.{Width}
-import lib.ui.{Drawable}
 
 import java.util.Scanner
 import java.io.File
 
+import lib.game.GameConfig.{Width}
+import lib.ui.{Drawable}
 import lib.util.rand
+import lib.math.sqrt
 
-trait EnemyType extends CharacterType {
-}
+trait EnemyType extends CharacterType
 
 object Enemy {
   private lazy val names = read("data/names.txt")
   private lazy val facts = wordwrap(read("data/true-facts.txt"), 35)
 
+  /** given a sequence of strings, bound the length of each line by maxlen;
+    * currently only works for two line strings */
   def wordwrap(words: Seq[String],maxlen: Int): Seq[String] = {
     def wrap(word: String): String = {
       if (word.length <= maxlen) word
@@ -28,15 +30,12 @@ object Enemy {
         new String(chars)
       }
     }
-
     for (w <- words) yield wrap(w) 
   }
 
   def read(filename: String): List[String] = {
     var lst = List[String]()
-
-    val stream = ElderStrolls.getClass.getClassLoader().getResourceAsStream(filename)
-    val sc = new Scanner(stream)
+    val sc = lib.util.scanFile(filename)
     while (sc.hasNextLine) {
       lst = sc.nextLine::lst 
     }
@@ -101,9 +100,7 @@ abstract case class Enemy(xc: Float, yc: Float, override val base: EnemyType) ex
         }
 
         def move() = {
-    
-          val norm = ((1 / Math.sqrt((xVec * xVec) + (yVec * yVec))) * speed).asInstanceOf[Float]
-
+          val norm = ((1 / sqrt((xVec * xVec) + (yVec * yVec))) * speed)
           super.move(xVec * norm, yVec * norm)
         }
       }

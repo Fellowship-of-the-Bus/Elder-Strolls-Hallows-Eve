@@ -15,21 +15,11 @@ object Battle extends BasicGameState {
 
   val ui = new Pane(0, 0, Width, Height)(Color.white)
   
-  var pauseTimer = 0
   def update(gc: GameContainer, sbg: StateBasedGame, delta: Int) = {
-    implicit val input = gc.getInput
-
-    if (pauseTimer == 0 && input.isKeyDown(Input.KEY_P)) {
-      gc.setPaused(!gc.isPaused)
-      pauseTimer = 15
-    }
-
     if (! gc.isPaused) {
       game.update(gc, sbg, delta)
       ui.update(gc, sbg, delta)
     }
-
-    pauseTimer = Math.max(0, pauseTimer-1)
   }
 
   def render(gc: GameContainer, sbg: StateBasedGame, g: Graphics) = {

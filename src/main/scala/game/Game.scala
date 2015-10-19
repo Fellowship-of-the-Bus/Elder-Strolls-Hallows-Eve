@@ -10,8 +10,6 @@ import lib.util.rand
 import lib.util.{TickTimer,TimerListener,RepeatForever}
 
 class Game extends lib.game.Game with TimerListener {
-  private var counter = 100
-
   val maxPlayers = 4
   var players = new Array[Player](maxPlayers)
   for (i <- 0 until maxPlayers) {
@@ -50,23 +48,14 @@ class Game extends lib.game.Game with TimerListener {
 
   def update(gc: GameContainer, game: StateBasedGame, delta: Int) = {
     super.update(delta)
-
-    implicit val input = gc.getInput
-
     for (e <- enemies; if (e.active)) {
       e.update(delta, this)
     }
-
     for (p <- projectiles; if (p.active)) {
       p.update(delta, this)
     }
-
     for (p <- players; if (p.active)) {
       p.update(delta, this)
-      if (p.hp < 0) {
-        p.hp = 0
-        p.inactivate
-      }
     }
   }
 }

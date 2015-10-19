@@ -1,21 +1,26 @@
 package com.github.fellowship_of_the_bus
 package eshe
 package game
-import IDMap._
-import lib.game.GameConfig.{Width}
+
 import org.newdawn.slick.{Graphics}
+
+import lib.game.GameConfig.{Width}
 import lib.ui.{Drawable}
+
+import state.ui.PlayerListener
+import IDMap._
 
 object GameObject {
   val Left = -1
   val Right = 1
 }
 
-abstract class GameObject(xc: Float, yc: Float) {
+abstract class GameObject(xc: Float, yc: Float) extends lib.game.TopLeftCoordinates {
   var x = xc
   var y = yc
 
   def id: Int
+  def attack: Int
 
   private var isActive = true
   def active = isActive
@@ -30,8 +35,31 @@ abstract class GameObject(xc: Float, yc: Float) {
     x = x + xamt
     y = y + yamt
   }
-  
-  def topLeftCoord = (x-width/2, y-height/2)
+
+  def hit(c: Character) = {
+    val damage = attack // - c.defense // ignore defense for now
+    c.hp = c.hp - damage
+
+    if (c.hp <= 0) {
+      c.inactivate
+      c match {
+        case e: Enemy => notify(x => x.enemyDied(e))
+        case p: Player => notify(x => x.playerDied(p))
+      }
+    }
+  }
+
+  var listeners = List[PlayerListener]()
+  def addListener(l: PlayerListener) = {
+    listeners = l::listeners
+  }
+
+  def notify(event: (PlayerListener) => Unit) = {
+    for (l <- listeners) {
+      event(l)
+    }
+  }
+
 
   def drawScaledImage(im: Drawable, x: Float, y: Float, g: Graphics) = {
     val scale = state.ui.GameArea.scaleFactor
