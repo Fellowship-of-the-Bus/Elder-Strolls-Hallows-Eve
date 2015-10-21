@@ -2,7 +2,7 @@ package com.github.fellowship_of_the_bus
 package eshe
 package game
 
-import org.newdawn.slick.{Graphics}
+import org.newdawn.slick.{GameContainer, Graphics}
 
 import lib.game.GameConfig.{Width}
 import lib.ui.{Drawable}
@@ -84,7 +84,7 @@ abstract class GameObject(xc: Float, yc: Float) extends lib.game.TopLeftCoordina
     img.update(delta)
   }
 
-  def draw(g: Graphics) = {
+  def draw(g: Graphics, gc: GameContainer) = {
     drawScaledImage(img, x, y, g)
   }
 }

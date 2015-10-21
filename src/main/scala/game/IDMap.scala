@@ -46,6 +46,7 @@ object IDMap{
   val FotBLogoID = 1000
   val GameOverID = 1001
   val BackgroundID = 1002
+  val LogoID = 1003
 
   val imageMap = Map(
     IVGuyW1ID -> "img/IVWalk1.png",
@@ -83,6 +84,7 @@ object IDMap{
     FotBLogoID -> "img/FotB-Logo.png",
     GameOverID -> "img/GameOver.png",
     BackgroundID -> "img/BackGround.png",
+    LogoID -> "img/Strolls.png",
     12345 -> Array("img/GameOver.png", "img/FotB-Logo.png")
   )
 

@@ -181,8 +181,8 @@ object HorseMask {
 class HorseMask(xc: Float, yc: Float) extends Enemy(xc, yc, Enemy.random) {
   val kind = Enemy.random
 
-  override def draw(g: org.newdawn.slick.Graphics) = {
-    super.draw(g)
+  override def draw(g: org.newdawn.slick.Graphics, gc: org.newdawn.slick.GameContainer) = {
+    super.draw(g, gc)
     drawScaledImage(images(HorseMaskID), x, y, g)
   }
 

@@ -75,19 +75,21 @@ class ControllerInput(g: game.Game, gc: GameContainer, sbg: StateBasedGame) exte
     if (button == BUTTON_START) {
       gc.setPaused(!gc.isPaused)
     }
-    if (sbg.getCurrentStateID == Mode.MenuID) {
-      if (button == BUTTON_A) {
-        sbg.enterState(Mode.BattleID)
-      }
-      else if (button == BUTTON_B) {
-        System.exit(0)
-      }
-    } else {
-      if (button == BUTTON_A) {
-        game.players(controller).tryAttack(game)
-      } else if (button == BUTTON_B) {
-        if (game.players(controller).imgs.indexOf(game.players(controller).img) != -1) {
-          game.players(controller).tryAttack2(game)
+    if (!gc.isPaused) {
+      if (sbg.getCurrentStateID == Mode.MenuID) {
+        if (button == BUTTON_A) {
+          sbg.enterState(Mode.BattleID)
+        }
+        else if (button == BUTTON_B) {
+          System.exit(0)
+        }
+      } else {
+        if (button == BUTTON_A) {
+          game.players(controller).tryAttack(game)
+        } else if (button == BUTTON_B) {
+          if (game.players(controller).imgs.indexOf(game.players(controller).img) != -1) {
+            game.players(controller).tryAttack2(game)
+          }
         }
       }
     }

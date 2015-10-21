@@ -3,7 +3,7 @@ package eshe
 package game
 import IDMap._
 import lib.game.GameConfig.{Width}
-import org.newdawn.slick.{Graphics}
+import org.newdawn.slick.{GameContainer, Graphics}
 import lib.ui.{Drawable}
 
 import eshe.state.ui.PlayerListener
@@ -126,21 +126,23 @@ class IVGuy(xc: Float, yc: Float, playerNum: Int) extends Player(xc, yc, IVGuys.
     img = jump
   }
 
-  override def draw(g: Graphics) = {
-    time = Math.max(0, time-1)
-    if ((time == 0)) {
-      currArm = armDefault
-      img = imgs(index)
-    }
-    if ((time == 30) && (img == jump)) {
-      img = kick
-      var targs = getTargets(y+(atkHeight2* state.ui.GameArea.scaleFactor), kick.getWidth, 0, false,thegame)
-      for (t <- targs) {
-        hit(t)
+  override def draw(g: Graphics, gc: GameContainer) = {
+    if (!gc.isPaused) {
+      time = Math.max(0, time-1)
+      if ((time == 0)) {
+        currArm = armDefault
+        img = imgs(index)
       }
-    }
-    if ((time == 15) && (img == kick)) {
-      img = jump
+      if ((time == 30) && (img == jump)) {
+        img = kick
+        var targs = getTargets(y+(atkHeight2* state.ui.GameArea.scaleFactor), kick.getWidth, 0, false,thegame)
+        for (t <- targs) {
+          hit(t)
+        }
+      }
+      if ((time == 15) && (img == kick)) {
+        img = jump
+      }
     }
     drawScaledImage(img, x, y, g)
     if (currArm != null && img != jump && img != kick) {

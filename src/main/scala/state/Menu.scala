@@ -19,16 +19,20 @@ object Menu extends BasicGameState {
   implicit var SBGame: StateBasedGame = null
 
   lazy val choices = List(
-    Button("New Game (A/X)", centerx, 200, () => SBGame.enterState(Mode.BattleID)),
-    Button("Options", centerx, 200+30, () => SBGame.enterState(Mode.OptionsID)), 
-    Button("Quit (B/O)", centerx, 200+60, () => System.exit(0)))
+    Button("New Game (A/X)", centerx, 400, () => SBGame.enterState(Mode.BattleID)),
+    Button("Options", centerx, 400+30, () => SBGame.enterState(Mode.OptionsID)), 
+    Button("Quit (B/O)", centerx, 400+60, () => System.exit(0)))
 
   def update(gc: GameContainer, game: StateBasedGame, delta: Int) = {
     implicit val input = gc.getInput
   }
 
   def render(gc: GameContainer, game: StateBasedGame, g: Graphics) = {
+    val logo = images(LogoID)
+    logo.scaleFactor = 1.0f
+    logo.draw(Width/2-logo.getWidth/2, 200)
     val fotb = images(FotBLogoID)
+    fotb.scaleFactor = 1.0f
     fotb.draw(Width/2-fotb.getWidth/2, 3*Height/4)
     for ( item <- choices ) {
       item.render(g)
