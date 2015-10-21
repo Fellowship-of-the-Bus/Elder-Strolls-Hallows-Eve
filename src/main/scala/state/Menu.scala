@@ -28,15 +28,16 @@ object Menu extends BasicGameState {
   }
 
   def render(gc: GameContainer, game: StateBasedGame, g: Graphics) = {
-    val logo = images(LogoID)
-    logo.scaleFactor = 1.0f
-    logo.draw(Width/2-logo.getWidth/2, 200)
     val fotb = images(FotBLogoID)
-    fotb.scaleFactor = 1.0f
+    val logo = images(LogoID)
+    fotb.scaleFactor = 1
+    logo.scaleFactor = 1
+
     fotb.draw(Width/2-fotb.getWidth/2, 3*Height/4)
     for ( item <- choices ) {
       item.render(g)
     }
+    logo.draw(Width/2-logo.getWidth/2, 200)
   }
 
   def init(gc: GameContainer, game: StateBasedGame) = {
