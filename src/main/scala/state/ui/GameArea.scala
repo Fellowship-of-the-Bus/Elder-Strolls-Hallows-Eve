@@ -32,14 +32,13 @@ object GameArea extends Pane(0, HUD.height, Width, Height - HUD.height)(Color.bl
     }
     images(BackgroundID).draw(0,0)
     var objects = List[GameObject]()
-    for(i <- 0 until controller.controllerCount) {
-      val p = thegame.players(i)
+    for (p <- thegame.players) {
       objects = p :: objects
     }
     for (e <- thegame.enemies) {
       objects = e :: objects
     }
-    for(p <- thegame.projectiles) {
+    for (p <- thegame.projectiles) {
       objects = p :: objects
     }
     val sorted = objects.sortBy((o) => (o.y + o.height))

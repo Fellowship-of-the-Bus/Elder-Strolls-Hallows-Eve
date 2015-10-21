@@ -68,7 +68,12 @@ class ControllerInput(g: game.Game, gc: GameContainer, sbg: StateBasedGame) exte
     in.addControllerListener(this)
     input = in
     controllerCount = in.getControllerCount()
-    game.setPlayers(controllerCount)
+    if (controllerCount == 0) {
+      in.addKeyListener(this)
+      game.setPlayers(1)
+    } else {
+      game.setPlayers(controllerCount)
+    }
   }
 
   override def controllerButtonPressed(controller: Int, button: Int) = {
@@ -108,10 +113,65 @@ class ControllerInput(g: game.Game, gc: GameContainer, sbg: StateBasedGame) exte
     if (!gc.isPaused) {
       var i = 0
       for (i <- 0 until controllerCount) {
-        var j = 0
-        var p = game.players(i)
+        val p = game.players(i)
         p.move(p.speed*input.getAxisValue(i,AXIS_X),p.speed*input.getAxisValue(i,AXIS_Y))
       }
+
+      if (controllerCount == 0) {
+        // support single player if there are no controllers attached
+        val p = game.players(0)
+        p.move(p.speed*horizontal, p.speed*vertical)
+      }
+    }
+  }
+
+  var horizontal = 0
+  var vertical = 0
+  override def keyPressed(key: Int, c: Char) = {
+    key match {
+      // movement
+      case Input.KEY_LEFT => horizontal += -1
+      case Input.KEY_RIGHT => horizontal += 1
+      case Input.KEY_UP => vertical += -1
+      case Input.KEY_DOWN => vertical += 1
+
+      // pause/unpause
+      case Input.KEY_P => gc.setPaused(!gc.isPaused)
+
+      case _ => ()
+    }
+
+    if (!gc.isPaused) {
+      val player = game.players(0)
+      key match {
+        // punch/confirm button
+        case Input.KEY_A => 
+          if (sbg.getCurrentStateID == Mode.MenuID) {
+            sbg.enterState(Mode.BattleID)
+          } else {
+            player.tryAttack(game)
+          }
+
+        // kick/cancel button
+        case Input.KEY_S => 
+          if (sbg.getCurrentStateID == Mode.MenuID) {
+            System.exit(0)
+          } else if (player.imgs.contains(player.img)) {
+            player.tryAttack2(game)
+          }
+
+        case _ => ()
+      }      
+    }
+  }
+
+  override def keyReleased(key: Int, c: Char) = {
+    key match {
+      case Input.KEY_LEFT => horizontal -= -1
+      case Input.KEY_RIGHT => horizontal -= 1
+      case Input.KEY_UP => vertical -= -1
+      case Input.KEY_DOWN => vertical -= 1
+      case _ => ()
     }
   }
 }
