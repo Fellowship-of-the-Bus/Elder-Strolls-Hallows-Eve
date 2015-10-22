@@ -1,10 +1,14 @@
 package com.github.fellowship_of_the_bus
 package eshe
 package game
+
 import IDMap._
-import lib.game.GameConfig.{Width}
+
 import org.newdawn.slick.{GameContainer, Graphics}
+
 import lib.ui.{Drawable}
+import lib.game.GameConfig.{Width}
+import lib.util.{TickTimer,TimerListener}
 
 import eshe.state.ui.PlayerListener
 
@@ -109,41 +113,46 @@ class IVGuy(xc: Float, yc: Float, playerNum: Int) extends Player(xc, yc, IVGuys.
   val jump = images(IVGuyJumpID).copy
   var currArm = armDefault
   var time = 0
-  var thegame: Game = null
+
+  val action = new TimerListener {}
+
   override def tryAttack(game: Game) = {
-    thegame = game
-    time = 10
+    def resetArm() = {
+      currArm = armDefault
+      img = imgs(index)      
+    }
+
+    action.addTimer(new TickTimer(10, resetArm _))
+
     currArm = armPunch
-    var targs = getTargets(y+(atkHeight* state.ui.GameArea.scaleFactor), width, (atkWidth * state.ui.GameArea.scaleFactor), false,game)
+    var targs = getTargets(y+(atkHeight* state.ui.GameArea.scaleFactor), width, (atkWidth * state.ui.GameArea.scaleFactor), false, game)
     for (t <- targs){
       hit(t)
     }
   }
 
   override def tryAttack2(game: Game) = {
-    thegame = game
-    time = 45
+    action.addTimer(new TickTimer(15, doKick _))
+    action.addTimer(new TickTimer(30, () => img = jump))
+    action.addTimer(new TickTimer(45, resetArm _))
+
+    def doKick() = {
+      img = kick
+      val targs = getTargets(y+(atkHeight2* state.ui.GameArea.scaleFactor), kick.getWidth, 0, false, game)
+      for (t <- targs) {
+        hit(t)
+      }
+    }
+
+    def resetArm() = {
+      currArm = armDefault
+      img = imgs(index)  
+    }
+
     img = jump
   }
 
   override def draw(g: Graphics, gc: GameContainer) = {
-    if (!gc.isPaused) {
-      time = Math.max(0, time-1)
-      if ((time == 0)) {
-        currArm = armDefault
-        img = imgs(index)
-      }
-      if ((time == 30) && (img == jump)) {
-        img = kick
-        var targs = getTargets(y+(atkHeight2* state.ui.GameArea.scaleFactor), kick.getWidth, 0, false,thegame)
-        for (t <- targs) {
-          hit(t)
-        }
-      }
-      if ((time == 15) && (img == kick)) {
-        img = jump
-      }
-    }
     drawScaledImage(img, x, y, g)
     if (currArm != null && img != jump && img != kick) {
       if (direction == GameObject.Left) {
@@ -154,4 +163,8 @@ class IVGuy(xc: Float, yc: Float, playerNum: Int) extends Player(xc, yc, IVGuys.
     }
   }
 
+  override def update(delta: Long, game: Game) = {
+    super.update(delta, game)
+    action.update(delta)
+  }
 }

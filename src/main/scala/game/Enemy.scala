@@ -9,9 +9,12 @@ import java.io.File
 import lib.game.GameConfig.{Width}
 import lib.ui.{Drawable}
 import lib.util.rand
+import lib.util.{TickTimer,TimerListener,FireN}
 import lib.math.sqrt
 
-trait EnemyType extends CharacterType
+trait EnemyType extends CharacterType {
+  def knockback: Drawable
+}
 
 object Enemy {
   private lazy val names = read("data/names.txt")
@@ -50,32 +53,24 @@ object Enemy {
   def random() = randInSeq(enemyKinds)
 }
 
-abstract case class Enemy(xc: Float, yc: Float, override val base: EnemyType) extends game.Character(xc, yc, base) {
+abstract case class Enemy(xc: Float, yc: Float, override val base: EnemyType) extends game.Character(xc, yc, base) with TimerListener {
   val age: Int = rand(6, 12)
+
+  val knockback = base.knockback.copy
 
   val name = Enemy.name
   val fact = Enemy.fact
   var flying = false
-  var knockTicks = 0
-  var knockVelocity = 0f
   var count = 0
-  var atkInterval = 60
+  val atkInterval = 60
 
   var target: Player = null
   override def update(delta: Long, game: Game) = {
     super.update(delta, game)
+    super.update(delta)  // for timers
     count = count + 1
     
-
-    // Knocked back behaviour
-    if (flying) {
-      knockTicks -= 1
-      x = x + knockVelocity
-      if (knockTicks <= 0) {
-        flying = false
-        img = images(GhostW1ID).copy
-      }
-    } else {
+    if (! flying) {
       if (target == null || ! target.active) {
         target = Enemy.randInSeq(game.players)
       } else {
@@ -111,9 +106,20 @@ abstract case class Enemy(xc: Float, yc: Float, override val base: EnemyType) ex
 
   def knockback(distance: Float) {
     flying = true
-    knockVelocity = distance / 15
-    knockTicks = 15
-    img = images(GhostKnockbackID).copy
+    val knockVelocity = distance / 15
+    img = knockback
+
+    addTimer(new TickTimer(1, doKnockback _, FireN(15)))
+    addTimer(new TickTimer(15, endKnockback _))
+
+    def doKnockback() = {
+      x = x + knockVelocity
+    }
+
+    def endKnockback() = {
+      flying = false
+      img = imgs(0)
+    }
   }
 }
 
@@ -123,9 +129,9 @@ object Ghost extends EnemyType {
   val attack = 2
   val defense = 1 
   val speed = 4
-  val walk1 = images(GhostW1ID).copy
-  val walk2 = images(GhostW2ID).copy
-  val knockback = images(GhostKnockbackID).copy
+  val walk1 = images(GhostW1ID)
+  val walk2 = images(GhostW2ID)
+  val knockback = images(GhostKnockbackID)
   val imgs = Array[Drawable](walk1, walk2)
 
   val atkHeight = 5.0f
@@ -141,7 +147,8 @@ object Elsa extends EnemyType {
   val attack = 4
   val defense = 3 
   val speed = 3
-  val walk1 = images(ElsaID).copy
+  val walk1 = images(ElsaID)
+  val knockback = images(GhostKnockbackID)  // TODO: fix this...
   val imgs = Array[Drawable](walk1)
 
   val atkHeight = 5.0f
@@ -154,12 +161,13 @@ class Elsa(xc: Float, yc: Float) extends Enemy(xc, yc, Elsa) {
 
 object PowerRanger extends EnemyType {
   val id = PowerRangerW1ID
-  val maxHp = 20
+  val maxHp = 150
   val attack = 10
   val defense = 6 
   val speed = 3
   val walk1 = images(PowerRangerW1ID)
   val walk2 = images(PowerRangerW2ID)
+  val knockback = images(PowerRangerKnockbackID).copy
   val imgs = Array[Drawable](walk1, walk2)
 
   val atkHeight = 5.0f
@@ -187,6 +195,7 @@ class HorseMask(xc: Float, yc: Float) extends Enemy(xc, yc, Enemy.random) {
   }
 
   override def update(delta: Long, game: Game) = {
+    super.update(delta, game)
     move(-speed, 0)
     // TODO: inactive when goes off left edge
   }
