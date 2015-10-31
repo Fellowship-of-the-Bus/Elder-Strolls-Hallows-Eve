@@ -53,7 +53,6 @@ abstract class Character(xc: Float, yc: Float, val base: CharacterType) extends 
       else game.enemies
     val hitbox = Rect(x1,y1,x2,y2)
     for (t <- targets; if (t.active)) {
-      println(s"hitbox = ${hitbox}, t coords = ${t.coordinates}")
       if (hitbox.intersect(t)) {
         inrange = t :: inrange
       }
