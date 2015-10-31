@@ -11,7 +11,6 @@ import game.IDMap._
 
 class ControllerInput(g: game.Game, gc: GameContainer, sbg: StateBasedGame) extends InputAdapter() {
   var input : Input = null
-  var controllerCount = 0
   val game = g
 
   import lib.game.GameConfig.{OS,MacOS,Windows}
@@ -63,16 +62,21 @@ class ControllerInput(g: game.Game, gc: GameContainer, sbg: StateBasedGame) exte
     case MacOS => 10
     case _ => 0
   }
-
+  private var controllers: Vector[(Int, Int)] = Vector()
   override def setInput(in: Input) = {
     in.addControllerListener(this)
     input = in
-    controllerCount = in.getControllerCount()
-    if (controllerCount == 0) {
+    val controllerCount = in.getControllerCount()
+    for (i <- 0 until controllerCount) {
+      if (in.getAxisCount(i) >= 2) {
+        controllers = controllers :+ (i, controllers.length)
+      }
+    }
+    if (controllers.length == 0) {
       in.addKeyListener(this)
       game.setPlayers(1)
     } else {
-      game.setPlayers(controllerCount)
+      game.setPlayers(controllers.length)
     }
   }
 
@@ -111,13 +115,12 @@ class ControllerInput(g: game.Game, gc: GameContainer, sbg: StateBasedGame) exte
 
   def update() = {
     if (!gc.isPaused) {
-      var i = 0
-      for (i <- 0 until controllerCount) {
-        val p = game.players(i)
-        p.move(p.speed*input.getAxisValue(i,AXIS_X),p.speed*input.getAxisValue(i,AXIS_Y))
+      for ((cnum,pnum) <- controllers) {
+        val p = game.players(pnum)
+        p.move(p.speed*input.getAxisValue(cnum,AXIS_X),p.speed*input.getAxisValue(cnum,AXIS_Y))
       }
 
-      if (controllerCount == 0) {
+      if (controllers.length == 0) {
         // support single player if there are no controllers attached
         val p = game.players(0)
         p.move(p.speed*horizontal, p.speed*vertical)
