@@ -115,8 +115,12 @@ class IVGuy(xc: Float, yc: Float, playerNum: Int) extends Player(xc, yc, IVGuys.
   var time = 0
 
   val action = new TimerListener {}
+  val movement = new TimerListener {}
 
   override def tryAttack(game: Game) = {
+    // only one action at a time
+    action.cancelAll()
+
     def resetArm() = {
       currArm = armDefault
       img = imgs(index)      
@@ -132,6 +136,9 @@ class IVGuy(xc: Float, yc: Float, playerNum: Int) extends Player(xc, yc, IVGuys.
   }
 
   override def tryAttack2(game: Game) = {
+    // only one action at a time
+    action.cancelAll()
+
     action.addTimer(new TickTimer(15, doKick _))
     action.addTimer(new TickTimer(30, () => img = jump))
     action.addTimer(new TickTimer(45, resetArm _))
@@ -165,6 +172,10 @@ class IVGuy(xc: Float, yc: Float, playerNum: Int) extends Player(xc, yc, IVGuys.
 
   override def update(delta: Long, game: Game) = {
     super.update(delta, game)
+
+    // dependency between these two: some actions update the 
+    // movement image, so they should be updated second
+    movement.update(delta)
     action.update(delta)
   }
 }

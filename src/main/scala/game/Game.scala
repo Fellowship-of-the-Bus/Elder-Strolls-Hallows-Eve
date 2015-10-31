@@ -11,7 +11,7 @@ import lib.util.{TickTimer,TimerListener,RepeatForever}
 
 class Game extends lib.game.Game with TimerListener {
   val maxPlayers = 4
-  var players = new Array[Player](maxPlayers)
+  val players = new Array[Player](maxPlayers)
   for (i <- 0 until maxPlayers) {
     players(i) = new IVGuy(0, 0, i)
   }

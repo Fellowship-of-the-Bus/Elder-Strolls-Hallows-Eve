@@ -9,7 +9,7 @@ import java.io.File
 import lib.game.GameConfig.{Width}
 import lib.ui.{Drawable}
 import lib.util.rand
-import lib.util.{TickTimer,TimerListener,FireN}
+import lib.util.{TickTimer,TimerListener,FireN,RepeatForever,ConditionalTickTimer}
 import lib.math.sqrt
 
 trait EnemyType extends CharacterType {
@@ -61,48 +61,41 @@ abstract case class Enemy(xc: Float, yc: Float, override val base: EnemyType) ex
   val name = Enemy.name
   val fact = Enemy.fact
   var flying = false
-  var count = 0
-  val atkInterval = 60
+
+  addTimer(new ConditionalTickTimer(60, () => hit(target), () => ! flying && targetInRange, RepeatForever))
+  addTimer(new ConditionalTickTimer(1, move _, () => ! flying && ! targetInRange, RepeatForever))
+
+  def distanceToTarget(): (Float, Float) = {
+    val xVec = (target.x + target.width / 2) - (x + width / 2)
+    val yVec = (target.y + target.height / 2) - (y + height / 2)
+    (xVec, yVec)
+  }
+
+  def targetInRange(): Boolean = {
+    if (target == null || ! target.active) false
+    else {
+      val (xVec, yVec) = distanceToTarget
+      xVec > -100 && xVec < 100 && yVec > -100 && yVec < 100
+    }
+  }
+
+  def move() = {
+    if (target != null && target.active) {
+      val (xVec, yVec) = distanceToTarget    
+      val norm = ((1 / sqrt((xVec * xVec) + (yVec * yVec))) * speed)
+      super.move(xVec * norm, yVec * norm)      
+    }
+  }
 
   var target: Player = null
   override def update(delta: Long, game: Game) = {
     super.update(delta, game)
     super.update(delta)  // for timers
-    count = count + 1
     
-    if (! flying) {
-      if (target == null || ! target.active) {
-        target = Enemy.randInSeq(game.players)
-      } else {
-        val xVec = (target.x + target.width / 2) - (x + width / 2)
-        val yVec = (target.y + target.height / 2) - (y + height / 2)
-
-       /* val inRange = getTargets(atkHeight, atkWidth, 0, true, game) 
-       / if (! inRange.isEmpty) {
-          // if target is in range, attack
-          for (obj <- inRange) {
-            hit(obj)
-          } */
-
-        if (xVec > -100 && xVec < 100 && yVec > -100 && yVec < 100 ) {
-          if(count >= atkInterval) {
-            hit(target)
-            count = 0
-          }
-        } else {
-          // otherwise move until enemy is in range
-          move
-        }
-
-        def move() = {
-          val norm = ((1 / sqrt((xVec * xVec) + (yVec * yVec))) * speed)
-          super.move(xVec * norm, yVec * norm)
-        }
-      }
+    if (target == null || ! target.active) {
+      target = Enemy.randInSeq(game.players)
     }
   }
-
-  
 
   def knockback(distance: Float) {
     flying = true
