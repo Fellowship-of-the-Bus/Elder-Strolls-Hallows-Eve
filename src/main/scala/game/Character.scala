@@ -7,7 +7,8 @@ import eshe.state.ui.{GameArea}
 
 import lib.game.GameConfig.{Width,Height}
 import lib.ui.{Drawable}
-import lib.math.clamp
+import lib.math.Rect
+
 
 trait CharacterType {
   def id: Int
@@ -44,14 +45,16 @@ abstract class Character(xc: Float, yc: Float, val base: CharacterType) extends 
   var steps = numSteps
   var index = 0
   
-  def getTargets(y:Float, w: Float, range: Float, enemy: Boolean, game: Game) = {
+  def getTargets(x1: Float, y1: Float, x2: Float, y2: Float, enemy: Boolean, game: Game) = {
     val tolerance: Float = 20.0f
     var inrange: List[Character] = List()
     val targets = 
       if (enemy) game.players.toList
       else game.enemies
+    val hitbox = Rect(x1,y1,x2,y2)
     for (t <- targets; if (t.active)) {
-      if ((y+tolerance <= t.y+t.height) && (y-tolerance >= t.y) && (x + w + range >= t.x) && (x + w + range <= t.x + t.width)) {
+      println(s"hitbox = ${hitbox}, t coords = ${t.coordinates}")
+      if (hitbox.intersect(t)) {
         inrange = t :: inrange
       }
     }
@@ -62,8 +65,8 @@ abstract class Character(xc: Float, yc: Float, val base: CharacterType) extends 
     if (xamt < 0) direction = GameObject.Left
     else if (xamt > 0) direction = GameObject.Right
 
-    x = clamp(x, 0, Width-width) + xamt
-    y = clamp(y, 0, GameArea.height-height) + yamt
+    x = x + xamt
+    y = y + yamt
     if ((xamt != 0) || (yamt != 0)) {
       steps = Math.max(0, steps-1)
       if ((steps == 0) && (imgs.indexOf(img) != -1)) {

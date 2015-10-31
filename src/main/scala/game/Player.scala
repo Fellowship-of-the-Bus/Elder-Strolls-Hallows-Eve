@@ -9,8 +9,10 @@ import org.newdawn.slick.{GameContainer, Graphics}
 import lib.ui.{Drawable}
 import lib.game.GameConfig.{Width}
 import lib.util.{TickTimer,TimerListener}
+import lib.math.clamp
 
 import eshe.state.ui.PlayerListener
+import eshe.state.ui.{GameArea}
 
 trait PlayerType extends CharacterType {
 
@@ -33,6 +35,12 @@ abstract case class Player(xc: Float, yc: Float, override val base: PlayerType) 
     }
     score += damage
     super.hit(c)
+  }
+
+  override def move(xamt: Float, yamt: Float) = {
+    super.move(xamt, yamt)
+    x = clamp(x, 0, Width-width)
+    y = clamp(y, 0, GameArea.height-height)
   }
 }
 
@@ -125,11 +133,18 @@ class IVGuy(xc: Float, yc: Float, playerNum: Int) extends Player(xc, yc, IVGuys.
       currArm = armDefault
       img = imgs(index)      
     }
-
+    resetArm
     action.addTimer(new TickTimer(10, resetArm _))
 
     currArm = armPunch
-    var targs = getTargets(y+(atkHeight* state.ui.GameArea.scaleFactor), width, (atkWidth * state.ui.GameArea.scaleFactor), false, game)
+    val scale =  state.ui.GameArea.scaleFactor
+    val x1 = direction match {
+      case GameObject.Right => x + (130 + 225) * scale
+      case GameObject.Left => x - 90 * scale
+    }
+    val y1 = y + (80 + 240) * scale
+    var targs = getTargets(x1, y1, x1 + 40 * scale * direction, y1 + 50 * scale, false, game)
+    println(targs)
     for (t <- targs){
       hit(t)
     }
@@ -138,17 +153,17 @@ class IVGuy(xc: Float, yc: Float, playerNum: Int) extends Player(xc, yc, IVGuys.
   override def tryAttack2(game: Game) = {
     // only one action at a time
     action.cancelAll()
-
+    resetArm
     action.addTimer(new TickTimer(15, doKick _))
     action.addTimer(new TickTimer(30, () => img = jump))
     action.addTimer(new TickTimer(45, resetArm _))
-
+    
     def doKick() = {
       img = kick
-      val targs = getTargets(y+(atkHeight2* state.ui.GameArea.scaleFactor), kick.getWidth, 0, false, game)
-      for (t <- targs) {
-        hit(t)
-      }
+      //val targs = getTargets(y+(atkHeight2* state.ui.GameArea.scaleFactor), kick.getWidth, 0, false, game)
+      //for (t <- targs) {
+      //  hit(t)
+      //}
     }
 
     def resetArm() = {
@@ -163,7 +178,7 @@ class IVGuy(xc: Float, yc: Float, playerNum: Int) extends Player(xc, yc, IVGuys.
     drawScaledImage(img, x, y, g)
     if (currArm != null && img != jump && img != kick) {
       if (direction == GameObject.Left) {
-        drawScaledImage(currArm, x + ((width - 130) * state.ui.GameArea.scaleFactor), y + (240 * state.ui.GameArea.scaleFactor), g)
+        drawScaledImage(currArm, x - (currArm.getWidth - (180 * state.ui.GameArea.scaleFactor)), y + (240 * state.ui.GameArea.scaleFactor), g)
       } else {
         drawScaledImage(currArm, x + (130 * state.ui.GameArea.scaleFactor), y + (240 * state.ui.GameArea.scaleFactor), g)
       }

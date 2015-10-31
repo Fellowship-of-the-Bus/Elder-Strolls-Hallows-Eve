@@ -63,25 +63,14 @@ abstract class GameObject(xc: Float, yc: Float) extends lib.game.TopLeftCoordina
 
   def drawScaledImage(im: Drawable, x: Float, y: Float, g: Graphics) = {
     val scale = state.ui.GameArea.scaleFactor
-    //g.scale(scale,scale)
     if (direction == GameObject.Left) {
-      //im.setCenterOfRotation(0,0)
-      //im.setRotation(180.0f)
-//      g.rotate(x,y,180.0f)
-      //im.scaleFactor = -im.scaleFactor
       im.draw(x,y, true, false)
-      //im.scaleFactor = -im.scaleFactor
-//      g.rotate(x,y,180.0f)
-      //im.setRotation(0.0f)
     } else {
       im.draw(x,y)
     }
-    //im.draw(x,y)
-    //g.scale(1/scale, 1/scale)
   }
 
   def update(delta: Long, game: Game) = {
-    img.update(delta)
   }
 
   def draw(g: Graphics, gc: GameContainer) = {
