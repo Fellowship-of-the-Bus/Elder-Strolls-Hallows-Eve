@@ -19,7 +19,7 @@ class Projectile(xc: Float, yc: Float, val id: Int, dir: Int) extends GameObject
     move
     for (p <- game.players) {
       if (intersect(this, p)) {
-        hit(p)
+        hit(p, attack)
         inactivate
       }
     }

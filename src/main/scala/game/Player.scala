@@ -8,7 +8,8 @@ import org.newdawn.slick.{GameContainer, Graphics}
 
 import lib.ui.{Drawable}
 import lib.game.GameConfig.{Width}
-import lib.util.{TickTimer,TimerListener}
+import lib.game.GameConfig
+import lib.util.{TickTimer,TimerListener,FireN}
 import lib.math.clamp
 
 import eshe.state.ui.PlayerListener
@@ -27,14 +28,14 @@ abstract case class Player(xc: Float, yc: Float, override val base: PlayerType) 
   }
   var score = 0
 
-  override def hit(c: Character) = {
-    val damage = (attack - c.defense)
+  override def hit(c: Character, strength: Int) = {
+    val damage = strength
     c match {
       case e: Enemy => e.knockback(direction * damage * 5)
       case _ => ()
     }
     score += damage
-    super.hit(c)
+    super.hit(c, strength)
   }
 
   override def move(xamt: Float, yamt: Float) = {
@@ -62,7 +63,7 @@ object IVGuy extends PlayerType {
   val atkHeight = 370.0f
   val atkWidth = 60.0f
 
-  val atkHeight2 = 500.0f
+  val atkHeight2 = 390.0f
 }
 
 object IVGuy2 extends PlayerType {
@@ -144,12 +145,10 @@ class IVGuy(xc: Float, yc: Float, playerNum: Int) extends Player(xc, yc, IVGuys.
     }
     val y1 = y + (80 + 240) * scale
     var targs = getTargets(x1, y1, x1 + 40 * scale * direction, y1 + 50 * scale, false, game)
-    println(targs)
     for (t <- targs){
-      hit(t)
+      hit(t, attack)
     }
   }
-
   override def tryAttack2(game: Game) = {
     // only one action at a time
     action.cancelAll()
@@ -160,10 +159,15 @@ class IVGuy(xc: Float, yc: Float, playerNum: Int) extends Player(xc, yc, IVGuys.
     
     def doKick() = {
       img = kick
-      //val targs = getTargets(y+(atkHeight2* state.ui.GameArea.scaleFactor), kick.getWidth, 0, false, game)
-      //for (t <- targs) {
-      //  hit(t)
-      //}
+      val x1 = direction match {
+        case GameObject.Right => x + width
+        case GameObject.Left => x 
+      }
+      val y1 = y + (atkHeight2* state.ui.GameArea.scaleFactor)
+      val targs = getTargets(x1, y1, x1 - (310 * state.ui.GameArea.scaleFactor),y1 + (170 * state.ui.GameArea.scaleFactor), false, game)
+      for (t <- targs) {
+        hit(t, attack * 2)
+      }
     }
 
     def resetArm() = {
@@ -175,6 +179,7 @@ class IVGuy(xc: Float, yc: Float, playerNum: Int) extends Player(xc, yc, IVGuys.
   }
 
   override def draw(g: Graphics, gc: GameContainer) = {
+    GameConfig.graphics = g
     drawScaledImage(img, x, y, g)
     if (currArm != null && img != jump && img != kick) {
       if (direction == GameObject.Left) {

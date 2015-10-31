@@ -62,7 +62,7 @@ abstract case class Enemy(xc: Float, yc: Float, override val base: EnemyType) ex
   val fact = Enemy.fact
   var flying = false
 
-  addTimer(new ConditionalTickTimer(60, () => hit(target), () => ! flying && targetInRange, RepeatForever))
+  addTimer(new ConditionalTickTimer(60, () => hit(target, attack), () => ! flying && targetInRange, RepeatForever))
   addTimer(new ConditionalTickTimer(1, move _, () => ! flying && ! targetInRange, RepeatForever))
 
   def distanceToTarget(): (Float, Float) = {

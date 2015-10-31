@@ -27,8 +27,8 @@ abstract class GameObject(xc: Float, yc: Float) extends lib.game.TopLeftCoordina
   def inactivate = isActive = false
 
   var img = images(id).copy
-  val height = img.getHeight
-  val width = img.getWidth
+  def height = img.getHeight
+  def width = img.getWidth
   var direction = GameObject.Left
 
   def move(xamt: Float, yamt: Float): Unit = {
@@ -36,8 +36,8 @@ abstract class GameObject(xc: Float, yc: Float) extends lib.game.TopLeftCoordina
     y = y + yamt
   }
 
-  def hit(c: Character) = {
-    val damage = attack // - c.defense // ignore defense for now
+  def hit(c: Character, strength: Int) = {
+    val damage = strength // - c.defense // ignore defense for now
     c.hp = c.hp - damage
 
     if (c.hp <= 0) {
