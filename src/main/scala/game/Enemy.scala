@@ -99,11 +99,12 @@ abstract case class Enemy(xc: Float, yc: Float, override val base: EnemyType) ex
 
   def knockback(distance: Float) {
     flying = true
-    val knockVelocity = distance / 15
+    val kbTicks = 15
+    val knockVelocity = distance / kbTicks
     img = knockback
 
-    addTimer(new TickTimer(1, doKnockback _, FireN(15)))
-    addTimer(new TickTimer(15, endKnockback _))
+    addTimer(new TickTimer(1, doKnockback _, FireN(kbTicks)))
+    addTimer(new TickTimer(kbTicks, endKnockback _))
 
     def doKnockback() = {
       x = x + knockVelocity
