@@ -26,7 +26,7 @@ extends Pane(x, y, width, height)(parentCol) with PlayerListener with TimerListe
     })
 
     val age = new TextBox(width/2, 0, width/2, 20, () => {
-      enemy.map(_.age.toString) getOrElse "Age"
+      enemy.map("Age: " + _.age.toString) getOrElse "Age" 
     })
 
     val fact = new TextBox(0, 20, width, 40, () => {

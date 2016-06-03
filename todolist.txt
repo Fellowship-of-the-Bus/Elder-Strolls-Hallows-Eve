@@ -1,12 +1,13 @@
 -sidescrolling
 
--enemy spawning
-
--can't pause while kicking
-
--hit should take damage as parameter so that different attacks can do different damage
-
--findTargets should take lib.math.Rect hit box, then it can just call intersect
- with ever other game object
+-enemy spawning (enemy spawn too low)
 
 -projectiles inactivate after moving a set distance
+
+-extra characters / enemies
+
+-horsemask drawing
+
+-flesh out current enemies (shoot, animate, etc...)
+
+-boss
