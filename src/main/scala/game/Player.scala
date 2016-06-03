@@ -145,7 +145,7 @@ class IVGuy(xc: Float, yc: Float, playerNum: Int) extends Player(xc, yc, IVGuys.
       case GameObject.Left => x - 90 * scale
     }
     val y1 = y + (80 + 240) * scale
-    var targs = getTargets(x1, y1, x1 + 40 * scale * direction, y1 + 50 * scale, false, game)
+    val targs = getTargets(x1, y1, x1 + 40 * scale * direction, y1 + 50 * scale, false, game)
     for (t <- targs){
       hit(t, attack)
     }

@@ -24,7 +24,6 @@ object Menu extends BasicGameState {
     Button("Quit (B/O)", centerx, 400+60, () => System.exit(0)))
 
   def update(gc: GameContainer, game: StateBasedGame, delta: Int) = {
-    implicit val input = gc.getInput
   }
 
   def render(gc: GameContainer, game: StateBasedGame, g: Graphics) = {
@@ -61,7 +60,6 @@ object Options extends BasicGameState {
     Button("Back", centerx, 200+30, () => SBGame.enterState(Mode.MenuID)))
 
   def update(gc: GameContainer, game: StateBasedGame, delta: Int) = {
-    val input = gc.getInput
   }
 
   def render(gc: GameContainer, game: StateBasedGame, g: Graphics) = {

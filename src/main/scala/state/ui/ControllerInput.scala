@@ -17,15 +17,15 @@ class ControllerInput(g: game.Game, gc: GameContainer, sbg: StateBasedGame) exte
   lazy val BUTTON_A = OS match {
     case MacOS => 15
     case _ => 1
-  } 
+  }
   lazy val BUTTON_B = OS match {
     case MacOS => 14
     case _ => 2
-  } 
+  }
   lazy val BUTTON_X = OS match {
     case MacOS => 16
     case _ => 3
-  } 
+  }
   lazy val BUTTON_Y = OS match {
     case MacOS => 13
     case _ => 4
@@ -33,19 +33,19 @@ class ControllerInput(g: game.Game, gc: GameContainer, sbg: StateBasedGame) exte
     lazy val BUTTON_LB = OS match {
     case MacOS => 11
     case _ => 5
-  } 
+  }
   lazy val BUTTON_RB = OS match {
     case MacOS => 12
     case _ => 6
-  } 
+  }
   lazy val BUTTON_BACK = OS match {
     case MacOS => 1
     case _ => 7
-  } 
+  }
   lazy val BUTTON_START = OS match {
     case MacOS => 4
     case _ => 8
-  } 
+  }
   lazy val BUTTON_LS = OS match {
     case MacOS => 2
     case _ => 9
@@ -69,7 +69,7 @@ class ControllerInput(g: game.Game, gc: GameContainer, sbg: StateBasedGame) exte
     val controllerCount = in.getControllerCount()
     for (i <- 0 until controllerCount) {
       if (in.getAxisCount(i) >= 2) {
-        controllers = controllers :+ (i, controllers.length)
+        controllers = controllers :+ ((i, controllers.length))
       }
     }
     if (controllers.length == 0) {
@@ -148,7 +148,7 @@ class ControllerInput(g: game.Game, gc: GameContainer, sbg: StateBasedGame) exte
       val player = game.players(0)
       key match {
         // punch/confirm button
-        case Input.KEY_A => 
+        case Input.KEY_A =>
           if (sbg.getCurrentStateID == Mode.MenuID) {
             sbg.enterState(Mode.BattleID)
           } else {
@@ -156,7 +156,7 @@ class ControllerInput(g: game.Game, gc: GameContainer, sbg: StateBasedGame) exte
           }
 
         // kick/cancel button
-        case Input.KEY_S => 
+        case Input.KEY_S =>
           if (sbg.getCurrentStateID == Mode.MenuID) {
             System.exit(0)
           } else if (player.imgs.contains(player.img)) {
@@ -164,7 +164,7 @@ class ControllerInput(g: game.Game, gc: GameContainer, sbg: StateBasedGame) exte
           }
 
         case _ => ()
-      }      
+      }
     }
   }
 
