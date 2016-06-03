@@ -8,12 +8,12 @@ import scala.collection.immutable.Queue
 import org.newdawn.slick.{AppGameContainer, GameContainer, Graphics, SlickException, Color, Input}
 import org.newdawn.slick.state.{BasicGameState, StateBasedGame}
 
-import lib.ui.{Pane,TextBox}
+import lib.slick2d.ui.{Pane,TextBox}
 import lib.util.{TickTimer,TimerListener,RepeatForever}
 
 import eshe.game.{GameObject,Player,Enemy}
 
-class FactBox(x: Float, y: Float, width: Float, height: Float, player: Player, parentCol: Color) 
+class FactBox(x: Float, y: Float, width: Float, height: Float, player: Player, parentCol: Color)
 extends Pane(x, y, width, height)(parentCol) with PlayerListener with TimerListener {
   var enemy: Option[Enemy] = None
   var enemyQueue = Queue[Enemy]()
@@ -26,11 +26,11 @@ extends Pane(x, y, width, height)(parentCol) with PlayerListener with TimerListe
     })
 
     val age = new TextBox(width/2, 0, width/2, 20, () => {
-      enemy.map(_.age.toString) getOrElse "Age" 
+      enemy.map(_.age.toString) getOrElse "Age"
     })
 
     val fact = new TextBox(0, 20, width, 40, () => {
-      enemy.map(_.fact) getOrElse "Fact"  
+      enemy.map(_.fact) getOrElse "Fact"
     })
 
     // setup timer to trigger facts

@@ -6,7 +6,7 @@ package ui
 import org.newdawn.slick.{AppGameContainer, GameContainer, Graphics, SlickException, Color, Input}
 import org.newdawn.slick.state.{BasicGameState, StateBasedGame}
 
-import lib.ui.{UIElement,AbstractUIElement}
+import lib.slick2d.ui.{UIElement,AbstractUIElement}
 
 import eshe.game.{GameObject,Character}
 
@@ -34,7 +34,7 @@ class Lifebar(x: Float, y: Float, width: Float, height: Float, obj: Character) e
     }
     g.fillRect(x, y, width * hp/maxHp, height)
 
-    g.setColor(color)  
+    g.setColor(color)
   }
 
   def update(gc: GameContainer, sbg: StateBasedGame, delta: Int): Unit = ()

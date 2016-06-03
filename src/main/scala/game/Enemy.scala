@@ -7,9 +7,8 @@ import java.util.Scanner
 import java.io.File
 
 import lib.game.GameConfig.{Width}
-import lib.ui.{Drawable}
-import lib.util.rand
-import lib.util.{TickTimer,TimerListener,FireN,RepeatForever,ConditionalTickTimer}
+import lib.slick2d.ui.{Drawable}
+import lib.util.{TickTimer,TimerListener,FireN,RepeatForever,ConditionalTickTimer,rand}
 import lib.math.sqrt
 
 trait EnemyType extends CharacterType {
@@ -33,14 +32,14 @@ object Enemy {
         new String(chars)
       }
     }
-    for (w <- words) yield wrap(w) 
+    for (w <- words) yield wrap(w)
   }
 
   def read(filename: String): List[String] = {
     var lst = List[String]()
     val sc = lib.util.scanFile(filename)
     while (sc.hasNextLine) {
-      lst = sc.nextLine::lst 
+      lst = sc.nextLine::lst
     }
     lst
   }
@@ -81,17 +80,17 @@ abstract case class Enemy(xc: Float, yc: Float, override val base: EnemyType) ex
 
   def move() = {
     if (target != null && target.active) {
-      val (xVec, yVec) = distanceToTarget    
+      val (xVec, yVec) = distanceToTarget
       val norm = ((1 / sqrt((xVec * xVec) + (yVec * yVec))) * speed)
-      super.move(xVec * norm, yVec * norm)      
+      super.move(xVec * norm, yVec * norm)
     }
   }
 
   var target: Player = null
   override def update(delta: Long, game: Game) = {
     super.update(delta, game)
-    super.update(delta)  // for timers
-    
+    super.tick(delta)  // for timers
+
     if (target == null || ! target.active) {
       target = Enemy.randInSeq(game.players)
     }
@@ -121,7 +120,7 @@ object Ghost extends EnemyType {
   val id = GhostW1ID
   val maxHp = 100
   val attack = 2
-  val defense = 1 
+  val defense = 1
   val speed = 4
   val walk1 = images(GhostW1ID)
   val walk2 = images(GhostW2ID)
@@ -139,7 +138,7 @@ object Elsa extends EnemyType {
   val id = ElsaID
   val maxHp = 15
   val attack = 4
-  val defense = 3 
+  val defense = 3
   val speed = 3
   val walk1 = images(ElsaID)
   val knockback = images(GhostKnockbackID)  // TODO: fix this...
@@ -157,7 +156,7 @@ object PowerRanger extends EnemyType {
   val id = PowerRangerW1ID
   val maxHp = 150
   val attack = 10
-  val defense = 6 
+  val defense = 6
   val speed = 3
   val walk1 = images(PowerRangerW1ID)
   val walk2 = images(PowerRangerW2ID)

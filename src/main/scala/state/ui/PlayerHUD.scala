@@ -4,7 +4,7 @@ package state
 package ui
 
 import lib.game.GameConfig.{Width,Height}
-import lib.ui.{Button, Drawable, ImageButton, Pane, TextBox}
+import lib.slick2d.ui.{Button, Drawable, ImageButton, Pane, TextBox}
 
 import org.newdawn.slick.{GameContainer, Graphics, Color,Input}
 import org.newdawn.slick.state.{StateBasedGame}
@@ -13,7 +13,7 @@ import game._
 import game.IDMap._
 
 object PlayerHUD {
-  implicit val color: Color = new Color(0.8f, 0.8f, 0.9f, 1f)  
+  implicit val color: Color = new Color(0.8f, 0.8f, 0.9f, 1f)
 }
 import PlayerHUD.color
 

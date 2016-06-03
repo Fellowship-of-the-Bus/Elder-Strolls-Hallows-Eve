@@ -6,7 +6,7 @@ import org.newdawn.slick.state.{BasicGameState, StateBasedGame}
 
 import game._
 import game.IDMap._
-import lib.ui.{Image,Pane}
+import lib.slick2d.ui.{Image,Pane}
 import lib.game.GameConfig.{Width,Height}
 import ui._
 
@@ -14,7 +14,7 @@ object Battle extends BasicGameState {
   var game = new Game
 
   val ui = new Pane(0, 0, Width, Height)(Color.white)
-  
+
   def update(gc: GameContainer, sbg: StateBasedGame, delta: Int) = {
     if (! gc.isPaused) {
       game.update(gc, sbg, delta)

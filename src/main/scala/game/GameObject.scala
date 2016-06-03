@@ -5,7 +5,7 @@ package game
 import org.newdawn.slick.{GameContainer, Graphics}
 
 import lib.game.GameConfig.{Width}
-import lib.ui.{Drawable}
+import lib.slick2d.ui.{Drawable}
 
 import state.ui.PlayerListener
 import IDMap._

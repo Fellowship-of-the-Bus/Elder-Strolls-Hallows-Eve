@@ -9,7 +9,7 @@ import lib.game.GameConfig.{Height,Width}
 import lib.util.rand
 import lib.util.{TickTimer,TimerListener,RepeatForever}
 
-class Game extends lib.game.Game with TimerListener {
+class Game extends lib.slick2d.game.Game with TimerListener {
   val maxPlayers = 4
   val players = new Array[Player](maxPlayers)
   for (i <- 0 until maxPlayers) {

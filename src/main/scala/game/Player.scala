@@ -6,7 +6,8 @@ import IDMap._
 
 import org.newdawn.slick.{GameContainer, Graphics}
 
-import lib.ui.{Drawable}
+import lib.slick2d.ui.{Drawable}
+import lib.slick2d.game.SlickGameConfig
 import lib.game.GameConfig.{Width}
 import lib.game.GameConfig
 import lib.util.{TickTimer,TimerListener,FireN}
@@ -132,7 +133,7 @@ class IVGuy(xc: Float, yc: Float, playerNum: Int) extends Player(xc, yc, IVGuys.
 
     def resetArm() = {
       currArm = armDefault
-      img = imgs(index)      
+      img = imgs(index)
     }
     resetArm
     action.addTimer(new TickTimer(10, resetArm _))
@@ -156,12 +157,12 @@ class IVGuy(xc: Float, yc: Float, playerNum: Int) extends Player(xc, yc, IVGuys.
     action.addTimer(new TickTimer(15, doKick _))
     action.addTimer(new TickTimer(30, () => img = jump))
     action.addTimer(new TickTimer(45, resetArm _))
-    
+
     def doKick() = {
       img = kick
       val x1 = direction match {
         case GameObject.Right => x + width
-        case GameObject.Left => x 
+        case GameObject.Left => x
       }
       val y1 = y + (atkHeight2* state.ui.GameArea.scaleFactor)
       val targs = getTargets(x1, y1, x1 - (310 * state.ui.GameArea.scaleFactor),y1 + (170 * state.ui.GameArea.scaleFactor), false, game)
@@ -172,14 +173,14 @@ class IVGuy(xc: Float, yc: Float, playerNum: Int) extends Player(xc, yc, IVGuys.
 
     def resetArm() = {
       currArm = armDefault
-      img = imgs(index)  
+      img = imgs(index)
     }
 
     img = jump
   }
 
   override def draw(g: Graphics, gc: GameContainer) = {
-    GameConfig.graphics = g
+    SlickGameConfig.graphics = g
     drawScaledImage(img, x, y, g)
     if (currArm != null && img != jump && img != kick) {
       if (direction == GameObject.Left) {
@@ -193,7 +194,7 @@ class IVGuy(xc: Float, yc: Float, playerNum: Int) extends Player(xc, yc, IVGuys.
   override def update(delta: Long, game: Game) = {
     super.update(delta, game)
 
-    // dependency between these two: some actions update the 
+    // dependency between these two: some actions update the
     // movement image, so they should be updated second
     movement.update(delta)
     action.update(delta)

@@ -4,7 +4,7 @@ package state
 package ui
 
 import lib.game.GameConfig.{Width,Height}
-import lib.ui.{Button, Drawable, ImageButton, Pane}
+import lib.slick2d.ui.{Button, Drawable, ImageButton, Pane}
 
 import org.newdawn.slick.{GameContainer, Graphics, Color,Input}
 import org.newdawn.slick.state.{StateBasedGame}
@@ -19,7 +19,7 @@ object GameArea extends Pane(0, HUD.height, Width, Height - HUD.height)(Color.bl
   val widthRatio = width
   val heightRatio = height
   var controller: ControllerInput = null
-  
+
 
   override def draw(gc: GameContainer, sbg: StateBasedGame, g: Graphics): Unit = {
     val thegame = game.asInstanceOf[eshe.game.Game]

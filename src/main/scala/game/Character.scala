@@ -6,7 +6,7 @@ import IDMap._
 import eshe.state.ui.{GameArea}
 
 import lib.game.GameConfig.{Width,Height}
-import lib.ui.{Drawable}
+import lib.slick2d.ui.{Drawable}
 import lib.math.Rect
 
 
@@ -44,11 +44,11 @@ abstract class Character(xc: Float, yc: Float, val base: CharacterType) extends 
   val numSteps = 20
   var steps = numSteps
   var index = 0
-  
+
   def getTargets(x1: Float, y1: Float, x2: Float, y2: Float, enemy: Boolean, game: Game) = {
     val tolerance: Float = 20.0f
     var inrange: List[Character] = List()
-    val targets = 
+    val targets =
       if (enemy) game.players.toList
       else game.enemies
     val hitbox = Rect(x1,y1,x2,y2)
