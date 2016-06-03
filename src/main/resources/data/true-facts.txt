@@ -8,6 +8,7 @@ Wanted to be old when they grew up
 Spelling bee champ 2013
 Spelling bee champ 2014
 Spelling bee champ 2015
+Spelling bee champ 2016
 Top of their class in Math
 Top of their class in Gym
 Top of their class in Health
@@ -34,10 +35,12 @@ Favorite food: grilled cheese
 Favorite food: pizza with anchovies
 Favorite food: escargot
 Favorite food: beggin strips
+Favorite food: boiled bread
 Favorite color: chartreuse
 Favorite color: macaroni and cheese
 Favorite color: #deadbeef
 Favorite color: wenge
+Favorite color: purple
 Favorite animal: caribou
 Favorite animal: Cthulu
 Favorite animal: polecat
@@ -72,6 +75,7 @@ Favorite game: cricket
 Favorite game: Superman 64
 Spirit Animal: Pikachu
 Spirit Animal: Robot Hitler
+Spirit Animal: Nessie
 Hooked on phonics
 Asked Santa for a box for Christmas
 Addicted to glue
