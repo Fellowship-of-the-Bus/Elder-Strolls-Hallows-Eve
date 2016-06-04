@@ -6,8 +6,8 @@ import org.newdawn.slick.state.{BasicGameState, StateBasedGame}
 
 import IDMap._
 import lib.game.GameConfig.{Height,Width}
-import lib.util.rand
-import lib.util.{TickTimer,TimerListener,RepeatForever}
+import lib.util.{TickTimer,TimerListener,RepeatForever,rand,FireN,Finished}
+import lib.math.clamp
 
 import state.ui.GameArea
 
@@ -25,7 +25,16 @@ class Game extends lib.slick2d.game.Game with TimerListener {
   }
 
   this += new TickTimer(240, cleanup _, RepeatForever)
-  this += new TickTimer(240, () => enemies = createEnemy :: enemies, RepeatForever)
+  var waveTimer = new TickTimer(0, () => (), Finished)
+
+  object spawnWave {
+    var waveNum = 0
+    def apply() = {
+      waveNum += 1
+      waveTimer = new TickTimer(60, () => enemies = createEnemy :: enemies, FireN(waveNum))
+      Game.this += waveTimer
+    }
+  }
 
   var projectiles = List[BaseProjectile]()
   var enemies = List[Enemy]()
@@ -50,6 +59,25 @@ class Game extends lib.slick2d.game.Game with TimerListener {
     enemy
   }
 
+  var canScroll = false
+  var scrollAmt = 0.0f
+  lazy val waveWidth = images(BackgroundID).width
+  var remainingScrollAmt = 0.0f
+  def scroll(amt: Float) = {
+    if (canScroll) {
+      for (player <- players) {
+        player.x = clamp(player.x-amt, 0, Width-player.width)
+      }
+      scrollAmt = (scrollAmt + amt) % images(BackgroundID).width
+      remainingScrollAmt = clamp(remainingScrollAmt-amt, 0.0f, remainingScrollAmt)
+    }
+    if (remainingScrollAmt == 0) {
+      canScroll = false
+      spawnWave()
+      remainingScrollAmt = waveWidth
+    }
+  }
+
   def update(gc: GameContainer, game: StateBasedGame, delta: Int) = {
     tick(delta)
     for (e <- enemies; if (e.active)) {
@@ -60,6 +88,10 @@ class Game extends lib.slick2d.game.Game with TimerListener {
     }
     for (p <- players; if (p.active)) {
       p.update(delta, this)
+    }
+
+    if (! waveTimer.canFire() && ! enemies.exists(_.active)) {
+      canScroll = true
     }
   }
 }
