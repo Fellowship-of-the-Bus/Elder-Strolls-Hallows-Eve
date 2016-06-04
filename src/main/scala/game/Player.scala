@@ -11,7 +11,7 @@ import lib.slick2d.game.SlickGameConfig
 import lib.game.GameConfig.{Width}
 import lib.game.GameConfig
 import lib.util.{TickTimer,TimerListener,FireN}
-import lib.math.clamp
+import lib.math.{clamp,Rect}
 
 import eshe.state.ui.PlayerListener
 import eshe.state.ui.{GameArea}
@@ -156,11 +156,11 @@ class IVGuy(xc: Float, yc: Float, playerNum: Int) extends Player(xc, yc, IVGuys.
     currArm = armPunch
     val scale =  state.ui.GameArea.scaleFactor
     val x1 = direction match {
-      case GameObject.Right => x + (130 + 225) * scale
-      case GameObject.Left => x + 90 * scale
+      case GameObject.Right => x + 185 * scale
+      case GameObject.Left => x + 130 * scale
     }
-    val y1 = y + (80 + 240) * scale
-    val targs = getTargets(x1, y1, x1 + 40 * scale * direction, y1 + 50 * scale, false, game)
+    val y1 = y + (40 + 240) * scale
+    val targs = getTargets(x1, y1, x1 + (170 + 40) * scale * direction, y1 + 90 * scale, false, game)
     for (t <- targs){
       hit(t, attack)
     }
