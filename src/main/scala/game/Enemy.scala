@@ -30,7 +30,7 @@ object HorseMaskOffset {
     images(PowerRangerKnockbackID) -> ((40,-10)),
     images(HotdogW1ID) -> ((4,-18)),
     images(HotdogW2ID) -> ((-4,-18)),
-    images(HotdogKnockbackID) -> ((0,0))
+    images(HotdogKnockbackID) -> ((3,-18))
   )
 }
 
