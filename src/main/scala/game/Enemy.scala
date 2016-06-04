@@ -9,7 +9,9 @@ import java.io.File
 import lib.game.GameConfig.{Width}
 import lib.slick2d.ui.{Drawable}
 import lib.util.{TickTimer,TimerListener,FireN,RepeatForever,ConditionalTickTimer,rand}
-import lib.math.sqrt
+import lib.math.{sqrt, clamp}
+
+import state.ui.GameArea
 
 trait EnemyType extends CharacterType {
   def knockback: Drawable
@@ -82,7 +84,14 @@ abstract case class Enemy(xc: Float, yc: Float, override val base: EnemyType) ex
     if (target != null && target.active) {
       val (xVec, yVec) = distanceToTarget
       val norm = ((1 / sqrt((xVec * xVec) + (yVec * yVec))) * speed)
+      val firstY = y
       super.move(xVec * norm, yVec * norm)
+
+      val lower = GameArea.fenceHeight-height
+      val upper = GameArea.height
+      val oldY = y
+      y = clamp(y, lower, upper)
+      println(s"$lower $upper $firstY $oldY $y ${GameArea.fenceHeight} ${GameArea.height}")
     }
   }
 

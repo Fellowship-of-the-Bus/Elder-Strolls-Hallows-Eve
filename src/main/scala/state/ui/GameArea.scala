@@ -20,6 +20,7 @@ object GameArea extends Pane(0, HUD.height, Width, Height - HUD.height)(Color.bl
   val heightRatio = height
   var controller: ControllerInput = null
 
+  val fenceHeight = 300.0f/1024 * height
 
   override def draw(gc: GameContainer, sbg: StateBasedGame, g: Graphics): Unit = {
     val thegame = game.asInstanceOf[eshe.game.Game]

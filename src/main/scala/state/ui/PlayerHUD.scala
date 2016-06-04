@@ -23,11 +23,11 @@ class PlayerHUD(x: Float, y: Float, width: Float, height: Float, player: Player,
   }
 
   override def init(gc: GameContainer, sbg: StateBasedGame) = {
-    val nameText = new TextBox(0, 0, width / 2, 20, () => player.name)
-    val colorBox = new Pane(width / 2, 0, width / 2, 20)(playerColor)
-    val scoreText = new TextBox(0, 20, width, 40, () => ("Score: " + player.score))
-    val hp = new Lifebar(0, 40, player)
-    val facts = new FactBox(0, 60, width, 60, player, color)
+    val nameText = new TextBox(0, 0, width/2, height/3, () => player.name)
+    val colorBox = new Pane(width/2, 0, width/2, height/3)(playerColor)
+    val scoreText = new TextBox(0, height/3, width, 2*height/3, () => ("Score: " + player.score))
+    val hp = new Lifebar(0, 2*height/3, player)
+    val facts = new FactBox(0, height, width, height, player, color)
 
     setIsVisible(() => player.active)
     addChildren(nameText, colorBox, scoreText, hp, facts)

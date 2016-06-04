@@ -38,7 +38,7 @@ class Game extends lib.slick2d.game.Game with TimerListener {
 
   def createEnemy() : Enemy = {
     val t = rand(0, 3)
-    val x = 1400
+    val x = GameArea.width
 
     val enemy = t match {
       case 0 => new Ghost(x, 0)
@@ -46,7 +46,7 @@ class Game extends lib.slick2d.game.Game with TimerListener {
       case 2 => new PowerRanger(x, 0)
       case 3 => new HorseMask(x, 0)
     }
-    enemy.y = rand(GameArea.y.toInt, (GameArea.y + GameArea.height - enemy.height).toInt)
+    enemy.y = rand(GameArea.y.toInt, (GameArea.fenceHeight + GameArea.height).toInt) - enemy.height
     enemy
   }
 
