@@ -17,7 +17,8 @@ import eshe.state.ui.PlayerListener
 import eshe.state.ui.{GameArea}
 
 trait PlayerType extends CharacterType {
-
+  val kickImage: Drawable
+  val jumpImage: Drawable
 }
 
 abstract case class Player(xc: Float, yc: Float, override val base: PlayerType) extends game.Character(xc, yc, base) {
@@ -61,6 +62,9 @@ object IVGuy extends PlayerType {
   var walk2 = images(IVGuyW2ID)
   var imgs = Array[Drawable](walk1, walk2)
 
+  val kickImage = images(IVGuyKickID)
+  val jumpImage = images(IVGuyJumpID)
+
   val atkHeight = 370.0f
   val atkWidth = 60.0f
 
@@ -78,6 +82,9 @@ object IVGuy2 extends PlayerType {
   var walk2 = images(IVGuy2W2ID)
   var imgs = Array[Drawable](walk1, walk2)
 
+  val kickImage = images(IVGuy2KickID)
+  val jumpImage = images(IVGuy2JumpID)
+
   val atkHeight = IVGuy.atkHeight
   val atkWidth = IVGuy.atkWidth
 }
@@ -92,6 +99,9 @@ object IVGuy3 extends PlayerType {
   var walk1 = images(IVGuy3W1ID)
   var walk2 = images(IVGuy3W2ID)
   var imgs = Array[Drawable](walk1, walk2)
+
+  val kickImage = images(IVGuy3KickID)
+  val jumpImage = images(IVGuy3JumpID)
 
   val atkHeight = IVGuy.atkHeight
   val atkWidth = IVGuy.atkWidth
@@ -108,6 +118,9 @@ object IVGuy4 extends PlayerType {
   var walk2 = images(IVGuy4W2ID)
   var imgs = Array[Drawable](walk1, walk2)
 
+  val kickImage = images(IVGuy4KickID)
+  val jumpImage = images(IVGuy4JumpID)
+
   val atkHeight = IVGuy.atkHeight
   val atkWidth = IVGuy.atkWidth
 }
@@ -116,11 +129,13 @@ class IVGuy(xc: Float, yc: Float, playerNum: Int) extends Player(xc, yc, IVGuys.
   val name = "Herbert"
 
   def atkHeight2 = IVGuy.atkHeight2
-
+  val guy = IVGuys.guys(playerNum)
   val armDefault = images(IVGuyArmID).copy
   val armPunch = images(IVGuyArmPunchID).copy
-  val kick = images(IVGuyKickID).copy
-  val jump = images(IVGuyJumpID).copy
+  val kick = guy.kickImage.copy
+  val jump = guy.jumpImage.copy
+//  val kick = images(IVGuyKickID).copy
+//  val jump = images(IVGuyJumpID).copy
   var currArm = armDefault
   var time = 0
 
