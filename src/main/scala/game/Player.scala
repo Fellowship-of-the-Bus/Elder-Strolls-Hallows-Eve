@@ -46,6 +46,11 @@ abstract case class Player(xc: Float, yc: Float, override val base: PlayerType) 
     super.move(xamt, yamt)
     x = clamp(x, 0, Width-width)
     y = clamp(y, GameArea.fenceHeight-height, GameArea.height-height)
+
+    val game = state.Battle.game
+    if (xamt > 0 && x > Width/2 && game.players.maxBy(_.x) == this) {
+      game.scroll(xamt)
+    }
   }
 
 }

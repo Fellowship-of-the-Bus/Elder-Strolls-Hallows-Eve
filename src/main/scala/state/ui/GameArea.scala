@@ -35,8 +35,11 @@ object GameArea extends Pane(0, HUD.height, Width, Height - HUD.height)(Color.bl
     }
     val background = images(BackgroundID)
     background.scaleFactor = ratio
-    background.draw(0,0)
-    background.draw(background.width,0)
+
+    background.draw(-thegame.scrollAmt,0)
+    background.draw(background.width-thegame.scrollAmt,0)
+    background.draw(2*background.width-thegame.scrollAmt,0)
+
     var objects = List[GameObject]()
     for (p <- thegame.players) {
       objects = p :: objects
@@ -50,6 +53,10 @@ object GameArea extends Pane(0, HUD.height, Width, Height - HUD.height)(Color.bl
     val sorted = objects.sortBy((o) => (o.y + o.height))
     for (o <- sorted; if (o.active)) {
       o.draw(g, gc)
+    }
+
+    if (thegame.canScoll) {
+
     }
   }
 
