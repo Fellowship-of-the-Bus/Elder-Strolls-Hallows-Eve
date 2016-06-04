@@ -157,7 +157,7 @@ class IVGuy(xc: Float, yc: Float, playerNum: Int) extends Player(xc, yc, IVGuys.
     val scale =  state.ui.GameArea.scaleFactor
     val x1 = direction match {
       case GameObject.Right => x + (130 + 225) * scale
-      case GameObject.Left => x - 90 * scale
+      case GameObject.Left => x + 90 * scale
     }
     val y1 = y + (80 + 240) * scale
     val targs = getTargets(x1, y1, x1 + 40 * scale * direction, y1 + 50 * scale, false, game)

@@ -13,7 +13,7 @@ import org.newdawn.slick.state.{StateBasedGame}
 import game._
 import game.IDMap._
 
-object GameArea extends Pane(0, HUD.height, Width, Height - HUD.height)(Color.blue) {
+object GameArea extends Pane(0, HUD.height, Width, Height - HUD.height)(Color.black) {
 
   val widthRatio = width/1280
   val heightRatio = height/1024

@@ -25,10 +25,6 @@ object Battle extends BasicGameState {
   def render(gc: GameContainer, sbg: StateBasedGame, g: Graphics) = {
     ui.render(gc, sbg, g)
 
-    val lightBlue = new Color(150,150,255,0)
-    g.setBackground(lightBlue)
-
-
     if (game.isGameOver) {
       g.setColor(new Color(255, 0, 0, (0.5 * 255).asInstanceOf[Int]))
       g.fillRect(0, 0, Width, Height)
