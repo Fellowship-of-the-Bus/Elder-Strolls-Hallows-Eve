@@ -1,8 +1,6 @@
 -sidescrolling
 
--enemy spawning (enemy spawn too low)
-
--projectiles inactivate after moving a set distance
+-enemy spawning (enemy spawn in play area)
 
 -extra characters / enemies
   -Bertrice (cane and purse)
@@ -36,3 +34,5 @@
   -health recovery items
   -extra lives
   -weapons
+
+-fix bugs (99 bugs on the wall, take one down, pass it around, 117 bugs on the wall)
