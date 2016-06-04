@@ -5,9 +5,34 @@
 -projectiles inactivate after moving a set distance
 
 -extra characters / enemies
+  -Bertrice (cane and purse)
+  -blue, pink, yellow, black, green power rangers
+  -ninja
+  -devil
+  -hotdog
+  -Pokefan (https://netsenshi.files.wordpress.com/2014/06/pokefan.png)
+    -attack: throws kid like a boomerang?
 
 -horsemask drawing
 
 -flesh out current enemies (shoot, animate, etc...)
 
+-flesh out herbert's moveset
+  -dodge (e.g. slide holding IV, backflip using IV, polevault using IV)
+  -jump? (and jump attacks?)
+  -lift IV and slam it down for shockwave AOE damage
+  -poledance kick?
+  -lift IV and swing like a bat (chargable?)
+
+-death animations
+
+-sound
+  -enemy specific music?
+
 -boss
+  -3-4 kids stacked on top of each other. As you do damage a kid gets knocked off the top which changes stats and attack patterns.
+
+-items
+  -health recovery items
+  -extra lives
+  -weapons
