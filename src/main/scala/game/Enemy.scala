@@ -141,7 +141,14 @@ abstract case class Enemy(xc: Float, yc: Float, override val base: EnemyType) ex
         hurtTimer += new TickTimer(15, () => isHurt = ! isHurt, FireN(6))
         cancelAll
         //e.img.setCenterOfRotation(e.x + e.width/2, e.y + e.height/2)
-        img.setRotation(if (knockVelocity < 0) 270 else 90)
+        if (knockVelocity < 0) {
+          img.setCenterOfRotation(0, height)
+          img.setRotation(270)
+        } else {
+          img.setCenterOfRotation(width, height)
+          img.setRotation(90)
+        }
+
         this += new TickTimer(90, () => {inactivate})
       }
     }
