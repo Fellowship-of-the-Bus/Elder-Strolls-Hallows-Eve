@@ -21,15 +21,15 @@ extends Pane(x, y, width, height)(parentCol) with PlayerListener with TimerListe
   override def init(gc: GameContainer, sbg: StateBasedGame) = {
     implicit val color = parentCol
 
-    val name = new TextBox(0, 0, width/2, 20, () => {
+    val name = new TextBox(0, 0, width/2, height/3, () => {
       enemy.map(_.name) getOrElse "Name"
     })
 
-    val age = new TextBox(width/2, 0, width/2, 20, () => {
+    val age = new TextBox(width/2, 0, width/2, height/3, () => {
       enemy.map("Age: " + _.age.toString) getOrElse "Age"
     })
 
-    val fact = new TextBox(0, 20, width, 40, () => {
+    val fact = new TextBox(0, height/3, width, 2*height/3, () => {
       enemy.map(_.fact) getOrElse "Fact"
     })
 
