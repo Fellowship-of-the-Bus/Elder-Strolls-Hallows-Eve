@@ -27,7 +27,7 @@ class Game extends lib.slick2d.game.Game with TimerListener {
   this += new TickTimer(240, cleanup _, RepeatForever)
   this += new TickTimer(240, () => enemies = createEnemy :: enemies, RepeatForever)
 
-  var projectiles = List[Projectile]()
+  var projectiles = List[BaseProjectile]()
   var enemies = List[Enemy]()
 
   private var numSpawns = 0

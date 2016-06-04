@@ -125,6 +125,41 @@ abstract case class Enemy(xc: Float, yc: Float, override val base: EnemyType) ex
   }
 }
 
+abstract class RangedEnemy(xc: Float, yc: Float, b: EnemyType) extends Enemy(xc, yc, b) with TimerListener {
+  def range: Int
+  def projType: ProjectileID
+
+  cancelAll()
+  addTimer(new ConditionalTickTimer(120, () => hit(target, attack), () => ! flying && targetInRange, RepeatForever))
+  addTimer(new ConditionalTickTimer(1, move _, () => ! flying, RepeatForever))
+  override def hit(c: Character, strength: Int) = {
+    // determine which direction to fire
+    var dir = 0
+    if (target.x < x) dir = GameObject.Left
+    else dir = GameObject.Right
+    val (xc, yc) = centerCoord
+    val proj = Projectile(projType, xc, yc, base.attack, dir, (state.ui.GameArea.width/2).toInt)
+    state.Battle.game.projectiles = proj :: state.Battle.game.projectiles
+  }
+  override def targetInRange(): Boolean = {
+    if (target == null || ! target.active) false
+    else {
+      val (xVec, yVec) = distanceToTarget
+      xVec > -range && xVec < range && yVec > -range && yVec < range
+    }
+  }
+  override def move() = {
+    if (target != null && target.active) {
+      val (xVec, yVec) = distanceToTarget
+      val norm = ((1 / sqrt((xVec * xVec) + (yVec * yVec))) * speed)
+      if (targetInRange)
+        super.move(0, yVec * norm)
+      else
+        super.move(xVec * norm, yVec * norm)
+    }
+  }
+}
+
 object Ghost extends EnemyType {
   val id = GhostW1ID
   val maxHp = 100
@@ -157,8 +192,9 @@ object Elsa extends EnemyType {
   val atkWidth = 50.0f
 }
 
-class Elsa(xc: Float, yc: Float) extends Enemy(xc, yc, Elsa) {
-
+class Elsa(xc: Float, yc: Float) extends RangedEnemy(xc, yc, Elsa) {
+  def range = 400
+  def projType = ElsaProj
 }
 
 object PowerRanger extends EnemyType {
