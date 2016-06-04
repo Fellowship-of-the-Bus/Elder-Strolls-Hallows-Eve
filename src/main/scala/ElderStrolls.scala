@@ -9,7 +9,7 @@ import game._
 import lib.util.Native
 import lib.game.GameConfig
 
-class ElderStrolls(gamename: String) extends StateBasedGame(gamename) {    
+class ElderStrolls(gamename: String) extends StateBasedGame(gamename) {
   def initStatesList(gc: GameContainer) = {
     gc.setShowFPS(true)
     addState(Menu)
@@ -21,21 +21,21 @@ class ElderStrolls(gamename: String) extends StateBasedGame(gamename) {
 object ElderStrolls extends App {
   def makeImg(loc: String) = new Image(loc)
 
-  GameConfig.Width = 1280
-  GameConfig.Height = 1024
   GameConfig.FrameRate = 60
 
   try {
     import GameConfig._
     Native.loadLibraryFromJar()
     val appgc = new AppGameContainer(new ElderStrolls("Elder Strolls: Hallow's Eve"))
-    appgc.setDisplayMode(Width, Height, false)
+    Height = appgc.getScreenHeight
+    Width = appgc.getScreenWidth
+    appgc.setDisplayMode(Width, Height, true)
     appgc.setTargetFrameRate(FrameRate)
     appgc.setVSync(true)
     appgc.start()
   } catch {
     case ex: SlickException => Logger.getLogger(ElderStrolls.getClass.getName()).log(Level.SEVERE, null, ex)
-    case t: Throwable => 
+    case t: Throwable =>
       println("Library path is: " + System.getProperty("java.library.path"))
       t.printStackTrace
   }
