@@ -24,7 +24,7 @@ class BaseProjectile(val projID: ProjectileID, xc: Float, yc: Float, val attack:
 
     x = x + direction * speed
     for (p <- game.players) {
-      if (intersect(this, p)) {
+      if (p.hitbox.intersect(this)) {
         hit(p, attack)
         inactivate
       }

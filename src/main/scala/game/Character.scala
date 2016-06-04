@@ -36,6 +36,8 @@ abstract class Character(xc: Float, yc: Float, val base: CharacterType) extends 
   def atkHeight = base.atkHeight
   def atkWidth = base.atkWidth
 
+  def hitbox = Rect(x, y, x + width, y + height)
+
   override var isHurt = false
   val hurtTimer = new TimerListener {}
 
@@ -57,7 +59,7 @@ abstract class Character(xc: Float, yc: Float, val base: CharacterType) extends 
       else game.enemies
     val hitbox = Rect(x1,y1,x2,y2)
     for (t <- targets; if (t.active)) {
-      if (hitbox.intersect(t)) {
+      if (hitbox.intersect(t.hitbox)) {
         inrange = t :: inrange
       }
     }

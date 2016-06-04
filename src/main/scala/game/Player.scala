@@ -4,7 +4,7 @@ package game
 
 import IDMap._
 
-import org.newdawn.slick.{GameContainer, Graphics}
+import org.newdawn.slick.{GameContainer, Graphics,Color}
 
 import lib.slick2d.ui.{Drawable}
 import lib.slick2d.game.SlickGameConfig
@@ -30,6 +30,8 @@ abstract case class Player(xc: Float, yc: Float, override val base: PlayerType) 
   }
   var score = 0
 
+  override def hitbox = Rect(x, y + height/2, x + width, y + height)
+
   override def hit(c: Character, strength: Int) = {
     val damage = strength
     c match {
@@ -45,6 +47,7 @@ abstract case class Player(xc: Float, yc: Float, override val base: PlayerType) 
     x = clamp(x, 0, Width-width)
     y = clamp(y, GameArea.fenceHeight-height, GameArea.height-height)
   }
+
 }
 
 object IVGuys {
@@ -204,6 +207,9 @@ class IVGuy(xc: Float, yc: Float, playerNum: Int) extends Player(xc, yc, IVGuys.
         drawScaledImage(currArm, x + (130 * state.ui.GameArea.scaleFactor), y + (240 * state.ui.GameArea.scaleFactor), g)
       }
     }
+    g.setColor(Color.blue)
+    val (x1, y1, x2, y2) = (hitbox.x1, hitbox.y1, hitbox.x2, hitbox.y2)
+    g.drawRect(x1, y1, x2-x1, y2-y1)
   }
 
   override def update(delta: Long, game: Game) = {
