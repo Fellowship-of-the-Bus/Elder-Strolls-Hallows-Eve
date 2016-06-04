@@ -7,6 +7,7 @@ import org.newdawn.slick.{GameContainer, Graphics, Color}
 import lib.game.GameConfig.{Width}
 import lib.slick2d.ui.{Drawable, SomeColor, NoColor}
 import lib.util.{TickTimer, FireN}
+import lib.math.clamp
 
 import state.ui.PlayerListener
 import IDMap._
@@ -39,6 +40,12 @@ abstract class GameObject(xc: Float, yc: Float) extends lib.game.TopLeftCoordina
   def move(xamt: Float, yamt: Float): Unit = {
     x = x + xamt
     y = y + yamt
+  }
+
+  def clampY() = {
+    val lower = state.ui.GameArea.fenceHeight-height
+    val upper = state.ui.GameArea.height-height
+    y = clamp(y, lower, upper)
   }
 
   def hit(c: Character, strength: Int) = {

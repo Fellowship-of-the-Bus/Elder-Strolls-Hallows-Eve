@@ -104,10 +104,7 @@ abstract case class Enemy(xc: Float, yc: Float, override val base: EnemyType) ex
       val (xVec, yVec) = distanceToTarget
       val norm = ((1 / sqrt((xVec * xVec) + (yVec * yVec))) * speed)
       super.move(xVec * norm, yVec * norm)
-
-      val lower = GameArea.fenceHeight-height
-      val upper = GameArea.height-height
-      y = clamp(y, lower, upper)
+      clampY()
     }
   }
 
@@ -171,9 +168,13 @@ abstract class RangedEnemy(xc: Float, yc: Float, b: EnemyType) extends Enemy(xc,
   def projType: ProjectileID
   def shootImg = base.attackImg
   def defaultImg = base.walk1
+  def shootSpeed: Int
+
+  def offsetx: Float
+  def offsety: Float
 
   cancelAll()
-  this += new ConditionalTickTimer(120, () => hit(target, attack), () => ! flying && targetInRange, RepeatForever)
+  this += new ConditionalTickTimer(shootSpeed, () => hit(target, attack), () => ! flying && targetInRange, RepeatForever)
   this += new ConditionalTickTimer(1, move _, () => ! flying, RepeatForever)
   override def hit(c: Character, strength: Int) = {
     // determine which direction to fire
@@ -182,7 +183,7 @@ abstract class RangedEnemy(xc: Float, yc: Float, b: EnemyType) extends Enemy(xc,
     else dir = GameObject.Right
     direction = dir
     val (xc, yc) = centerCoord
-    val proj = Projectile(projType, xc, yc, base.attack, dir, (state.ui.GameArea.width/2).toInt)
+    val proj = Projectile(projType, xc+offsetx, yc+offsety, base.attack, dir, (state.ui.GameArea.width/2).toInt)
     state.Battle.game.projectiles = proj :: state.Battle.game.projectiles
     img = shootImg
     this += new TickTimer(20, () => img = defaultImg)
@@ -202,6 +203,7 @@ abstract class RangedEnemy(xc: Float, yc: Float, b: EnemyType) extends Enemy(xc,
         super.move(0, yVec * norm)
       else
         super.move(xVec * norm, yVec * norm)
+      clampY()
     }
   }
 }
@@ -256,6 +258,9 @@ object Elsa extends EnemyType {
 class Elsa(xc: Float, yc: Float) extends RangedEnemy(xc, yc, Elsa) {
   def range = 400
   def projType = ElsaProj
+  def shootSpeed = 120
+  def offsetx = 0
+  def offsety = 0
 }
 
 object Hotdog extends EnemyType {
@@ -276,6 +281,9 @@ object Hotdog extends EnemyType {
 class Hotdog(xc: Float, yc: Float) extends RangedEnemy(xc, yc, Hotdog) {
   def range = 600
   def projType = Ketchup
+  def shootSpeed = 180
+  def offsetx = 0
+  def offsety = 0
 }
 
 object PowerRanger extends EnemyType {
@@ -327,3 +335,60 @@ class HorseMask(xc: Float, yc: Float) extends Enemy(xc, yc, Enemy.random) {
   }
 
 }
+
+trait Boss extends Enemy {
+  override def knockback(distance: Float) = {
+    if (hp <= 0) inactivate
+  }
+}
+
+object BossFull extends EnemyType {
+  val id = BossFullID
+  val maxHp = 500
+  val attack = 0
+  val defense = 3
+  val speed = 3
+  val walk1 = images(BossFullID)
+  val knockback = images(ElsaKnockbackID)
+  val imgs = Array[Drawable](walk1)
+  val attackImg = images(BossFullID)
+  val atkHeight = 5.0f
+  val atkWidth = 50.0f
+}
+
+class BossFull(xc: Float, yc: Float)  extends RangedEnemy(xc, yc, BossFull) with Boss {
+  def range: Int = GameArea.width.toInt
+  def projType: ProjectileID = BossFullProjectile
+  def shootSpeed = 1
+
+  lazy val soaker = images(BossFullSuperSoakerID)
+  def offsetx = if (direction == GameObject.Left) -soaker.width/2 else soaker.width/2-25
+  def offsety = -soaker.height/2+images(projType.id).height+10
+
+  override def draw(g: org.newdawn.slick.Graphics, gc: org.newdawn.slick.GameContainer) = {
+    super.draw(g, gc)
+    drawScaledImage(soaker, x + width/2 - soaker.width/2, y + height/2 - soaker.height/2, g)
+  }
+}
+
+object BossUncoat extends EnemyType {
+  val id = BossUncoatID
+  val maxHp = 500
+  val attack = 0
+  val defense = 3
+  val speed = 3
+  val walk1 = images(BossUncoatID)
+  val knockback = images(ElsaKnockbackID)
+  val imgs = Array[Drawable](walk1, images(BossUncoatWalkID))
+  val attackImg = images(BossUncoatAttackID)
+  val atkHeight = 5.0f
+  val atkWidth = 50.0f
+}
+
+class BossUncoat(xc: Float, yc: Float)  extends Enemy(xc, yc, BossUncoat) with Boss {
+  override def draw(g: org.newdawn.slick.Graphics, gc: org.newdawn.slick.GameContainer) = {
+    super.draw(g, gc)
+    // drawScaledImage(images(BossFullSuperSoakerID), x + width/2 , y + height/2, g)
+  }
+}
+

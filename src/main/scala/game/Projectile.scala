@@ -19,6 +19,11 @@ case object Ketchup extends ProjectileID {
   val speed = 5f
 }
 
+case object BossFullProjectile extends ProjectileID {
+  val id = IDMap.BossFullAttackID
+  val speed = 10f
+}
+
 class BaseProjectile(val projID: ProjectileID, xc: Float, yc: Float, val attack: Int, dir: Int) extends GameObject(xc, yc){
   def id = projID.id
   def speed() = projID.speed
@@ -57,6 +62,7 @@ class TimedProjectile(pid: ProjectileID, xc: Float, yc: Float, damage: Int, dir:
   }
 
   override def update(delta: Long, game: Game) = {
+
     tickOnce()
     super.update(delta, game)
   }
@@ -67,7 +73,8 @@ object Projectile {
     projID match {
       case ElsaProj => new TimedProjectile(ElsaProj, xc, yc, damage, dir, distance)
       case Ketchup => new TimedProjectile(Ketchup, xc, yc, damage, dir, distance)
-      case _ => new TimedProjectile(ElsaProj, xc, yc, damage, dir, distance)
+      case BossFullProjectile => new BaseProjectile(BossFullProjectile, xc, yc, damage, dir)
+      case _ => throw new Exception("Unrecognized projectile type")
     }
   }
 }
