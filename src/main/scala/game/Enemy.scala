@@ -141,7 +141,6 @@ abstract case class Enemy(xc: Float, yc: Float, override val base: EnemyType) ex
         hurtTimer += new TickTimer(15, () => isHurt = ! isHurt, FireN(6))
         cancelAll
         //e.img.setCenterOfRotation(e.x + e.width/2, e.y + e.height/2)
-        img.setRotation(if (knockVelocity < 0) -90 else 90)
         this += new TickTimer(90, () => {inactivate})
       }
     }
@@ -171,6 +170,7 @@ abstract class RangedEnemy(xc: Float, yc: Float, b: EnemyType) extends Enemy(xc,
     var dir = 0
     if (target.x < x) dir = GameObject.Left
     else dir = GameObject.Right
+    direction = dir
     val (xc, yc) = centerCoord
     val proj = Projectile(projType, xc, yc, base.attack, dir, (state.ui.GameArea.width/2).toInt)
     state.Battle.game.projectiles = proj :: state.Battle.game.projectiles
