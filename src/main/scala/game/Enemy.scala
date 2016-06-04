@@ -393,32 +393,37 @@ object BossUncoat extends EnemyType {
 }
 
 class BossUncoat(xc: Float, yc: Float)  extends Enemy(xc, yc, BossUncoat) with Boss {
-  val attackDuration = 180
+  val attackDuration = 120
   var attackProgress = 0
-  override def attackPoint = 2*attackDuration/3
-  override def backswing = attackDuration/3
+  val windup = 1f/2
+  val swing = 1f/4
+  val recovery = 1f/4
+  override def attackPoint = ((windup+swing)*attackDuration).toInt
+  override def backswing = (attackDuration*recovery).toInt
   def rotation() = {
     attackProgress = (attackProgress+1)%attackDuration
-    if (0 <= attackProgress && attackProgress <= attackDuration/3) {
-      30f*attackProgress/(attackDuration/3f)
-    } else if (attackDuration/3 <= attackProgress && attackProgress <= 2*attackDuration/3) {
-      30-120f*(attackProgress-attackDuration/3f)/(attackDuration/3f)
+    if (0 <= attackProgress && attackProgress <= attackDuration*windup) {
+      30f*attackProgress/(attackDuration*windup)
+    } else if (attackDuration*windup <= attackProgress && attackProgress <= attackDuration*(windup+swing)) {
+      30-120f*(attackProgress-attackDuration*windup)/(attackDuration*swing)
     } else {
-      -90+90f*(attackProgress-2*attackDuration/3f)/(attackDuration/3f)
+      -90+90f*(attackProgress-attackDuration*(windup+swing))/(attackDuration*recovery)
     }
   }
   override def draw(g: org.newdawn.slick.Graphics, gc: org.newdawn.slick.GameContainer) = {
     if (attacking) {
       import BossUncoat.attackImg
-      attackImg.setCenterOfRotation(1*attackImg.width/9,5*attackImg.height/8)
+      val xrot = (if (direction == GameObject.Left) 3f else 4f) *attackImg.width/8
+      val yrot = 15*attackImg.height/18
+      attackImg.setCenterOfRotation(xrot,yrot)
       attackImg.setRotation(-rotation*direction)
       img = attackImg
+      images(BossUncoatAttackLegID).draw(x+xrot,y+yrot, direction != GameObject.Left)
     } else {
       img = base.walk1
       attackProgress = 0
     }
     super.draw(g, gc)
-
   }
 }
 
