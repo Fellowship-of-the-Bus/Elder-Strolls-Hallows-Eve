@@ -84,8 +84,9 @@ abstract case class Enemy(xc: Float, yc: Float, override val base: EnemyType) ex
   this += new ConditionalTickTimer(1, move _, () => ! flying && ! targetInRange && ! attacking && alive, RepeatForever)
 
   def distanceToTarget(): (Float, Float) = {
-    val xVec = (target.hitbox.x1 + target.width / 2) - (x + width / 2)
-    val yVec = (target.hitbox.y1 + target.height / 2) - (y + height / 2)
+    val box = target.hitbox
+    val xVec = (box.x1 + (box.x2 - box.x1) / 2) - (x + width / 2)
+    val yVec = (box.y1 + (box.y2 - box.y1) / 2) - (y + height / 2)
     (xVec, yVec)
   }
 
