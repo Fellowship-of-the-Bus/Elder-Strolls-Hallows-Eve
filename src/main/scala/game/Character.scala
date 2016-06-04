@@ -8,6 +8,7 @@ import eshe.state.ui.{GameArea}
 import lib.game.GameConfig.{Width,Height}
 import lib.slick2d.ui.{Drawable}
 import lib.math.Rect
+import lib.util.{TimerListener}
 
 
 trait CharacterType {
@@ -34,6 +35,9 @@ abstract class Character(xc: Float, yc: Float, val base: CharacterType) extends 
 
   def atkHeight = base.atkHeight
   def atkWidth = base.atkWidth
+
+  override var isHurt = false
+  val hurtTimer = new TimerListener {}
 
   def id: Int = base.id
 
@@ -74,5 +78,10 @@ abstract class Character(xc: Float, yc: Float, val base: CharacterType) extends 
         img = imgs(index)
       }
     }
+  }
+
+  override def update(delta: Long, game: Game) = {
+    super.update(delta, game)
+    hurtTimer.tick(delta)
   }
 }

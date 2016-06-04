@@ -2,10 +2,11 @@ package com.github.fellowship_of_the_bus
 package eshe
 package game
 
-import org.newdawn.slick.{GameContainer, Graphics}
+import org.newdawn.slick.{GameContainer, Graphics, Color}
 
 import lib.game.GameConfig.{Width}
-import lib.slick2d.ui.{Drawable}
+import lib.slick2d.ui.{Drawable, SomeColor, NoColor}
+import lib.util.{TickTimer, FireN}
 
 import state.ui.PlayerListener
 import IDMap._
@@ -30,6 +31,8 @@ abstract class GameObject(xc: Float, yc: Float) extends lib.game.TopLeftCoordina
   def height = img.getHeight
   def width = img.getWidth
   var direction = GameObject.Left
+  def isHurt = false
+  def isHurt_=(b: Boolean) = ()
 
   def move(xamt: Float, yamt: Float): Unit = {
     x = x + xamt
@@ -37,6 +40,9 @@ abstract class GameObject(xc: Float, yc: Float) extends lib.game.TopLeftCoordina
   }
 
   def hit(c: Character, strength: Int) = {
+    c.hurtTimer.cancelAll()
+    c.hurtTimer += new TickTimer(15, () => c.isHurt = ! c.isHurt, FireN(6))
+
     val damage = strength // - c.defense // ignore defense for now
     c.hp = c.hp - damage
 
@@ -62,12 +68,8 @@ abstract class GameObject(xc: Float, yc: Float) extends lib.game.TopLeftCoordina
 
 
   def drawScaledImage(im: Drawable, x: Float, y: Float, g: Graphics) = {
-    val scale = state.ui.GameArea.scaleFactor
-    if (direction == GameObject.Left) {
-      im.draw(x,y, true, false)
-    } else {
-      im.draw(x,y)
-    }
+    val filter = if (isHurt) SomeColor(Color.red) else NoColor
+    im.draw(x,y, direction == GameObject.Left, false, filter)
   }
 
   def update(delta: Long, game: Game) = {
