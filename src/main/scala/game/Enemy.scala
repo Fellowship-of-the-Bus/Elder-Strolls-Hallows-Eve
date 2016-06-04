@@ -104,7 +104,7 @@ abstract case class Enemy(xc: Float, yc: Float, override val base: EnemyType) ex
       super.move(xVec * norm, yVec * norm)
 
       val lower = GameArea.fenceHeight-height
-      val upper = GameArea.height
+      val upper = GameArea.height-height
       y = clamp(y, lower, upper)
     }
   }
