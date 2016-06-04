@@ -9,6 +9,8 @@ import lib.game.GameConfig.{Height,Width}
 import lib.util.rand
 import lib.util.{TickTimer,TimerListener,RepeatForever}
 
+import state.ui.GameArea
+
 class Game extends lib.slick2d.game.Game with TimerListener {
   val maxPlayers = 4
   val players = new Array[Player](maxPlayers)
@@ -36,14 +38,15 @@ class Game extends lib.slick2d.game.Game with TimerListener {
 
   def createEnemy() : Enemy = {
     val t = rand(0, 3)
-    val y = rand(300, 1000)
 
-    t match {
-      case 0 => new Ghost(1400, y)
-      case 1 => new Elsa(1400, y)
-      case 2 => new PowerRanger(1400, y)
-      case 3 => new HorseMask(1400, y)
+    val enemy = t match {
+      case 0 => new Ghost(1400, 0)
+      case 1 => new Elsa(1400, 0)
+      case 2 => new PowerRanger(1400, 0)
+      case 3 => new HorseMask(1400, 0)
     }
+    enemy.y = rand(GameArea.y.toInt, (GameArea.y + GameArea.height - enemy.height).toInt)
+    enemy
   }
 
   def update(gc: GameContainer, game: StateBasedGame, delta: Int) = {
