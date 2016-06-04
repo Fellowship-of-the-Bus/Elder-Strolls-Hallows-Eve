@@ -40,7 +40,7 @@ abstract class Character(xc: Float, yc: Float, val base: CharacterType) extends 
   def copy(imgs: Array[Drawable]) = imgs.map(_.copy)
 
   val imgs: Array[Drawable] = copy(base.imgs)
-  var currImage: Drawable = imgs(0)
+  img = imgs(0)
   val numSteps = 20
   var steps = numSteps
   var index = 0
