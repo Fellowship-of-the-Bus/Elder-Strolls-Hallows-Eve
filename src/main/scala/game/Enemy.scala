@@ -227,7 +227,7 @@ object Elsa extends EnemyType {
   val defense = 3
   val speed = 3
   val walk1 = images(ElsaID)
-  val knockback = images(GhostKnockbackID)  // TODO: fix this...
+  val knockback = images(ElsaKnockbackID)  // TODO: fix this...
   val imgs = Array[Drawable](walk1)
   val attackImg = images(ElsaShootID)
   val atkHeight = 5.0f

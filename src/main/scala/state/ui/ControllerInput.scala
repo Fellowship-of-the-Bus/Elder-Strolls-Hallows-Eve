@@ -85,7 +85,7 @@ class ControllerInput(g: game.Game, gc: GameContainer, sbg: StateBasedGame) exte
       gc.setPaused(!gc.isPaused)
     }
     else if (button == BUTTON_BACK) {
-      System.exit(0)
+      sbg.enterState(Mode.MenuID)
     }
     if (!gc.isPaused) {
       if (sbg.getCurrentStateID == Mode.MenuID) {
