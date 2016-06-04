@@ -24,8 +24,8 @@ class Game extends lib.slick2d.game.Game with TimerListener {
     }
   }
 
-  addTimer(new TickTimer(240, cleanup _, RepeatForever))
-  addTimer(new TickTimer(240, () => enemies = createEnemy :: enemies, RepeatForever))
+  this += new TickTimer(240, cleanup _, RepeatForever)
+  this += new TickTimer(240, () => enemies = createEnemy :: enemies, RepeatForever)
 
   var projectiles = List[Projectile]()
   var enemies = List[Enemy]()
@@ -50,7 +50,7 @@ class Game extends lib.slick2d.game.Game with TimerListener {
   }
 
   def update(gc: GameContainer, game: StateBasedGame, delta: Int) = {
-    super.update(delta)
+    super.tick(delta)
     for (e <- enemies; if (e.active)) {
       e.update(delta, this)
     }

@@ -61,8 +61,8 @@ abstract case class Enemy(xc: Float, yc: Float, override val base: EnemyType) ex
   val fact = Enemy.fact
   var flying = false
 
-  addTimer(new ConditionalTickTimer(60, () => hit(target, attack), () => ! flying && targetInRange, RepeatForever))
-  addTimer(new ConditionalTickTimer(1, move _, () => ! flying && ! targetInRange, RepeatForever))
+  this += new ConditionalTickTimer(60, () => hit(target, attack), () => ! flying && targetInRange, RepeatForever)
+  this += new ConditionalTickTimer(1, move _, () => ! flying && ! targetInRange, RepeatForever)
 
   def distanceToTarget(): (Float, Float) = {
     val xVec = (target.x + target.width / 2) - (x + width / 2)
@@ -102,8 +102,8 @@ abstract case class Enemy(xc: Float, yc: Float, override val base: EnemyType) ex
     val knockVelocity = distance / kbTicks
     img = knockback
 
-    addTimer(new TickTimer(1, doKnockback _, FireN(kbTicks)))
-    addTimer(new TickTimer(kbTicks, endKnockback _))
+    this += new TickTimer(1, doKnockback _, FireN(kbTicks))
+    this += new TickTimer(kbTicks, endKnockback _)
 
     def doKnockback() = {
       x = x + knockVelocity

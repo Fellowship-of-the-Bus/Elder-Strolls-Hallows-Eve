@@ -26,7 +26,7 @@ extends Pane(x, y, width, height)(parentCol) with PlayerListener with TimerListe
     })
 
     val age = new TextBox(width/2, 0, width/2, 20, () => {
-      enemy.map("Age: " + _.age.toString) getOrElse "Age" 
+      enemy.map("Age: " + _.age.toString) getOrElse "Age"
     })
 
     val fact = new TextBox(0, 20, width, 40, () => {
@@ -42,7 +42,7 @@ extends Pane(x, y, width, height)(parentCol) with PlayerListener with TimerListe
         enemyQueue = eq
       }
     }
-    addTimer(new TickTimer(5*60, nextEnemy _, RepeatForever))
+    this += new TickTimer(5*60, nextEnemy _, RepeatForever)
 
     setIsVisible(() => ! enemy.isEmpty)
 
@@ -53,7 +53,7 @@ extends Pane(x, y, width, height)(parentCol) with PlayerListener with TimerListe
 
   override def update(gc: GameContainer, sbg: StateBasedGame, delta: Int): Unit = {
     super.update(gc, sbg, delta)
-    super.update(delta)
+    tick(delta)
   }
 
   override def enemyDied(e: Enemy): Unit = {

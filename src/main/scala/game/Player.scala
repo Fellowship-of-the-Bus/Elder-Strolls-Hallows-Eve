@@ -136,7 +136,7 @@ class IVGuy(xc: Float, yc: Float, playerNum: Int) extends Player(xc, yc, IVGuys.
       img = imgs(index)
     }
     resetArm
-    action.addTimer(new TickTimer(10, resetArm _))
+    action += new TickTimer(10, resetArm _)
 
     currArm = armPunch
     val scale =  state.ui.GameArea.scaleFactor
@@ -154,9 +154,9 @@ class IVGuy(xc: Float, yc: Float, playerNum: Int) extends Player(xc, yc, IVGuys.
     // only one action at a time
     action.cancelAll()
     resetArm
-    action.addTimer(new TickTimer(15, doKick _))
-    action.addTimer(new TickTimer(30, () => img = jump))
-    action.addTimer(new TickTimer(45, resetArm _))
+    action += new TickTimer(15, doKick _)
+    action += new TickTimer(30, () => img = jump)
+    action += new TickTimer(45, resetArm _)
 
     def doKick() = {
       img = kick
@@ -196,7 +196,7 @@ class IVGuy(xc: Float, yc: Float, playerNum: Int) extends Player(xc, yc, IVGuys.
 
     // dependency between these two: some actions update the
     // movement image, so they should be updated second
-    movement.update(delta)
-    action.update(delta)
+    movement.tick(delta)
+    action.tick(delta)
   }
 }

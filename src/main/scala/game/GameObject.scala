@@ -24,7 +24,7 @@ abstract class GameObject(xc: Float, yc: Float) extends lib.game.TopLeftCoordina
 
   private var isActive = true
   def active = isActive
-  def inactivate = isActive = false
+  def inactivate() = isActive = false
 
   var img = images(id).copy
   def height = img.getHeight
