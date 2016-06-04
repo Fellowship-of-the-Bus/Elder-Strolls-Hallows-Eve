@@ -5,6 +5,7 @@ package ui
 
 import lib.game.GameConfig.{Width,Height}
 import lib.slick2d.ui.{Button, Drawable, ImageButton, Pane}
+import lib.math._
 
 import org.newdawn.slick.{GameContainer, Graphics, Color,Input}
 import org.newdawn.slick.state.{StateBasedGame}
@@ -16,8 +17,8 @@ object GameArea extends Pane(0, HUD.height, Width, Height - HUD.height)(Color.bl
 
   val scaleFactor = 0.42f
 
-  val widthRatio = width
-  val heightRatio = height
+  val widthRatio = width/1280
+  val heightRatio = height/1024
   var controller: ControllerInput = null
 
   val fenceHeight = 300.0f/1024 * height
@@ -31,6 +32,7 @@ object GameArea extends Pane(0, HUD.height, Width, Height - HUD.height)(Color.bl
         controller.update();
       }
     }
+    images(BackgroundID).scaleFactor = min(widthRatio, heightRatio)
     images(BackgroundID).draw(0,0)
     var objects = List[GameObject]()
     for (p <- thegame.players) {
