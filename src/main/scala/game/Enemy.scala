@@ -81,7 +81,7 @@ abstract case class Enemy(xc: Float, yc: Float, override val base: EnemyType) ex
   var attacking = false
 
   this += new ConditionalTickTimer(60, () => hit(target, attack), () => ! flying && targetInRange, RepeatForever)
-  this += new ConditionalTickTimer(1, move _, () => ! flying && ! targetInRange && ! attacking, RepeatForever)
+  this += new ConditionalTickTimer(1, move _, () => ! flying && ! targetInRange && ! attacking && alive, RepeatForever)
 
   def distanceToTarget(): (Float, Float) = {
     val xVec = (target.hitbox.x1 + target.width / 2) - (x + width / 2)
@@ -134,7 +134,16 @@ abstract case class Enemy(xc: Float, yc: Float, override val base: EnemyType) ex
 
     def endKnockback() = {
       flying = false
-      img = imgs(0)
+      if (alive) img = imgs(0)
+      else {
+        hurtTimer.cancelAll()
+        isHurt = false
+        hurtTimer += new TickTimer(15, () => isHurt = ! isHurt, FireN(6))
+        cancelAll
+        //e.img.setCenterOfRotation(e.x + e.width/2, e.y + e.height/2)
+        img.setRotation(if (knockVelocity < 0) -90 else 90)
+        this += new TickTimer(90, () => {inactivate})
+      }
     }
   }
   override def hit(c: Character, strength: Int) {
@@ -281,7 +290,7 @@ class HorseMask(xc: Float, yc: Float) extends Enemy(xc, yc, Enemy.random) {
 
   override def update(delta: Long, game: Game) = {
     super.update(delta, game)
-    move(-speed, 0)
+    if (alive) move(-speed, 0)
     if (x < -width) {
       inactivate
     }

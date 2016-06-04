@@ -34,6 +34,8 @@ abstract class GameObject(xc: Float, yc: Float) extends lib.game.TopLeftCoordina
   def isHurt = false
   def isHurt_=(b: Boolean) = ()
 
+  var alive = true
+
   def move(xamt: Float, yamt: Float): Unit = {
     x = x + xamt
     y = y + yamt
@@ -48,10 +50,16 @@ abstract class GameObject(xc: Float, yc: Float) extends lib.game.TopLeftCoordina
     c.hp = c.hp - damage
 
     if (c.hp <= 0) {
-      c.inactivate
+      //c.inactivate
       c match {
-        case e: Enemy => notify(x => x.enemyDied(e))
-        case p: Player => notify(x => x.playerDied(p))
+        case e: Enemy => {
+          notify(x => x.enemyDied(e))
+          e.alive = false
+        }
+        case p: Player => {
+          notify(x => x.playerDied(p))
+          p.inactivate
+        }
       }
     }
   }
@@ -69,7 +77,7 @@ abstract class GameObject(xc: Float, yc: Float) extends lib.game.TopLeftCoordina
 
 
   def drawScaledImage(im: Drawable, x: Float, y: Float, g: Graphics) = {
-    val filter = if (isHurt) SomeColor(Color.red) else NoColor
+    val filter = if (isHurt) (if (alive) SomeColor(Color.red) else SomeColor(Color.transparent)) else NoColor
     im.draw(x,y, direction == GameObject.Left, false, filter)
   }
 

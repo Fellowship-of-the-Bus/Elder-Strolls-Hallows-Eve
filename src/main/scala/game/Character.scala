@@ -58,7 +58,7 @@ abstract class Character(xc: Float, yc: Float, val base: CharacterType) extends 
       if (enemy) game.players.toList
       else game.enemies
     val hitbox = Rect(x1,y1,x2,y2)
-    for (t <- targets; if (t.active)) {
+    for (t <- targets; if (t.active && t.alive)) {
       if (hitbox.intersect(t.hitbox)) {
         inrange = t :: inrange
       }
