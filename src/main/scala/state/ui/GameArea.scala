@@ -33,8 +33,10 @@ object GameArea extends Pane(0, HUD.height, Width, Height - HUD.height)(Color.bl
         controller.update();
       }
     }
-    images(BackgroundID).scaleFactor = ratio
-    images(BackgroundID).draw(0,0)
+    val background = images(BackgroundID)
+    background.scaleFactor = ratio
+    background.draw(0,0)
+    background.draw(background.width,0)
     var objects = List[GameObject]()
     for (p <- thegame.players) {
       objects = p :: objects

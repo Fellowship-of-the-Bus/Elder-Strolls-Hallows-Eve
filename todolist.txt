@@ -1,7 +1,5 @@
 -sidescrolling
 
--enemy spawning (enemy spawn in play area)
-
 -extra characters / enemies
   -Bertrice (cane and purse)
   -blue, pink, yellow, black, green power rangers
