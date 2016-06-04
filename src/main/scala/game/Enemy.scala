@@ -142,6 +142,8 @@ abstract case class Enemy(xc: Float, yc: Float, override val base: EnemyType) ex
 abstract class RangedEnemy(xc: Float, yc: Float, b: EnemyType) extends Enemy(xc, yc, b) with TimerListener {
   def range: Int
   def projType: ProjectileID
+  def shootImg: Drawable
+  def defaultImg: Drawable
 
   cancelAll()
   this += new ConditionalTickTimer(120, () => hit(target, attack), () => ! flying && targetInRange, RepeatForever)
@@ -154,6 +156,8 @@ abstract class RangedEnemy(xc: Float, yc: Float, b: EnemyType) extends Enemy(xc,
     val (xc, yc) = centerCoord
     val proj = Projectile(projType, xc, yc, base.attack, dir, (state.ui.GameArea.width/2).toInt)
     state.Battle.game.projectiles = proj :: state.Battle.game.projectiles
+    img = shootImg
+    this += new TickTimer(20, () => img = defaultImg)
   }
   override def targetInRange(): Boolean = {
     if (target == null || ! target.active) false
@@ -209,6 +213,8 @@ object Elsa extends EnemyType {
 class Elsa(xc: Float, yc: Float) extends RangedEnemy(xc, yc, Elsa) {
   def range = 400
   def projType = ElsaProj
+  val shootImg = images(ElsaShootID)
+  val defaultImg = images(ElsaID)
 }
 
 object PowerRanger extends EnemyType {
