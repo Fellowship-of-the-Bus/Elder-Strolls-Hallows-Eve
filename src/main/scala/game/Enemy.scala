@@ -15,6 +15,8 @@ import state.ui.GameArea
 
 trait EnemyType extends CharacterType {
   def knockback: Drawable
+  def attackImg: Drawable
+  def walk1: Drawable
 }
 
 object HorseMaskOffset {
@@ -76,9 +78,10 @@ abstract case class Enemy(xc: Float, yc: Float, override val base: EnemyType) ex
   val name = Enemy.name
   val fact = Enemy.fact
   var flying = false
+  var attacking = false
 
   this += new ConditionalTickTimer(60, () => hit(target, attack), () => ! flying && targetInRange, RepeatForever)
-  this += new ConditionalTickTimer(1, move _, () => ! flying && ! targetInRange, RepeatForever)
+  this += new ConditionalTickTimer(1, move _, () => ! flying && ! targetInRange && ! attacking, RepeatForever)
 
   def distanceToTarget(): (Float, Float) = {
     val xVec = (target.x + target.width / 2) - (x + width / 2)
@@ -98,14 +101,11 @@ abstract case class Enemy(xc: Float, yc: Float, override val base: EnemyType) ex
     if (target != null && target.active) {
       val (xVec, yVec) = distanceToTarget
       val norm = ((1 / sqrt((xVec * xVec) + (yVec * yVec))) * speed)
-      val firstY = y
       super.move(xVec * norm, yVec * norm)
 
       val lower = GameArea.fenceHeight-height
       val upper = GameArea.height
-      val oldY = y
       y = clamp(y, lower, upper)
-      println(s"$lower $upper $firstY $oldY $y ${GameArea.fenceHeight} ${GameArea.height}")
     }
   }
 
@@ -137,13 +137,22 @@ abstract case class Enemy(xc: Float, yc: Float, override val base: EnemyType) ex
       img = imgs(0)
     }
   }
+  override def hit(c: Character, strength: Int) {
+    attacking = true
+    super.hit(c, strength)
+    img = base.attackImg
+    this += new TickTimer(20, () => {
+      img = base.walk1
+      attacking = false
+      })
+  }
 }
 
 abstract class RangedEnemy(xc: Float, yc: Float, b: EnemyType) extends Enemy(xc, yc, b) with TimerListener {
   def range: Int
   def projType: ProjectileID
-  def shootImg: Drawable
-  def defaultImg: Drawable
+  def shootImg = base.attackImg
+  def defaultImg = base.walk1
 
   cancelAll()
   this += new ConditionalTickTimer(120, () => hit(target, attack), () => ! flying && targetInRange, RepeatForever)
@@ -188,12 +197,27 @@ object Ghost extends EnemyType {
   val walk2 = images(GhostW2ID)
   val knockback = images(GhostKnockbackID)
   val imgs = Array[Drawable](walk1, walk2)
-
+  val attackImg2 = images(GhostWindupID)
+  val attackImg = images(GhostKickID)
   val atkHeight = 5.0f
   val atkWidth = 50.0f
 }
 
 class Ghost(xc: Float, yc: Float) extends Enemy(xc, yc, Ghost) {
+  override def hit(c: Character, strength: Int) {
+    img = Ghost.attackImg2
+    attacking = true
+    this += new TickTimer(30, () => {
+      if (targetInRange()) {
+        super.hit(c, strength)
+      } else {
+        img = base.attackImg
+        Ghost.this += new TickTimer(20, () => {
+          img = base.walk1
+          attacking = false
+          })
+      }})
+  }
 }
 
 object Elsa extends EnemyType {
@@ -205,7 +229,7 @@ object Elsa extends EnemyType {
   val walk1 = images(ElsaID)
   val knockback = images(GhostKnockbackID)  // TODO: fix this...
   val imgs = Array[Drawable](walk1)
-
+  val attackImg = images(ElsaShootID)
   val atkHeight = 5.0f
   val atkWidth = 50.0f
 }
@@ -213,8 +237,6 @@ object Elsa extends EnemyType {
 class Elsa(xc: Float, yc: Float) extends RangedEnemy(xc, yc, Elsa) {
   def range = 400
   def projType = ElsaProj
-  val shootImg = images(ElsaShootID)
-  val defaultImg = images(ElsaID)
 }
 
 object PowerRanger extends EnemyType {
@@ -227,7 +249,7 @@ object PowerRanger extends EnemyType {
   val walk2 = images(PowerRangerW2ID)
   val knockback = images(PowerRangerKnockbackID).copy
   val imgs = Array[Drawable](walk1, walk2)
-
+  val attackImg = images(PowerRangerPunchID)
   val atkHeight = 5.0f
   val atkWidth = 50.0f
 }
