@@ -56,6 +56,8 @@ object GameArea extends Pane(0, HUD.height, Width, Height - HUD.height)(Color.bl
     }
 
     if (thegame.canScroll) {
+      val arrow = images(ScrollArrowID)
+      arrow.draw(Width-1.5f*arrow.width, fenceHeight-1.5f*arrow.height)
     }
   }
 
