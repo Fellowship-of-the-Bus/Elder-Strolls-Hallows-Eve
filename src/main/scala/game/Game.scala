@@ -62,7 +62,7 @@ class Game extends lib.slick2d.game.Game with TimerListener {
   var canScroll = false
   var scrollAmt = 0.0f
   lazy val waveWidth = 3*images(BackgroundID).width/4
-  var remainingScrollAmt = 0.0f
+  var remainingScrollAmt = waveWidth
   def scroll(amt: Float) = {
     if (canScroll) {
       for (player <- players) {
@@ -94,4 +94,6 @@ class Game extends lib.slick2d.game.Game with TimerListener {
       canScroll = true
     }
   }
+
+  spawnWave()
 }
