@@ -14,6 +14,11 @@ case object ElsaProj extends ProjectileID {
   val speed = 3.5f
 }
 
+case object Ketchup extends ProjectileID {
+  val id = IDMap.KetchupID
+  val speed = 5f
+}
+
 class BaseProjectile(val projID: ProjectileID, xc: Float, yc: Float, val attack: Int, dir: Int) extends GameObject(xc, yc){
   def id = projID.id
   def speed() = projID.speed
@@ -61,6 +66,7 @@ object Projectile {
   def apply(projID: ProjectileID, xc: Float, yc: Float, damage: Int, dir: Int, distance: Int = 0): BaseProjectile = {
     projID match {
       case ElsaProj => new TimedProjectile(ElsaProj, xc, yc, damage, dir, distance)
+      case Ketchup => new TimedProjectile(Ketchup, xc, yc, damage, dir, distance)
       case _ => new TimedProjectile(ElsaProj, xc, yc, damage, dir, distance)
     }
   }

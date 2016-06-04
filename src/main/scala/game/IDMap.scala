@@ -41,6 +41,7 @@ object IDMap{
 
   val HotdogW1ID = 230
   val HotdogW2ID = 231
+  val HotdogKnockbackID = 232
 
   val HorseMaskID = 40
 
@@ -51,6 +52,7 @@ object IDMap{
   val ScrollArrowID = 1004
 
   val ElsaShotID = 10000
+  val KetchupID = 10001
 
   val BossFull = 20000
   val BossUncoat = 20001
@@ -94,6 +96,7 @@ object IDMap{
     HorseMaskID -> "img/HorseMask.png",
     HotdogW1ID -> "img/HotdogWalk1.png",
     HotdogW2ID -> "img/HotdogWalk2.png",
+    HotdogKnockbackID -> "img/HotdogKnockback.png",
     BossFull -> "img/BossFull.png",
     BossUncoat -> "img/BossUncoat.png",
     BossUncoatAttack -> "img/BossUncoatAttack.png",
@@ -107,6 +110,7 @@ object IDMap{
     LogoID -> "img/Strolls.png",
     ScrollArrowID -> "img/Arrow.png",
     ElsaShotID -> "img/Elsa_Projectile.png",
+    KetchupID -> "img/Ketchup.png",
     12345 -> Array("img/GameOver.png", "img/FotB-Logo.png")
   )
 

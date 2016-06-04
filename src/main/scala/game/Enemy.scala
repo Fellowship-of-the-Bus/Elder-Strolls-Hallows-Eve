@@ -28,8 +28,9 @@ object HorseMaskOffset {
     images(PowerRangerW1ID) -> ((5,-5)),
     images(PowerRangerW2ID) -> ((5,-4)),
     images(PowerRangerKnockbackID) -> ((40,-10)),
-    images(HotdogW1ID) -> ((0,0)),
-    images(HotdogW2ID) -> ((0,0))
+    images(HotdogW1ID) -> ((4,-18)),
+    images(HotdogW2ID) -> ((-4,-18)),
+    images(HotdogKnockbackID) -> ((0,0))
   )
 }
 
@@ -66,7 +67,7 @@ object Enemy {
   def name() = randInSeq(names)
   def fact() = randInSeq(facts)
 
-  private val enemyKinds = Vector(Ghost, Elsa, PowerRanger)
+  private val enemyKinds = Vector(Ghost, Elsa, PowerRanger, Hotdog)
   def random() = randInSeq(enemyKinds)
 }
 
@@ -255,6 +256,26 @@ object Elsa extends EnemyType {
 class Elsa(xc: Float, yc: Float) extends RangedEnemy(xc, yc, Elsa) {
   def range = 400
   def projType = ElsaProj
+}
+
+object Hotdog extends EnemyType {
+  val id = HotdogW1ID
+  val maxHp = 60
+  val attack = 5
+  val defense = 0
+  val speed = 4
+  val walk1 = images(HotdogW1ID)
+  val walk2 = images(HotdogW2ID)
+  val knockback = images(HotdogKnockbackID)  // TODO: fix this...
+  val imgs = Array[Drawable](walk1, walk2)
+  val attackImg = images(HotdogW1ID)
+  val atkHeight = 5.0f
+  val atkWidth = 50.0f
+}
+
+class Hotdog(xc: Float, yc: Float) extends RangedEnemy(xc, yc, Hotdog) {
+  def range = 600
+  def projType = Ketchup
 }
 
 object PowerRanger extends EnemyType {
