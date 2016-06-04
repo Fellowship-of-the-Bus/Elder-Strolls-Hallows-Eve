@@ -13,6 +13,7 @@ import state.ui.GameArea
 
 class Game extends lib.slick2d.game.Game with TimerListener {
   val maxPlayers = 4
+
   val players = new Array[Player](maxPlayers)
   for (i <- 0 until maxPlayers) {
     players(i) = new IVGuy(0, 0, i)
@@ -95,6 +96,10 @@ class Game extends lib.slick2d.game.Game with TimerListener {
 
     if (! waveTimer.canFire() && ! enemies.exists(_.active)) {
       canScroll = true
+    }
+
+    if (!players.exists(_.active)) { 
+      gameOver()
     }
   }
 

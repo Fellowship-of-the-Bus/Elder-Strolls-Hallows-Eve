@@ -28,7 +28,8 @@ object Battle extends BasicGameState {
     if (game.isGameOver) {
       g.setColor(new Color(255, 0, 0, (0.5 * 255).asInstanceOf[Int]))
       g.fillRect(0, 0, Width, Height)
-      images(GameOverID).draw(0,0)
+      val img = images(GameOverID)
+      img.draw((Width - img.width) / 2, (Height - img.height) / 2)
     }
   }
 

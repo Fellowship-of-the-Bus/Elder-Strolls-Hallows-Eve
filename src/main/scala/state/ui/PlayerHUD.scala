@@ -29,7 +29,8 @@ class PlayerHUD(x: Float, y: Float, width: Float, height: Float, player: Player,
     val hp = new Lifebar(0, 2*height/3, player)
     val facts = new FactBox(0, height, width, 4*height/3, player, color)
 
-    setIsVisible(() => player.active)
+    val wasActive = player.active
+    setIsVisible(() => wasActive)
     addChildren(nameText, colorBox, scoreText, hp, facts)
     super.init(gc, sbg)
   }
