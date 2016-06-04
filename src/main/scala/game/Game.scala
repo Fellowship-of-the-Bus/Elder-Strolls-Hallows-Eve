@@ -38,19 +38,20 @@ class Game extends lib.slick2d.game.Game with TimerListener {
 
   def createEnemy() : Enemy = {
     val t = rand(0, 3)
+    val x = 1400
 
     val enemy = t match {
-      case 0 => new Ghost(1400, 0)
-      case 1 => new Elsa(1400, 0)
-      case 2 => new PowerRanger(1400, 0)
-      case 3 => new HorseMask(1400, 0)
+      case 0 => new Ghost(x, 0)
+      case 1 => new Elsa(x, 0)
+      case 2 => new PowerRanger(x, 0)
+      case 3 => new HorseMask(x, 0)
     }
     enemy.y = rand(GameArea.y.toInt, (GameArea.y + GameArea.height - enemy.height).toInt)
     enemy
   }
 
   def update(gc: GameContainer, game: StateBasedGame, delta: Int) = {
-    super.tick(delta)
+    tick(delta)
     for (e <- enemies; if (e.active)) {
       e.update(delta, this)
     }
