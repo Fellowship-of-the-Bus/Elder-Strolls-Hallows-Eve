@@ -26,32 +26,32 @@ Change we believe in
 Once walked into a Chinese restaurant and made themself dinner
 Last birthday wish was for world peace
 Favorite food: Campus Pizza
-Favorite food: natto
-Favorite food: durian
-Favorite food: dutch candy
-Favorite food: chewing tobacco
-Favorite food: spaghetti
-Favorite food: grilled cheese
-Favorite food: pizza with anchovies
-Favorite food: escargot
-Favorite food: beggin strips
-Favorite food: boiled bread
-Favorite color: chartreuse
-Favorite color: macaroni and cheese
+Favorite food: Natto
+Favorite food: Durian
+Favorite food: Dutch candy
+Favorite food: Chewing tobacco
+Favorite food: Spaghetti
+Favorite food: Grilled cheese
+Favorite food: Pizza with anchovies
+Favorite food: Escargot
+Favorite food: Beggin strips
+Favorite food: Boiled bread
+Favorite color: Chartreuse
+Favorite color: Macaroni and cheese
 Favorite color: #deadbeef
-Favorite color: wenge
-Favorite color: purple
-Favorite animal: caribou
+Favorite color: Wenge
+Favorite color: Purple
+Favorite animal: Caribou
 Favorite animal: Cthulu
-Favorite animal: polecat
-Favorite animal: spider pig
-Favorite animal: okapi
+Favorite animal: Polecat
+Favorite animal: Spider pig
+Favorite animal: Okapi
 Favorite animal: Donald Trump
-Favorite drink: goats milk
+Favorite drink: Goats milk
 Favorite drink: Dr. Pepper
 Favorite drink: Jaeger Bomb
-Favorite drink: mayonnaise
-Favorite drink: cereal milk
+Favorite drink: Mayonnaise
+Favorite drink: Cereal milk
 Favorite drink: Jello shots
 Favorite drink: Creme de menthe
 Favorite rapper: Tupac
@@ -66,13 +66,14 @@ Favorite rapper: Supa Hot Fire
 Favorite rapper: T-Pain
 Favorite rapper: The Fat Slim Shady
 Favorite rapper: Conner 4 Real
+Favorite wrapper: Java Native Interface
 Favorite parent: Mom
 Favorite parent: Grandpa
 Favorite parent: The Godfather
 Favorite parent: Rover
-Favorite game: yahtzee
-Favorite game: bridge
-Favorite game: mahjong
+Favorite game: Yahtzee
+Favorite game: Bridge
+Favorite game: Mahjong
 Favorite game: Dr. Jekyll and Mr. Hyde
 Favorite game: Detective Barbie In the Mystery of the Carnival Caper
 Favorite game: cricket
