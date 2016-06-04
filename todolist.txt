@@ -1,5 +1,3 @@
--sidescrolling
-
 -extra characters / enemies
   -Bertrice (cane and purse)
   -blue, pink, yellow, black, green power rangers
@@ -9,18 +7,12 @@
   -Pokefan (https://netsenshi.files.wordpress.com/2014/06/pokefan.png)
     -attack: throws kid like a boomerang?
 
--horsemask drawing
-
--flesh out current enemies (shoot, animate, etc...)
-
 -flesh out herbert's moveset
   -dodge (e.g. slide holding IV, backflip using IV, polevault using IV)
   -jump? (and jump attacks?)
   -lift IV and slam it down for shockwave AOE damage
   -poledance kick?
   -lift IV and swing like a bat (chargable?)
-
--death animations
 
 -sound
   -enemy specific music?
