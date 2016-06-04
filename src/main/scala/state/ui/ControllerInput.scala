@@ -140,7 +140,7 @@ class ControllerInput(g: game.Game, gc: GameContainer, sbg: StateBasedGame) exte
       case Input.KEY_RIGHT => horizontal += 1
       case Input.KEY_UP => vertical += -1
       case Input.KEY_DOWN => vertical += 1
-
+      case Input.KEY_ESCAPE => sbg.enterState(Mode.MenuID)
       // pause/unpause
       case Input.KEY_P => gc.setPaused(!gc.isPaused)
 
