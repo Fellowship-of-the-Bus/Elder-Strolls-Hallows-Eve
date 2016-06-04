@@ -68,6 +68,9 @@ class Game extends lib.slick2d.game.Game with TimerListener {
       for (player <- players) {
         player.x = clamp(player.x-amt, 0, Width-player.width)
       }
+      for (projectile <- projectiles) {
+        projectile.x -= amt
+      }
       scrollAmt = (scrollAmt + amt) % images(BackgroundID).width
       remainingScrollAmt = clamp(remainingScrollAmt-amt, 0.0f, remainingScrollAmt)
     }

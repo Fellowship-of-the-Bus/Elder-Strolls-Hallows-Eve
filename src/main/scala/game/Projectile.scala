@@ -23,11 +23,14 @@ class BaseProjectile(val projID: ProjectileID, xc: Float, yc: Float, val attack:
     super.update(delta, game)
 
     x = x + direction * speed
-    for (p <- game.players) {
+    for (p <- game.players; if (p.active)) {
       if (p.hitbox.intersect(this)) {
         hit(p, attack)
         inactivate
       }
+    }
+    if (x < -width) {
+      inactivate
     }
     img.update(delta)
   }
