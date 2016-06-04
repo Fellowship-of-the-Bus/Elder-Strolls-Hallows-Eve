@@ -104,4 +104,6 @@ class Game extends lib.slick2d.game.Game with TimerListener {
   }
 
   spawnWave()
+  // enemies = new BossFull(state.ui.GameArea.width/2, 0)::enemies
+  // enemies = new BossUncoat(state.ui.GameArea.width/2, 0)::enemies
 }
