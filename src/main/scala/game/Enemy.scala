@@ -81,7 +81,10 @@ abstract case class Enemy(xc: Float, yc: Float, override val base: EnemyType) ex
   var flying = false
   var attacking = false
 
-  this += new ConditionalTickTimer(60, () => hit(target, attack), () => ! flying && targetInRange, RepeatForever)
+  def attackPoint: Int = 0
+  def backswing: Int = 20
+
+  this += new ConditionalTickTimer(60, () => hit(target, attack), () => ! flying && targetInRange && ! attacking, RepeatForever)
   this += new ConditionalTickTimer(1, move _, () => ! flying && ! targetInRange && ! attacking && alive, RepeatForever)
 
   def distanceToTarget(): (Float, Float) = {
@@ -154,12 +157,16 @@ abstract case class Enemy(xc: Float, yc: Float, override val base: EnemyType) ex
   }
   override def hit(c: Character, strength: Int) {
     attacking = true
-    super.hit(c, strength)
     img = base.attackImg
-    this += new TickTimer(20, () => {
-      img = base.walk1
-      attacking = false
+    this += new TickTimer(attackPoint, () => {
+      if (targetInRange) {
+        super.hit(c, strength)
+      }
+      Enemy.this += new TickTimer(backswing, () => {
+        img = base.walk1
+        attacking = false
       })
+    })
   }
 }
 
@@ -386,9 +393,32 @@ object BossUncoat extends EnemyType {
 }
 
 class BossUncoat(xc: Float, yc: Float)  extends Enemy(xc, yc, BossUncoat) with Boss {
+  val attackDuration = 180
+  var attackProgress = 0
+  override def attackPoint = 2*attackDuration/3
+  override def backswing = attackDuration/3
+  def rotation() = {
+    attackProgress = (attackProgress+1)%attackDuration
+    if (0 <= attackProgress && attackProgress <= attackDuration/3) {
+      30f*attackProgress/(attackDuration/3f)
+    } else if (attackDuration/3 <= attackProgress && attackProgress <= 2*attackDuration/3) {
+      30-120f*(attackProgress-attackDuration/3f)/(attackDuration/3f)
+    } else {
+      -90+90f*(attackProgress-2*attackDuration/3f)/(attackDuration/3f)
+    }
+  }
   override def draw(g: org.newdawn.slick.Graphics, gc: org.newdawn.slick.GameContainer) = {
+    if (attacking) {
+      import BossUncoat.attackImg
+      attackImg.setCenterOfRotation(1*attackImg.width/9,5*attackImg.height/8)
+      attackImg.setRotation(-rotation*direction)
+      img = attackImg
+    } else {
+      img = base.walk1
+      attackProgress = 0
+    }
     super.draw(g, gc)
-    // drawScaledImage(images(BossFullSuperSoakerID), x + width/2 , y + height/2, g)
+
   }
 }
 

@@ -99,7 +99,7 @@ class Game extends lib.slick2d.game.Game with TimerListener {
       canScroll = true
     }
 
-    if (!players.exists(_.active)) { 
+    if (!players.exists(_.active)) {
       gameOver()
     }
   }
