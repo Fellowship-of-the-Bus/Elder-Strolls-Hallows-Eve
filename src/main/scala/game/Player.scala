@@ -212,9 +212,6 @@ class IVGuy(xc: Float, yc: Float, playerNum: Int) extends Player(xc, yc, IVGuys.
         drawScaledImage(currArm, x + (130 * state.ui.GameArea.scaleFactor), y + (240 * state.ui.GameArea.scaleFactor), g)
       }
     }
-    g.setColor(Color.blue)
-    val (x1, y1, x2, y2) = (hitbox.x1, hitbox.y1, hitbox.x2, hitbox.y2)
-    g.drawRect(x1, y1, x2-x1, y2-y1)
   }
 
   override def update(delta: Long, game: Game) = {
