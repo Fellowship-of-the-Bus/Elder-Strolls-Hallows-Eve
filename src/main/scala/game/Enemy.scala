@@ -17,6 +17,20 @@ trait EnemyType extends CharacterType {
   def knockback: Drawable
 }
 
+object HorseMaskOffset {
+  lazy val offset = Map(
+    images(GhostW1ID) -> ((-13-15,-4-10)),
+    images(GhostW2ID) -> ((-1-15,-4-10)),
+    images(GhostKnockbackID) -> ((30,-20)),
+    images(ElsaID) -> ((-15,-6)),
+    images(PowerRangerW1ID) -> ((5,-5)),
+    images(PowerRangerW2ID) -> ((5,-4)),
+    images(PowerRangerKnockbackID) -> ((40,-10)),
+    images(HotdogW1ID) -> ((0,0)),
+    images(HotdogW2ID) -> ((0,0))
+  )
+}
+
 object Enemy {
   private lazy val names = read("data/names.txt")
   private lazy val facts = wordwrap(read("data/true-facts.txt"), 35)
@@ -222,14 +236,19 @@ object HorseMask {
 
   val mask = images(HorseMaskID)
   val imgs = Array[Drawable](mask)
+
 }
 
 class HorseMask(xc: Float, yc: Float) extends Enemy(xc, yc, Enemy.random) {
-  val kind = Enemy.random
   cancelAll()
+  val mask = HorseMask.mask.copy()
+  if (base == Ghost) {
+    mask.scaleFactor *= 1.5f
+  }
   override def draw(g: org.newdawn.slick.Graphics, gc: org.newdawn.slick.GameContainer) = {
     super.draw(g, gc)
-    drawScaledImage(images(HorseMaskID), x, y, g)
+    val (offsetx, offsety): (Int, Int) = HorseMaskOffset.offset.get(img) getOrElse ((0,0))
+    drawScaledImage(mask, x + offsetx, y + offsety, g)
   }
 
   override def update(delta: Long, game: Game) = {
