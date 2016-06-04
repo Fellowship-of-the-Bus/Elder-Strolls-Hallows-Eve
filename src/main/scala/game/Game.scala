@@ -46,7 +46,7 @@ class Game extends lib.slick2d.game.Game with TimerListener {
       case 2 => new PowerRanger(x, 0)
       case 3 => new HorseMask(x, 0)
     }
-    enemy.y = rand(GameArea.y.toInt, (GameArea.fenceHeight + GameArea.height).toInt) - enemy.height
+    enemy.y = rand(GameArea.fenceHeight.toInt, GameArea.height.toInt) - enemy.height
     enemy
   }
 

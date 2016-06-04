@@ -38,7 +38,7 @@ class TimedProjectile(pid: ProjectileID, xc: Float, yc: Float, damage: Int, dir:
   def duration(): Int = {
     (distance / speed).toInt
   }
-  add(new TickTimer(duration, () => inactivate))
+  this += new TickTimer(duration, () => inactivate)
 
   def tickOnce() = {
     if (ticking()) {

@@ -43,7 +43,7 @@ abstract case class Player(xc: Float, yc: Float, override val base: PlayerType) 
   override def move(xamt: Float, yamt: Float) = {
     super.move(xamt, yamt)
     x = clamp(x, 0, Width-width)
-    y = clamp(y, 0, GameArea.height-height)
+    y = clamp(y, GameArea.fenceHeight-height, GameArea.height-height)
   }
 }
 

@@ -130,8 +130,8 @@ abstract class RangedEnemy(xc: Float, yc: Float, b: EnemyType) extends Enemy(xc,
   def projType: ProjectileID
 
   cancelAll()
-  addTimer(new ConditionalTickTimer(120, () => hit(target, attack), () => ! flying && targetInRange, RepeatForever))
-  addTimer(new ConditionalTickTimer(1, move _, () => ! flying, RepeatForever))
+  this += new ConditionalTickTimer(120, () => hit(target, attack), () => ! flying && targetInRange, RepeatForever)
+  this += new ConditionalTickTimer(1, move _, () => ! flying, RepeatForever)
   override def hit(c: Character, strength: Int) = {
     // determine which direction to fire
     var dir = 0
