@@ -52,6 +52,14 @@ object IDMap{
 
   val ElsaShotID = 10000
 
+  val BossFull = 20000
+  val BossUncoat = 20001
+  val BossUncoatAttack = 20002
+  val BossUncoatAttackLeg = 20003
+  val BossUncoatWalk = 20004
+  val BossFullAttack = 20005
+  val BossFullSuperSoaker = 20006
+
   val imageMap = Map(
     IVGuyW1ID -> "img/IVWalk1.png",
     IVGuyW2ID -> "img/IVWalk2.png",
@@ -86,6 +94,13 @@ object IDMap{
     HorseMaskID -> "img/HorseMask.png",
     HotdogW1ID -> "img/HotdogWalk1.png",
     HotdogW2ID -> "img/HotdogWalk2.png",
+    BossFull -> "img/BossFull.png",
+    BossUncoat -> "img/BossUncoat.png",
+    BossUncoatAttack -> "img/BossUncoatAttack.png",
+    BossUncoatAttackLeg -> "img/BossUncoatAttackLeg.png",
+    BossUncoatWalk -> "img/BossUncoatWalk.png",
+    BossFullAttack -> "img/Water.png",
+    BossFullSuperSoaker -> "img/SuperSoaker.png",
     FotBLogoID -> "img/FotB-Logo.png",
     GameOverID -> "img/GameOver.png",
     BackgroundID -> "img/BackGround.png",
