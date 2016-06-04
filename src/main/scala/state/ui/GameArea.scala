@@ -55,8 +55,7 @@ object GameArea extends Pane(0, HUD.height, Width, Height - HUD.height)(Color.bl
       o.draw(g, gc)
     }
 
-    if (thegame.canScoll) {
-
+    if (thegame.canScroll) {
     }
   }
 
