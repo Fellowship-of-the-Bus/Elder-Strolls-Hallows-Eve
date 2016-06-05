@@ -21,7 +21,7 @@ object GameObject {
 
   def hitSound(damage: Int) = {
     if (damage <= 10) hit1
-    else if (damage <= 40) hit2
+    else if (damage <= 20) hit2
     else hit3
   }
 

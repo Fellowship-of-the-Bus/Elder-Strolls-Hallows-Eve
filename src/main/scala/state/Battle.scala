@@ -33,11 +33,27 @@ object Battle extends BasicGameState {
     }
   }
 
+  var thegc : GameContainer = null
+  var thesbg : StateBasedGame = null
   def init(gc: GameContainer, sbg: StateBasedGame) = {
     ui.addChildren(GameArea, HUD)
     ui.setState(getID)
     ui.resetGame(game)
     ui.init(gc, sbg)
+    thegc = gc
+    thesbg = sbg
+  }
+
+  def newGame() = {
+    val pnum = game.players.length
+    game.pause(true)
+    game = new Game
+    println("Game made")
+    GameArea.controller.game = game
+    game.setPlayers(GameArea.controller.controllers.length)
+    ui.resetGame(game)
+    HUD.restart(game)
+
   }
 
   def getID() = Mode.BattleID

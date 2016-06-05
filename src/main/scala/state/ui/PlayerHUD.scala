@@ -17,16 +17,16 @@ object PlayerHUD {
 }
 import PlayerHUD.color
 
-class PlayerHUD(x: Float, y: Float, width: Float, height: Float, player: Player, playerColor: Color) extends Pane(x, y, width, height) {
+class PlayerHUD(x: Float, y: Float, width: Float, height: Float, var player: Player, playerColor: Color) extends Pane(x, y, width, height) {
   override def draw(gc: GameContainer, sbg: StateBasedGame, g: Graphics): Unit = {
     super.draw(gc, sbg, g)
   }
-
+  var hp : Lifebar = null
   override def init(gc: GameContainer, sbg: StateBasedGame) = {
     val nameText = new TextBox(0, 0, width/2, height/3, () => player.name)
     val colorBox = new Pane(width/2, 0, width/2, height/3)(playerColor)
     val scoreText = new TextBox(0, height/3, width, 2*height/3, () => ("Score: " + player.score))
-    val hp = new Lifebar(0, 2*height/3, player)
+    hp = new Lifebar(0, 2*height/3, player)
     val facts = new FactBox(0, height, width, 4*height/3, player, color)
 
     val wasActive = player.active

@@ -10,7 +10,7 @@ import lib.slick2d.ui.{UIElement,AbstractUIElement}
 
 import eshe.game.{GameObject,Character}
 
-class Lifebar(x: Float, y: Float, width: Float, height: Float, obj: Character) extends AbstractUIElement(x, y, width, height) {
+class Lifebar(x: Float, y: Float, width: Float, height: Float, var obj: Character) extends AbstractUIElement(x, y, width, height) {
   def this(x: Float, y: Float, obj: Character) = this(x+2, y, HUD.width/4-2, HUD.height/3, obj)
 
   def draw(gc: GameContainer, sbg: StateBasedGame, g: Graphics): Unit = {

@@ -13,7 +13,7 @@ import game.IDMap._
 
 class ControllerInput(g: game.Game, gc: GameContainer, sbg: StateBasedGame) extends InputAdapter() {
   var input : Input = null
-  val game = g
+  var game = g
 
   import lib.game.GameConfig.{OS,MacOS,Windows}
   lazy val BUTTON_A = OS match {
@@ -64,7 +64,7 @@ class ControllerInput(g: game.Game, gc: GameContainer, sbg: StateBasedGame) exte
     case MacOS => 10
     case _ => 0
   }
-  private var controllers: Vector[(Int, Int)] = Vector()
+  var controllers: Vector[(Int, Int)] = Vector()
   override def setInput(in: Input) = {
     in.addControllerListener(this)
     input = in
@@ -89,6 +89,7 @@ class ControllerInput(g: game.Game, gc: GameContainer, sbg: StateBasedGame) exte
     }
     else if (button == BUTTON_BACK) {
       sbg.enterState(Mode.MenuID)
+      Battle.newGame()
     }
     if (!gc.isPaused) {
       if (sbg.getCurrentStateID == Mode.MenuID) {
