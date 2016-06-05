@@ -102,7 +102,8 @@ abstract case class Enemy(xc: Float, yc: Float, waveNum: Int, override val base:
     if (target == null || ! target.active) false
     else {
       val (xVec, yVec) = distanceToTarget
-      xVec > -100 && xVec < 100 && yVec > -100 && yVec < 100
+      xVec > -(target.hitbox.x2-target.hitbox.x1 + width)/2 && xVec < (target.hitbox.x2-target.hitbox.x1 + width)/2 && 
+      yVec > -(target.hitbox.y2-target.hitbox.y1 + height)/2 && yVec < (target.hitbox.y2-target.hitbox.y1 + height)/2
     }
   }
 
@@ -410,7 +411,7 @@ class BossFull(xc: Float, yc: Float, waveNum: Int)  extends RangedEnemy(xc, yc, 
     if (canBurstShoot) {
       super.hit(c, strength)
       if (!burstTimer.ticking) {
-        burstTimer += new TickTimer(120, () => canBurstShoot = false)
+        burstTimer += new TickTimer(180, () => canBurstShoot = false)
       }
     } else {
       if (!burstTimer.ticking) {

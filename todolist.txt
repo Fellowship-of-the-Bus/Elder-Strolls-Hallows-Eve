@@ -39,5 +39,5 @@ All Todo
 -fix bugs (99 bugs on the wall, take one down, pass it around, 117 bugs on the wall)
 
 	boss second stage too large?
-	player hitbo needs to be higher, and enemies can't hit from behind
+	enemies can't hit the player from behind
 

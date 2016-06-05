@@ -62,7 +62,7 @@ class Game extends lib.slick2d.game.Game with TimerListener {
     def apply(): Unit = {
       waveNum += 1
       waveNum match {
-        case 5 => waveTimer = new TickTimer(60, () => enemies = new BossFull(state.ui.GameArea.width*4f/5, state.ui.GameArea.height/2, waveNum)::enemies)
+        case 1 => waveTimer = new TickTimer(60, () => enemies = new BossFull(state.ui.GameArea.width*4f/5, state.ui.GameArea.height/2, waveNum)::enemies)
         case 6 => {
           waveTimer = new TickTimer(hordeSpawnInterval, () => enemies = createEnemy(waveNum) :: enemies, FireN(hordeSpawnNum))
           Game.this += new TickTimer(hordeSpawnInterval, () => {
