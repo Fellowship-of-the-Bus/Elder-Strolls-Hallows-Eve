@@ -52,7 +52,6 @@ abstract class Character(xc: Float, yc: Float, val base: CharacterType) extends 
   var index = 0
 
   def getTargets(x1: Float, y1: Float, x2: Float, y2: Float, enemy: Boolean, game: Game) = {
-    val tolerance: Float = 20.0f
     var inrange: List[Character] = List()
     val targets =
       if (enemy) game.players.toList

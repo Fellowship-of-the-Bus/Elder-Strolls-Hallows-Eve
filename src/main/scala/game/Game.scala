@@ -37,25 +37,31 @@ class Game extends lib.slick2d.game.Game with TimerListener {
 
   object spawnWave {
     var waveNum = 0
+    var hordeSpawnInterval = 90
+    var hordeSpawnNum = 1
 
     def numEnemy() = {
-      if (waveNum < 6)
-        waveNum + 2*players.filter(_.active).length
-      else {
-        1000
-      }
+      waveNum + 2*players.filter(_.active).length
     }
     def numHorseMask() = {
       rand((waveNum/2).toInt, waveNum)*players.filter(_.active).length + 1
     }
     def interval() = {
-      if (waveNum < 6) 60
-      else 1
+      60
     }
-    def apply() = {
+    def apply(): Unit = {
       waveNum += 1
       waveNum match {
         case 1 => waveTimer = new TickTimer(60, () => enemies = new BossFull(state.ui.GameArea.width*4f/5, state.ui.GameArea.height/2)::enemies)
+        case 6 => {
+          waveTimer = new TickTimer(hordeSpawnInterval, () => enemies = createEnemy :: enemies, FireN(hordeSpawnNum))
+          Game.this += new TickTimer(hordeSpawnInterval, () => {
+            waveNum = 5
+            hordeSpawnInterval = math.max(hordeSpawnInterval-1,0)
+            hordeSpawnNum += 1
+            spawnWave()
+          })
+        }
         case _ => {
           waveTimer = new TickTimer(interval, () => enemies = createEnemy :: enemies, FireN(numEnemy))
           Game.this += new TickTimer(120, () => enemies = createHorseMask :: enemies, FireN(numHorseMask))
@@ -68,7 +74,6 @@ class Game extends lib.slick2d.game.Game with TimerListener {
   var projectiles = List[BaseProjectile]()
   var enemies = List[Enemy]()
 
-  private var numSpawns = 0
   def cleanup() = {
     enemies = enemies.filter(_.active)
     projectiles = projectiles.filter(_.active)

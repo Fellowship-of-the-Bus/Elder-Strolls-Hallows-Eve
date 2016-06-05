@@ -97,10 +97,10 @@ class ControllerInput(g: game.Game, gc: GameContainer, sbg: StateBasedGame) exte
         }
       } else {
         if (button == BUTTON_A) {
-          game.players(controller).tryAttack(game)
+          if (game.players(controller).active) game.players(controller).tryAttack(game)
         } else if (button == BUTTON_B) {
           if (game.players(controller).imgs.indexOf(game.players(controller).img) != -1) {
-            game.players(controller).tryAttack2(game)
+            if (game.players(controller).active) game.players(controller).tryAttack2(game)
           }
         }
       }
@@ -120,13 +120,13 @@ class ControllerInput(g: game.Game, gc: GameContainer, sbg: StateBasedGame) exte
     if (!gc.isPaused) {
       for ((cnum,pnum) <- controllers) {
         val p = game.players(pnum)
-        p.move(p.speed*input.getAxisValue(cnum,AXIS_X),p.speed*input.getAxisValue(cnum,AXIS_Y))
+        if (p.active) p.move(p.speed*input.getAxisValue(cnum,AXIS_X),p.speed*input.getAxisValue(cnum,AXIS_Y))
       }
 
       if (controllers.length == 0) {
         // support single player if there are no controllers attached
         val p = game.players(0)
-        p.move(p.speed*horizontal, p.speed*vertical)
+        if (p.active) p.move(p.speed*horizontal, p.speed*vertical)
       }
     }
   }
@@ -155,7 +155,7 @@ class ControllerInput(g: game.Game, gc: GameContainer, sbg: StateBasedGame) exte
           if (sbg.getCurrentStateID == Mode.MenuID) {
             sbg.enterState(Mode.BattleID)
           } else {
-            player.tryAttack(game)
+            if (player.active) player.tryAttack(game)
           }
 
         // kick/cancel button
@@ -163,7 +163,7 @@ class ControllerInput(g: game.Game, gc: GameContainer, sbg: StateBasedGame) exte
           if (sbg.getCurrentStateID == Mode.MenuID) {
             System.exit(0)
           } else if (player.imgs.contains(player.img)) {
-            player.tryAttack2(game)
+            if (player.active) player.tryAttack2(game)
           }
 
         case _ => ()
