@@ -482,6 +482,7 @@ trait Boss extends Enemy {
         val game = state.Battle.game
         for (player <- game.players.filter(_.active)) {
           player.heal(1f)
+
         }
         game.spawnWave()
       }

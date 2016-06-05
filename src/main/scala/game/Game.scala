@@ -49,7 +49,7 @@ class Game extends lib.slick2d.game.Game with TimerListener {
     var waveNum = 0
     var hordeSpawnInterval = 90
     var hordeSpawnNum = 1
-    val BossWave = 1
+    val BossWave = 5
 
     def numEnemy() = {
       waveNum + 2*players.filter(_.active).length
@@ -95,7 +95,7 @@ class Game extends lib.slick2d.game.Game with TimerListener {
     val enemy =  t match {
       case 0 => new Ghost(0, 0, waveNum)
       case 1 => new Elsa(0, 0, waveNum)
-      case 2 => 
+      case 2 =>
         new PowerRanger(0, 0, waveNum,
           (rand(6)) match {
             case 0 => PowerRanger
