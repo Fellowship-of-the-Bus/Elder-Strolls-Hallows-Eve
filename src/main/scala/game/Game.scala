@@ -11,6 +11,11 @@ import lib.math.clamp
 
 import state.ui.GameArea
 
+object Game {
+  def spawnX = GameArea.width
+  def spawnY(height: Float) = rand(GameArea.fenceHeight.toInt, GameArea.height.toInt) - height
+}
+
 class Game extends lib.slick2d.game.Game with TimerListener {
   val maxPlayers = 4
 
@@ -48,7 +53,7 @@ class Game extends lib.slick2d.game.Game with TimerListener {
 
   def createEnemy() : Enemy = {
     val t = rand(0, 4)
-    val x = GameArea.width
+    val x = Game.spawnX
 
     val enemy =  t match {
       case 0 => new Ghost(x, 0)
@@ -57,7 +62,7 @@ class Game extends lib.slick2d.game.Game with TimerListener {
       case 3 => new Hotdog(x, 0)
       case 4 => new HorseMask(x, 0)
     }
-    enemy.y = rand(GameArea.fenceHeight.toInt, GameArea.height.toInt) - enemy.height
+    enemy.y = Game.spawnY(enemy.height)
     enemy
   }
 

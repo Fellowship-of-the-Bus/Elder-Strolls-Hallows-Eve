@@ -63,12 +63,11 @@ object Enemy {
     lst
   }
 
-  def randInSeq[T](s: Seq[T]): T = s(rand(s.length))
-  def name() = randInSeq(names)
-  def fact() = randInSeq(facts)
+  def name() = rand(names)
+  def fact() = rand(facts)
 
   private val enemyKinds = Vector(Ghost, Elsa, PowerRanger, Hotdog)
-  def random() = randInSeq(enemyKinds)
+  def random() = rand(enemyKinds)
 }
 
 abstract case class Enemy(xc: Float, yc: Float, override val base: EnemyType) extends game.Character(xc, yc, base) with TimerListener {
@@ -114,10 +113,10 @@ abstract case class Enemy(xc: Float, yc: Float, override val base: EnemyType) ex
   var target: Player = null
   override def update(delta: Long, game: Game) = {
     super.update(delta, game)
-    super.tick(delta)  // for timers
+    tick(delta)  // for timers
 
     if (target == null || ! target.active) {
-      target = Enemy.randInSeq(game.players)
+      target = rand(game.players)
     }
   }
 
