@@ -6,8 +6,10 @@ import IDMap._
 import java.util.Scanner
 import java.io.File
 
+import org.newdawn.slick.{GameContainer, Graphics, Color}
+
 import lib.game.GameConfig.{Width}
-import lib.slick2d.ui.{Drawable}
+import lib.slick2d.ui.{Drawable, SomeColor, NoColor}
 import lib.util.{TickTimer,TimerListener,FireN,RepeatForever,ConditionalTickTimer,rand}
 import lib.math.{sqrt, clamp}
 
@@ -455,6 +457,8 @@ class BossUncoat(xc: Float, yc: Float)  extends Enemy(xc, yc, BossUncoat) with B
   val windup = 1f/2
   val swing = 1f/4
   val recovery = 1f/4
+
+  val leg = images(BossUncoatAttackLegID).copy
   override def draw(g: org.newdawn.slick.Graphics, gc: org.newdawn.slick.GameContainer) = {
     import BossUncoat.attackImg
     if (attacking) {
@@ -464,7 +468,8 @@ class BossUncoat(xc: Float, yc: Float)  extends Enemy(xc, yc, BossUncoat) with B
       val rot = rotation
       attackImg.setRotation(-rot*direction)
       img = attackImg
-      images(BossUncoatAttackLegID).draw(x+xrot,y+yrot, direction != GameObject.Left)
+      val filter = if (isHurt) (if (alive) SomeColor(Color.red) else SomeColor(Color.transparent)) else NoColor
+      leg.draw(x+xrot,y+yrot, direction != GameObject.Left, false, filter)
     } else {
       img = base.walk1
       attackProgress = 0
@@ -570,7 +575,7 @@ class BossFinal(xc: Float, yc: Float)  extends Enemy(xc, yc, BossFinal) with Bos
       attackProgress = 0
       armImage.setRotation(0)
     }
-    armImage.draw(x+(if (direction == GameObject.Left) armImage.width/2+5 else base.walk1.width-3*armImage.width/2-10),y, direction == GameObject.Left)
+    drawScaledImage(armImage,x+(if (direction == GameObject.Left) armImage.width/2+5 else base.walk1.width-3*armImage.width/2-10), y, g)
     super.draw(g, gc)
   }
 }
