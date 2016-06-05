@@ -649,7 +649,11 @@ class BossCellphone(xc: Float, yc: Float, waveNum: Int)  extends Enemy(xc, yc, w
   this += new ConditionalTickTimer(1, move _, () => alive, RepeatForever)
   var sound = BossSFX.default
 
+  val extraSpawnTimer = new TimerListener{}
+
   override def hit(c: Character, strength: Int) = {
+    extraSpawnTimer.cancelAll
+
     import BossSFX._
     val spawner = BossSFX.random
     sound = spawner.music
@@ -660,9 +664,16 @@ class BossCellphone(xc: Float, yc: Float, waveNum: Int)  extends Enemy(xc, yc, w
       tarY = Game.spawnY(height).toInt
       dancing = false
       reached = false
-      val enemies = spawner()
-      import state.Battle
-      Battle.game.enemies = Battle.game.enemies ++ enemies
+
+      def spawnEnemies() = {
+        val enemies = spawner()
+        import state.Battle
+        Battle.game.enemies = Battle.game.enemies ++ enemies
+      }
+      spawnEnemies()
+      extraSpawnTimer += new ConditionalTickTimer(4*60, () => {
+        spawnEnemies()
+      }, () => sound.playing, RepeatForever)
     })
     attacking = true
     img = base.attackImg
@@ -710,6 +721,16 @@ class BossCellphone(xc: Float, yc: Float, waveNum: Int)  extends Enemy(xc, yc, w
     } else {
       sound.resume
     }
+  }
+
+  override def die() = {
+    super.die()
+    extraSpawnTimer.cancelAll()
+  }
+
+  override def update(delta: Long, game: Game) = {
+    super.update(delta, game)
+    extraSpawnTimer.tick(delta)
   }
 }
 
