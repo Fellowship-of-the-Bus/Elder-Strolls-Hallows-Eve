@@ -49,9 +49,10 @@ abstract class GameObject(xc: Float, yc: Float) extends lib.game.TopLeftCoordina
   }
 
   def hit(c: Character, strength: Int) = {
-    c.hurtTimer.cancelAll()
-    c.isHurt = false
-    c.hurtTimer += new TickTimer(15, () => c.isHurt = ! c.isHurt, FireN(6))
+    if (!c.hurtTimer.ticking()) {
+      c.isHurt = false
+      c.hurtTimer += new TickTimer(15, () => c.isHurt = ! c.isHurt, FireN(6))
+    }
 
     val damage = strength // - c.defense // ignore defense for now
     c.hp = c.hp - damage
