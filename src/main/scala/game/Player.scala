@@ -21,6 +21,8 @@ trait PlayerType extends CharacterType {
   val jumpImage: Drawable
   val dodgeImage: Drawable
   def dodgeSpeed: Float
+  def attack1Damage: Int
+  def attack2Damage: Int
 }
 
 abstract case class Player(xc: Float, yc: Float, override val base: PlayerType) extends game.Character(xc, yc, base) {
@@ -44,11 +46,11 @@ abstract case class Player(xc: Float, yc: Float, override val base: PlayerType) 
 
   var score = 0
 
-  override def hitbox = Rect(x, y + height/2, x + width, y + height)
+  override def hitbox = Rect(x, y + 4*height/9, x + width, y + height)
 
   override def hit(c: Character, strength: Int) = {
     val damage = strength
-    score += damage
+    score += damage * c.scoreVal
     super.hit(c, strength)
     c match {
       case e: Enemy => e.knockback(direction * damage * 5)
@@ -94,6 +96,9 @@ object IVGuy extends PlayerType {
   val atkWidth = 60.0f
 
   val atkHeight2 = 390.0f
+
+  val attack1Damage = 15
+  val attack2Damage = 40
 }
 
 object IVGuy2 extends PlayerType {
@@ -115,6 +120,9 @@ object IVGuy2 extends PlayerType {
 
   val atkHeight = IVGuy.atkHeight
   val atkWidth = IVGuy.atkWidth
+
+  val attack1Damage = IVGuy.attack1Damage
+  val attack2Damage = IVGuy.attack2Damage
 }
 
 object IVGuy3 extends PlayerType {
@@ -136,6 +144,9 @@ object IVGuy3 extends PlayerType {
 
   val atkHeight = IVGuy.atkHeight
   val atkWidth = IVGuy.atkWidth
+
+  val attack1Damage = IVGuy.attack1Damage
+  val attack2Damage = IVGuy.attack2Damage
 }
 
 object IVGuy4 extends PlayerType {
@@ -157,6 +168,9 @@ object IVGuy4 extends PlayerType {
 
   val atkHeight = IVGuy.atkHeight
   val atkWidth = IVGuy.atkWidth
+
+  val attack1Damage = IVGuy.attack1Damage
+  val attack2Damage = IVGuy.attack2Damage
 }
 
 class IVGuy(xc: Float, yc: Float, playerNum: Int) extends Player(xc, yc, IVGuys.guys(playerNum)) {
@@ -169,13 +183,14 @@ class IVGuy(xc: Float, yc: Float, playerNum: Int) extends Player(xc, yc, IVGuys.
   val kick = guy.kickImage.copy
   val jump = guy.jumpImage.copy
   val dodge = guy.dodgeImage.copy
-//  val kick = images(IVGuyKickID).copy
-//  val jump = images(IVGuyJumpID).copy
   var currArm = armDefault
   var time = 0
 
   val action = new TimerListener {}
   val movement = new TimerListener {}
+
+  val attack1Damage = guy.attack1Damage
+  val attack2Damage = guy.attack2Damage
 
   override def tryAttack(game: Game) = {
     // only one action at a time
@@ -197,7 +212,7 @@ class IVGuy(xc: Float, yc: Float, playerNum: Int) extends Player(xc, yc, IVGuys.
     val y1 = y + (40 + 240) * scale
     val targs = getTargets(x1, y1, x1 + (170 + 40) * scale * direction, y1 + 90 * scale, false, game)
     for (t <- targs){
-      hit(t, attack)
+      hit(t, attack1Damage)
     }
   }
   override def tryAttack2(game: Game) = {
@@ -217,7 +232,7 @@ class IVGuy(xc: Float, yc: Float, playerNum: Int) extends Player(xc, yc, IVGuys.
       val y1 = y + (atkHeight2* state.ui.GameArea.scaleFactor)
       val targs = getTargets(x1, y1, x1 - (310 * state.ui.GameArea.scaleFactor),y1 + (170 * state.ui.GameArea.scaleFactor), false, game)
       for (t <- targs) {
-        hit(t, attack * 2)
+        hit(t, attack2Damage)
       }
     }
 

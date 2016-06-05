@@ -114,4 +114,6 @@ abstract class GameObject(xc: Float, yc: Float) extends lib.game.TopLeftCoordina
   }
 
   def pause(isPaused: Boolean) = ()
+
+  def scoreVal: Int = 0
 }
