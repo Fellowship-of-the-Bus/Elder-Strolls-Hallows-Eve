@@ -381,6 +381,9 @@ class BossFull(xc: Float, yc: Float)  extends RangedEnemy(xc, yc, BossFull) with
   def nextStage: Enemy = {
     new BossUncoat(x,y)
   }
+  var canBurstShoot = true
+
+  val burstTimer = new TimerListener {}
 
   lazy val soaker = images(BossFullSuperSoakerID)
   def offsetx = if (direction == GameObject.Left) -soaker.width/2 else soaker.width/2-25
@@ -389,6 +392,19 @@ class BossFull(xc: Float, yc: Float)  extends RangedEnemy(xc, yc, BossFull) with
   override def draw(g: org.newdawn.slick.Graphics, gc: org.newdawn.slick.GameContainer) = {
     super.draw(g, gc)
     drawScaledImage(soaker, x + width/2 - soaker.width/2, y + height/2 - soaker.height/2, g)
+  }
+  override def hit(c:Character, strength: Int) {
+    burstTimer.tick(1)
+    if (canBurstShoot) {
+      super.hit(c, strength)
+      if (!burstTimer.ticking) {
+        burstTimer += new TickTimer(120, () => canBurstShoot = false)
+      }
+    } else {
+      if (!burstTimer.ticking) {
+        burstTimer += new TickTimer(120, () => canBurstShoot = true)
+      }
+    }
   }
 }
 
