@@ -108,8 +108,9 @@ abstract case class Enemy(xc: Float, yc: Float, waveNum: Int, override val base:
 
   def distanceToTarget(): (Float, Float) = {
     val box = target.hitbox
-    val xVec = (box.x1 + (box.x2 - box.x1) / 2) - (x + width / 2)
-    val yVec = (box.y1 + (box.y2 - box.y1) / 2) - (y + height / 2)
+    val mybox = hitbox
+    val xVec = (box.x1 + (box.x2 - box.x1) / 2) - (mybox.x1 + (mybox.x2 - mybox.x1) / 2)
+    val yVec = (box.y1 + (box.y2 - box.y1) / 2) - (mybox.y1 + (mybox.y2 - mybox.y1) / 2)
     (xVec, yVec)
   }
 
@@ -117,6 +118,9 @@ abstract case class Enemy(xc: Float, yc: Float, waveNum: Int, override val base:
     if (target == null || ! target.active) false
     else {
       val (xVec, yVec) = distanceToTarget
+      val mybox = hitbox
+      val width = mybox.x2-mybox.x1
+      val height = mybox.y2-mybox.y1
       xVec > -(target.hitbox.x2-target.hitbox.x1 + width)/2 && xVec < (target.hitbox.x2-target.hitbox.x1 + width)/2 &&
       yVec > -(target.hitbox.y2-target.hitbox.y1 + height)/2 && yVec < (target.hitbox.y2-target.hitbox.y1 + height)/2
     }
@@ -593,6 +597,18 @@ class BossUncoat(xc: Float, yc: Float, waveNum: Int)  extends Enemy(xc, yc, wave
   val swing = 1f/4
   val recovery = 1f/4
 
+  override def targetInRange(): Boolean = {
+    val isAttacking = attacking
+    attacking = true
+    val bool = super.targetInRange()
+    attacking = isAttacking
+    bool
+  }
+
+  override def hitbox = {
+    if (attacking) lib.math.Rect(x+(if(direction == GameObject.Left) -height+width else 0), y+height-width, x+(if (direction == GameObject.Left) width else height), y+height) else super.hitbox
+  }
+
   val leg = images(BossUncoatAttackLegID).copy
   override def draw(g: org.newdawn.slick.Graphics, gc: org.newdawn.slick.GameContainer) = {
     import BossUncoat.attackImg
@@ -613,6 +629,7 @@ class BossUncoat(xc: Float, yc: Float, waveNum: Int)  extends Enemy(xc, yc, wave
       attackImg.setRotation(0)
     }
     super.draw(g, gc)
+    g.drawRect(hitbox.x1, hitbox.y1, hitbox.x2-hitbox.x1, hitbox.y2-hitbox.y1)
   }
 }
 
