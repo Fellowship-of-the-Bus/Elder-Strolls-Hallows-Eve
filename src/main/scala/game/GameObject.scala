@@ -2,11 +2,11 @@ package com.github.fellowship_of_the_bus
 package eshe
 package game
 
-import org.newdawn.slick.{GameContainer, Graphics, Color}
+import org.newdawn.slick.{GameContainer, Graphics, Color, Sound}
 
 import lib.game.GameConfig.{Width}
 import lib.slick2d.ui.{Drawable, SomeColor, NoColor}
-import lib.util.{TickTimer, FireN}
+import lib.util.{TickTimer, FireN, rand}
 import lib.math.clamp
 
 import state.ui.PlayerListener
@@ -15,6 +15,16 @@ import IDMap._
 object GameObject {
   val Left = -1
   val Right = 1
+  val hit1 = new Sound("sfx/hit1.wav")
+  val hit2 = new Sound("sfx/hit2.wav")
+  val hit3 = new Sound("sfx/hit3.wav")
+
+  def hitSound(damage: Int) = {
+    if (damage <= 10) hit1
+    else if (damage <= 40) hit2
+    else hit3
+  }
+
 }
 
 abstract class GameObject(xc: Float, yc: Float) extends lib.game.TopLeftCoordinates {
@@ -55,6 +65,7 @@ abstract class GameObject(xc: Float, yc: Float) extends lib.game.TopLeftCoordina
       }
       case _ => {}
     }
+    GameObject.hitSound(strength).play
     if (!c.hurtTimer.ticking()) {
       c.isHurt = false
       c.hurtTimer += new TickTimer(15, () => c.isHurt = ! c.isHurt, FireN(6))
@@ -103,4 +114,6 @@ abstract class GameObject(xc: Float, yc: Float) extends lib.game.TopLeftCoordina
   }
 
   def pause(isPaused: Boolean) = ()
+
+  def scoreVal: Int = 0
 }

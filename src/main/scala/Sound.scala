@@ -6,6 +6,7 @@ import org.newdawn.slick.Music
 import lib.util.{rand,openFileAsStream}
 
 import game._
+import state.ui.GameArea
 
 object BossSFX {
   def makeMusic(name: String) = {
@@ -34,6 +35,7 @@ object BossSFX {
   val ghost3 = makeMusic("ghost3")
 
   trait Spawner[EnemyKind <: Enemy] {
+    def isHorse = false
     def musicList: Seq[Music]
     var curMusic = 0
     def music: Music = {
@@ -43,7 +45,8 @@ object BossSFX {
     def apply(): List[EnemyKind]
     def apply(x: Float, y: Float): EnemyKind
     def spawnRandomly(n: Int): List[EnemyKind] = List.fill(n)({
-      val enemy = apply(Game.spawnX, 0)
+      val enemy = apply(0, 0)
+      enemy.x = Game.spawnX(enemy.width, isHorse)
       enemy.y = Game.spawnY(enemy.height)
       enemy
     })
@@ -51,31 +54,39 @@ object BossSFX {
 
   object GhostSpawner extends Spawner[Ghost] {
     val musicList = Vector(ghost1, ghost2, ghost3)
-    def apply(x: Float, y: Float) = new Ghost(x, y)
+    def apply(x: Float, y: Float) = new Ghost(x, y, 0)
     def apply() = spawnRandomly(3)
   }
 
   object ElsaSpawner extends Spawner[Elsa] {
     val musicList = Vector(elsa1, elsa2, elsa3)
-    def apply(x: Float, y: Float) = new Elsa(x, y)
+    def apply(x: Float, y: Float) = new Elsa(x, y, 0)
     def apply() = spawnRandomly(4)
   }
 
   object PowerRangerSpawner extends Spawner[PowerRanger] {
     val musicList = Vector(powerRanger1, powerRanger2, powerRanger3)
-    def apply(x: Float, y: Float) = new PowerRanger(x, y)
-    def apply() = spawnRandomly(5)
+    private val rangerTypes = List(PowerRanger, PowerRangerBlue, PowerRangerGreen, PowerRangerYellow, PowerRangerPink, PowerRangerBlack)
+
+    def apply(x: Float, y: Float) = new PowerRanger(x, y, 0, rand(rangerTypes))
+    def apply() = rangerTypes.map(x => {
+      val enemy = new PowerRanger(0, 0, 0, x)
+      enemy.x = Game.spawnX(enemy.width, false)
+      enemy.y = Game.spawnY(enemy.height)
+      enemy
+    })
   }
 
   object HotdogSpawner extends Spawner[Hotdog] {
     val musicList = Vector(hotdog1, hotdog2, hotdog3)
-    def apply(x: Float, y: Float) = new Hotdog(x, y)
+    def apply(x: Float, y: Float) = new Hotdog(x, y, 0)
     def apply() = spawnRandomly(2)
   }
 
   object HorseMaskSpawner extends Spawner[HorseMask] {
+    override def isHorse = true
     val musicList = Vector(horseMask1, horseMask2, horseMask3)
-    def apply(x: Float, y: Float) = new HorseMask(x, y)
+    def apply(x: Float, y: Float) = new HorseMask(x, y, 0)
     def apply() = spawnRandomly(20)
   }
 

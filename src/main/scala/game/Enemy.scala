@@ -19,6 +19,7 @@ trait EnemyType extends CharacterType {
   def knockback: Drawable
   def attackImg: Drawable
   def walk1: Drawable
+  def scoreVal: Int
 }
 
 object HorseMaskOffset {
@@ -87,10 +88,12 @@ object Enemy {
   def random() = rand(enemyKinds)
 }
 
-abstract case class Enemy(xc: Float, yc: Float, override val base: EnemyType) extends game.Character(xc, yc, base) with TimerListener {
+abstract case class Enemy(xc: Float, yc: Float, waveNum: Int, override val base: EnemyType) extends game.Character(xc, yc, base) with TimerListener {
   val age: Int = rand(6, 12)
 
   val knockback = base.knockback.copy
+
+  override def scoreVal = waveNum * base.scoreVal
 
   val name = Enemy.name
   val fact = Enemy.fact
@@ -114,7 +117,8 @@ abstract case class Enemy(xc: Float, yc: Float, override val base: EnemyType) ex
     if (target == null || ! target.active) false
     else {
       val (xVec, yVec) = distanceToTarget
-      xVec > -100 && xVec < 100 && yVec > -100 && yVec < 100
+      xVec > -(target.hitbox.x2-target.hitbox.x1 + width)/2 && xVec < (target.hitbox.x2-target.hitbox.x1 + width)/2 && 
+      yVec > -(target.hitbox.y2-target.hitbox.y1 + height)/2 && yVec < (target.hitbox.y2-target.hitbox.y1 + height)/2
     }
   }
 
@@ -186,7 +190,7 @@ abstract case class Enemy(xc: Float, yc: Float, override val base: EnemyType) ex
   }
 }
 
-abstract class RangedEnemy(xc: Float, yc: Float, b: EnemyType) extends Enemy(xc, yc, b) with TimerListener {
+abstract class RangedEnemy(xc: Float, yc: Float, waveNum: Int, b: EnemyType) extends Enemy(xc, yc, waveNum, b) with TimerListener {
   def range: Int
   def projType: ProjectileID
   def shootImg = base.attackImg
@@ -245,9 +249,10 @@ object Ghost extends EnemyType {
   val attackImg = images(GhostKickID)
   val atkHeight = 5.0f
   val atkWidth = 50.0f
+  val scoreVal = 1
 }
 
-class Ghost(xc: Float, yc: Float) extends Enemy(xc, yc, Ghost) {
+class Ghost(xc: Float, yc: Float, waveNum: Int) extends Enemy(xc, yc, waveNum, Ghost) {
   override def hit(c: Character, strength: Int) {
     img = Ghost.attackImg2
     attacking = true
@@ -276,9 +281,10 @@ object Elsa extends EnemyType {
   val attackImg = images(ElsaShootID)
   val atkHeight = 5.0f
   val atkWidth = 50.0f
+  val scoreVal = 1
 }
 
-class Elsa(xc: Float, yc: Float) extends RangedEnemy(xc, yc, Elsa) {
+class Elsa(xc: Float, yc: Float, waveNum: Int) extends RangedEnemy(xc, yc, waveNum, Elsa) {
   def range = 400
   def projType = ElsaProj
   def shootSpeed = 120
@@ -299,9 +305,10 @@ object Hotdog extends EnemyType {
   val attackImg = images(HotdogW1ID)
   val atkHeight = 5.0f
   val atkWidth = 50.0f
+  val scoreVal = 2
 }
 
-class Hotdog(xc: Float, yc: Float) extends RangedEnemy(xc, yc, Hotdog) {
+class Hotdog(xc: Float, yc: Float, waveNum: Int) extends RangedEnemy(xc, yc, waveNum, Hotdog) {
   def range = 600
   def projType = Ketchup
   def shootSpeed = 180
@@ -317,6 +324,7 @@ object PowerRangerCommon {
   val speed = 3
   val atkHeight = 5.0f
   val atkWidth = 50.0f
+  val scoreVal = 3
 }
 
 object PowerRanger extends EnemyType {
@@ -332,6 +340,7 @@ object PowerRanger extends EnemyType {
   val knockback = images(PowerRangerKnockbackID).copy
   val imgs = Array[Drawable](walk1, walk2)
   val attackImg = images(PowerRangerPunchID)
+  val scoreVal = PowerRangerCommon.scoreVal
 }
 
 object PowerRangerBlue extends EnemyType {
@@ -347,6 +356,7 @@ object PowerRangerBlue extends EnemyType {
   val knockback = images(PowerRangerKnockbackBlueID).copy
   val imgs = Array[Drawable](walk1, walk2)
   val attackImg = images(PowerRangerPunchBlueID)
+  val scoreVal = PowerRangerCommon.scoreVal
 }
 
 object PowerRangerGreen extends EnemyType {
@@ -362,6 +372,7 @@ object PowerRangerGreen extends EnemyType {
   val knockback = images(PowerRangerKnockbackGreenID).copy
   val imgs = Array[Drawable](walk1, walk2)
   val attackImg = images(PowerRangerPunchGreenID)
+  val scoreVal = PowerRangerCommon.scoreVal
 }
 
 object PowerRangerYellow extends EnemyType {
@@ -377,6 +388,7 @@ object PowerRangerYellow extends EnemyType {
   val knockback = images(PowerRangerKnockbackYellowID).copy
   val imgs = Array[Drawable](walk1, walk2)
   val attackImg = images(PowerRangerPunchYellowID)
+  val scoreVal = PowerRangerCommon.scoreVal
 }
 
 object PowerRangerPink extends EnemyType {
@@ -392,6 +404,7 @@ object PowerRangerPink extends EnemyType {
   val knockback = images(PowerRangerKnockbackPinkID).copy
   val imgs = Array[Drawable](walk1, walk2)
   val attackImg = images(PowerRangerPunchPinkID)
+  val scoreVal = PowerRangerCommon.scoreVal
 }
 
 object PowerRangerBlack extends EnemyType {
@@ -407,17 +420,10 @@ object PowerRangerBlack extends EnemyType {
   val knockback = images(PowerRangerKnockbackBlackID).copy
   val imgs = Array[Drawable](walk1, walk2)
   val attackImg = images(PowerRangerPunchBlackID)
+  val scoreVal = PowerRangerCommon.scoreVal
 }
-class PowerRanger(xc: Float, yc: Float) extends Enemy(xc, yc, 
-  (rand(6)) match {
-    case 0 => PowerRanger
-    case 1 => PowerRangerBlue
-    case 2 => PowerRangerGreen
-    case 3 => PowerRangerYellow
-    case 4 => PowerRangerPink
-    case 5 => PowerRangerBlack
-  }) {
 
+class PowerRanger(xc: Float, yc: Float, waveNum: Int, rangerType: EnemyType) extends Enemy(xc, yc, waveNum, rangerType) {
 }
 
 // this doesn't need to be an enemy type
@@ -426,15 +432,15 @@ object HorseMask {
 
   val mask = images(HorseMaskID)
   val imgs = Array[Drawable](mask)
-
 }
 
-class HorseMask(xc: Float, yc: Float) extends Enemy(xc, yc, Enemy.random) {
+class HorseMask(xc: Float, yc: Float, waveNum: Int) extends Enemy(xc, yc, waveNum, Enemy.random) {
   cancelAll()
   val mask = HorseMask.mask.copy()
   if (base == Ghost) {
     mask.scaleFactor *= 1.5f
   }
+  override val scoreVal = 5
   override def draw(g: org.newdawn.slick.Graphics, gc: org.newdawn.slick.GameContainer) = {
     super.draw(g, gc)
     val (offsetx, offsety): (Int, Int) = HorseMaskOffset.offset.get(img) getOrElse ((0,0))
@@ -448,7 +454,6 @@ class HorseMask(xc: Float, yc: Float) extends Enemy(xc, yc, Enemy.random) {
       inactivate
     }
   }
-
 }
 
 trait Boss extends Enemy {
@@ -463,6 +468,9 @@ trait Boss extends Enemy {
           })
       } else {
         inactivate
+      }
+      for (player <- state.Battle.game.players.filter(_.active)) {
+        player.heal(0.05f)
       }
     }
   }
@@ -480,15 +488,16 @@ object BossFull extends EnemyType {
   val attackImg = images(BossFullID)
   val atkHeight = 5.0f
   val atkWidth = 50.0f
+  val scoreVal = 3
 }
 
-class BossFull(xc: Float, yc: Float)  extends RangedEnemy(xc, yc, BossFull) with Boss {
+class BossFull(xc: Float, yc: Float, waveNum: Int)  extends RangedEnemy(xc, yc, waveNum, BossFull) with Boss {
   def range: Int = GameArea.width.toInt
   def projType: ProjectileID = BossFullProjectile
   def shootSpeed = 1
   def finalStage: Boolean = false
   def nextStage: Enemy = {
-    new BossUncoat(x,y)
+    new BossUncoat(x,y, waveNum)
   }
   var canBurstShoot = true
 
@@ -507,7 +516,7 @@ class BossFull(xc: Float, yc: Float)  extends RangedEnemy(xc, yc, BossFull) with
     if (canBurstShoot) {
       super.hit(c, strength)
       if (!burstTimer.ticking) {
-        burstTimer += new TickTimer(120, () => canBurstShoot = false)
+        burstTimer += new TickTimer(180, () => canBurstShoot = false)
       }
     } else {
       if (!burstTimer.ticking) {
@@ -529,6 +538,7 @@ object BossUncoat extends EnemyType {
   val attackImg = images(BossUncoatAttackID)
   val atkHeight = 5.0f
   val atkWidth = 50.0f
+  val scoreVal = 2
 }
 
 trait WindupEnemy extends Enemy {
@@ -555,10 +565,10 @@ trait WindupEnemy extends Enemy {
   }
 }
 
-class BossUncoat(xc: Float, yc: Float)  extends Enemy(xc, yc, BossUncoat) with Boss with WindupEnemy {
+class BossUncoat(xc: Float, yc: Float, waveNum: Int)  extends Enemy(xc, yc, waveNum, BossUncoat) with Boss with WindupEnemy {
   def finalStage: Boolean = false
   def nextStage: Enemy = {
-    new BossCellphone(x,y)
+    new BossCellphone(x,y, waveNum)
   }
   val attackDuration = 120
   val windup = 1f/2
@@ -599,12 +609,13 @@ object BossCellphone extends EnemyType {
   val attackImg = images(BossCellphoneAttackID)
   val atkHeight = 5.0f
   val atkWidth = 50.0f
+  val scoreVal = 1
 }
 
-class BossCellphone(xc: Float, yc: Float)  extends Enemy(xc, yc, BossCellphone) with Boss {
+class BossCellphone(xc: Float, yc: Float, waveNum: Int)  extends Enemy(xc, yc, waveNum, BossCellphone) with Boss {
   def finalStage: Boolean = false
   def nextStage: Enemy = {
-    new BossFinal(x,y)
+    new BossFinal(x,y,waveNum)
   }
 
   var (tarX, tarY) = (Width/2, Game.spawnY(height))
@@ -656,7 +667,7 @@ class BossCellphone(xc: Float, yc: Float)  extends Enemy(xc, yc, BossCellphone) 
     } else {
       xVec = (tarX - (x + width / 2))
       yVec = (tarY - (y + height / 2))
-      if (xVec < 5 && yVec < 5) 
+      if (xVec < 5 && yVec < 5)
         reached = true
     }
     val norm = ((1 / sqrt((xVec * xVec) + (yVec * yVec))) * speed)
@@ -693,9 +704,10 @@ object BossFinal extends EnemyType {
   val armImage = images(BossFinalAttackID)
   val atkHeight = 5.0f
   val atkWidth = 50.0f
+  val scoreVal = 3
 }
 
-class BossFinal(xc: Float, yc: Float)  extends Enemy(xc, yc, BossFinal) with Boss with WindupEnemy {
+class BossFinal(xc: Float, yc: Float, waveNum: Int)  extends Enemy(xc, yc, waveNum, BossFinal) with Boss with WindupEnemy {
   def finalStage: Boolean = true
   def nextStage: Enemy = null
 

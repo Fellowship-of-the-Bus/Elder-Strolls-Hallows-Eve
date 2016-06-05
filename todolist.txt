@@ -4,9 +4,7 @@ boss:
 enemies:
   	blue, pink, yellow, black, green power rangers
 
-items
-  -health recovery items
-  -extra lives
+
 
 balance
 All Todo
@@ -40,7 +38,6 @@ All Todo
 
 -fix bugs (99 bugs on the wall, take one down, pass it around, 117 bugs on the wall)
 
-	arm flashing 
-	leg flashing
 	boss second stage too large?
+	enemies can't hit the player from behind
 

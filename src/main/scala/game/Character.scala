@@ -7,7 +7,7 @@ import eshe.state.ui.{GameArea}
 
 import lib.game.GameConfig.{Width,Height}
 import lib.slick2d.ui.{Drawable}
-import lib.math.Rect
+import lib.math.{Rect, clamp}
 import lib.util.{TimerListener}
 
 
@@ -84,5 +84,9 @@ abstract class Character(xc: Float, yc: Float, val base: CharacterType) extends 
   override def update(delta: Long, game: Game) = {
     super.update(delta, game)
     hurtTimer.tick(delta)
+  }
+
+  def heal(amt: Float) = {
+    hp = clamp( (hp + amt*base.maxHp).toInt, 0, base.maxHp)
   }
 }
