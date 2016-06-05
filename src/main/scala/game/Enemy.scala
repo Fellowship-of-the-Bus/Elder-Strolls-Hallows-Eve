@@ -320,7 +320,7 @@ class Hotdog(xc: Float, yc: Float, waveNum: Int) extends RangedEnemy(xc, yc, wav
   def offsety = 0
 }
 
-object PowerRangerCommon {
+trait PowerRangerCommon extends EnemyType {
   val id = PowerRangerW1ID
   val maxHp = 150
   val attack = 5
@@ -331,100 +331,52 @@ object PowerRangerCommon {
   val scoreVal = 3
 }
 
-object PowerRanger extends EnemyType {
-  val id = PowerRangerCommon.id
-  val maxHp = PowerRangerCommon.maxHp
-  val attack = PowerRangerCommon.attack
-  val defense = PowerRangerCommon.defense
-  val speed = PowerRangerCommon.speed
-  val atkHeight = PowerRangerCommon.atkHeight
-  val atkWidth = PowerRangerCommon.atkWidth
+object PowerRanger extends PowerRangerCommon {
   val walk1 = images(PowerRangerW1ID)
   val walk2 = images(PowerRangerW2ID)
   val knockback = images(PowerRangerKnockbackID).copy
   val imgs = Array[Drawable](walk1, walk2)
   val attackImg = images(PowerRangerPunchID)
-  val scoreVal = PowerRangerCommon.scoreVal
 }
 
-object PowerRangerBlue extends EnemyType {
-  val id = PowerRangerCommon.id
-  val maxHp = PowerRangerCommon.maxHp
-  val attack = PowerRangerCommon.attack
-  val defense = PowerRangerCommon.defense
-  val speed = PowerRangerCommon.speed
-  val atkHeight = PowerRangerCommon.atkHeight
-  val atkWidth = PowerRangerCommon.atkWidth
+object PowerRangerBlue extends PowerRangerCommon {
   val walk1 = images(PowerRangerW1BlueID)
   val walk2 = images(PowerRangerW2BlueID)
   val knockback = images(PowerRangerKnockbackBlueID).copy
   val imgs = Array[Drawable](walk1, walk2)
   val attackImg = images(PowerRangerPunchBlueID)
-  val scoreVal = PowerRangerCommon.scoreVal
 }
 
-object PowerRangerGreen extends EnemyType {
-  val id = PowerRangerCommon.id
-  val maxHp = PowerRangerCommon.maxHp
-  val attack = PowerRangerCommon.attack
-  val defense = PowerRangerCommon.defense
-  val speed = PowerRangerCommon.speed
-  val atkHeight = PowerRangerCommon.atkHeight
-  val atkWidth = PowerRangerCommon.atkWidth
+object PowerRangerGreen extends PowerRangerCommon {
   val walk1 = images(PowerRangerW1GreenID)
   val walk2 = images(PowerRangerW2GreenID)
   val knockback = images(PowerRangerKnockbackGreenID).copy
   val imgs = Array[Drawable](walk1, walk2)
   val attackImg = images(PowerRangerPunchGreenID)
-  val scoreVal = PowerRangerCommon.scoreVal
 }
 
-object PowerRangerYellow extends EnemyType {
-  val id = PowerRangerCommon.id
-  val maxHp = PowerRangerCommon.maxHp
-  val attack = PowerRangerCommon.attack
-  val defense = PowerRangerCommon.defense
-  val speed = PowerRangerCommon.speed
-  val atkHeight = PowerRangerCommon.atkHeight
-  val atkWidth = PowerRangerCommon.atkWidth
+object PowerRangerYellow extends PowerRangerCommon {
   val walk1 = images(PowerRangerW1YellowID)
   val walk2 = images(PowerRangerW2YellowID)
   val knockback = images(PowerRangerKnockbackYellowID).copy
   val imgs = Array[Drawable](walk1, walk2)
   val attackImg = images(PowerRangerPunchYellowID)
-  val scoreVal = PowerRangerCommon.scoreVal
 }
 
-object PowerRangerPink extends EnemyType {
-  val id = PowerRangerCommon.id
-  val maxHp = PowerRangerCommon.maxHp
-  val attack = PowerRangerCommon.attack
-  val defense = PowerRangerCommon.defense
-  val speed = PowerRangerCommon.speed
-  val atkHeight = PowerRangerCommon.atkHeight
-  val atkWidth = PowerRangerCommon.atkWidth
+object PowerRangerPink extends PowerRangerCommon {
   val walk1 = images(PowerRangerW1PinkID)
   val walk2 = images(PowerRangerW2PinkID)
   val knockback = images(PowerRangerKnockbackPinkID).copy
   val imgs = Array[Drawable](walk1, walk2)
   val attackImg = images(PowerRangerPunchPinkID)
-  val scoreVal = PowerRangerCommon.scoreVal
 }
 
-object PowerRangerBlack extends EnemyType {
-  val id = PowerRangerCommon.id
-  val maxHp = PowerRangerCommon.maxHp
-  val attack = PowerRangerCommon.attack
-  val defense = PowerRangerCommon.defense
-  val speed = PowerRangerCommon.speed
-  val atkHeight = PowerRangerCommon.atkHeight
-  val atkWidth = PowerRangerCommon.atkWidth
+object PowerRangerBlack extends PowerRangerCommon {
   val walk1 = images(PowerRangerW1BlackID)
   val walk2 = images(PowerRangerW2BlackID)
   val knockback = images(PowerRangerKnockbackBlackID).copy
   val imgs = Array[Drawable](walk1, walk2)
   val attackImg = images(PowerRangerPunchBlackID)
-  val scoreVal = PowerRangerCommon.scoreVal
 }
 
 class PowerRanger(xc: Float, yc: Float, waveNum: Int, rangerType: EnemyType) extends Enemy(xc, yc, waveNum, rangerType) {
@@ -630,7 +582,6 @@ class BossUncoat(xc: Float, yc: Float, waveNum: Int)  extends Enemy(xc, yc, wave
       attackImg.setRotation(0)
     }
     super.draw(g, gc)
-    g.drawRect(hitbox.x1, hitbox.y1, hitbox.x2-hitbox.x1, hitbox.y2-hitbox.y1)
   }
 }
 
