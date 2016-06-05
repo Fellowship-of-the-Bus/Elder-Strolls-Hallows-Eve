@@ -343,8 +343,19 @@ class HorseMask(xc: Float, yc: Float) extends Enemy(xc, yc, Enemy.random) {
 }
 
 trait Boss extends Enemy {
+  def finalStage: Boolean
+  def nextStage: Enemy
   override def knockback(distance: Float) = {
-    if (hp <= 0) inactivate
+    if (hp <= 0) {
+      if (! finalStage) {
+        this += new TickTimer(0, () => {
+          inactivate
+          state.Battle.game.enemies = nextStage :: state.Battle.game.enemies
+          })
+      } else {
+        inactivate
+      }
+    }
   }
 }
 
@@ -366,6 +377,10 @@ class BossFull(xc: Float, yc: Float)  extends RangedEnemy(xc, yc, BossFull) with
   def range: Int = GameArea.width.toInt
   def projType: ProjectileID = BossFullProjectile
   def shootSpeed = 1
+  def finalStage: Boolean = false
+  def nextStage: Enemy = {
+    new BossUncoat(x,y)
+  }
 
   lazy val soaker = images(BossFullSuperSoakerID)
   def offsetx = if (direction == GameObject.Left) -soaker.width/2 else soaker.width/2-25
@@ -392,6 +407,10 @@ object BossUncoat extends EnemyType {
 }
 
 class BossUncoat(xc: Float, yc: Float)  extends Enemy(xc, yc, BossUncoat) with Boss {
+  def finalStage: Boolean = true
+  def nextStage: Enemy = {
+    new BossUncoat(x,y)
+  }
   val attackDuration = 120
   var attackProgress = 0
   val windup = 1f/2

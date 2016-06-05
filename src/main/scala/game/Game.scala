@@ -28,6 +28,8 @@ class Game extends lib.slick2d.game.Game with TimerListener {
     for (i <- nplayers until maxPlayers) {
       players(i).inactivate
     }
+
+    spawnWave()
   }
 
   this += new TickTimer(240, cleanup _, RepeatForever)
@@ -35,9 +37,30 @@ class Game extends lib.slick2d.game.Game with TimerListener {
 
   object spawnWave {
     var waveNum = 0
+
+    def numEnemy() = {
+      if (waveNum < 6)
+        waveNum + 2*players.filter(_.active).length
+      else {
+        1000
+      }
+    }
+    def numHorseMask() = {
+      rand((waveNum/2).toInt, waveNum)*players.filter(_.active).length + 1
+    }
+    def interval() = {
+      if (waveNum < 6) 60
+      else 1
+    }
     def apply() = {
       waveNum += 1
-      waveTimer = new TickTimer(60, () => enemies = createEnemy :: enemies, FireN(waveNum))
+      waveNum match {
+        case 5 => waveTimer = new TickTimer(60, () => enemies = new BossFull(state.ui.GameArea.width*4f/5, state.ui.GameArea.height/2)::enemies)
+        case _ => {
+          waveTimer = new TickTimer(interval, () => enemies = createEnemy :: enemies, FireN(numEnemy))
+          Game.this += new TickTimer(120, () => enemies = createHorseMask :: enemies, FireN(numHorseMask))
+        }
+      }
       Game.this += waveTimer
     }
   }
@@ -52,16 +75,29 @@ class Game extends lib.slick2d.game.Game with TimerListener {
   }
 
   def createEnemy() : Enemy = {
-    val t = rand(0, 4)
-    val x = Game.spawnX
+    val side = rand(0,1)
+    val x = side match {
+      case 0 => 0
+      case 1 => Game.spawnX
+    }
 
+    val t = rand(0, 3)
     val enemy =  t match {
       case 0 => new Ghost(x, 0)
       case 1 => new Elsa(x, 0)
       case 2 => new PowerRanger(x, 0)
       case 3 => new Hotdog(x, 0)
-      case 4 => new HorseMask(x, 0)
     }
+    enemy.y = Game.spawnY(enemy.height)
+    if (enemy.x == 0) {
+      enemy.direction = GameObject.Right
+    }
+    enemy
+  }
+
+  def createHorseMask() : Enemy = {
+    val x = Game.spawnX
+    val enemy = new HorseMask(x, 0)
     enemy.y = Game.spawnY(enemy.height)
     enemy
   }
@@ -109,7 +145,6 @@ class Game extends lib.slick2d.game.Game with TimerListener {
     }
   }
 
-  spawnWave()
   // enemies = new BossFull(state.ui.GameArea.width/2, 0)::enemies
   // enemies = new BossUncoat(state.ui.GameArea.width/2, 0)::enemies
 }
