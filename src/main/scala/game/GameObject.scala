@@ -48,7 +48,13 @@ abstract class GameObject(xc: Float, yc: Float) extends lib.game.TopLeftCoordina
     y = clamp(y, lower, upper)
   }
 
-  def hit(c: Character, strength: Int) = {
+  def hit(c: Character, strength: Int): Unit = {
+    c match {
+      case p : Player => {
+        if (p.iframes > 0) return;
+      }
+      case _ => {}
+    }
     if (!c.hurtTimer.ticking()) {
       c.isHurt = false
       c.hurtTimer += new TickTimer(15, () => c.isHurt = ! c.isHurt, FireN(6))
