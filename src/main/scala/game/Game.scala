@@ -62,9 +62,9 @@ class Game extends lib.slick2d.game.Game with TimerListener {
     def apply(): Unit = {
       waveNum += 1
       waveNum match {
-        case 5 => waveTimer = new TickTimer(60, () => enemies = new BossFull(state.ui.GameArea.width*4f/5, state.ui.GameArea.height/2)::enemies)
+        case 5 => waveTimer = new TickTimer(60, () => enemies = new BossFull(state.ui.GameArea.width*4f/5, state.ui.GameArea.height/2, waveNum)::enemies)
         case 6 => {
-          waveTimer = new TickTimer(hordeSpawnInterval, () => enemies = createEnemy :: enemies, FireN(hordeSpawnNum))
+          waveTimer = new TickTimer(hordeSpawnInterval, () => enemies = createEnemy(waveNum) :: enemies, FireN(hordeSpawnNum))
           Game.this += new TickTimer(hordeSpawnInterval, () => {
             waveNum = 5
             hordeSpawnInterval = math.max(hordeSpawnInterval-1,0)
@@ -73,8 +73,8 @@ class Game extends lib.slick2d.game.Game with TimerListener {
           })
         }
         case _ => {
-          waveTimer = new TickTimer(interval, () => enemies = createEnemy :: enemies, FireN(numEnemy))
-          Game.this += new TickTimer(120, () => enemies = createHorseMask :: enemies, FireN(numHorseMask))
+          waveTimer = new TickTimer(interval, () => enemies = createEnemy(waveNum) :: enemies, FireN(numEnemy))
+          Game.this += new TickTimer(120, () => enemies = createHorseMask(waveNum) :: enemies, FireN(numHorseMask))
         }
       }
       Game.this += waveTimer
@@ -89,13 +89,13 @@ class Game extends lib.slick2d.game.Game with TimerListener {
     projectiles = projectiles.filter(_.active)
   }
 
-  def createEnemy() : Enemy = {
+  def createEnemy(waveNum: Int) : Enemy = {
     val t = rand(0, 3)
     val enemy =  t match {
-      case 0 => new Ghost(0, 0)
-      case 1 => new Elsa(0, 0)
-      case 2 => new PowerRanger(0, 0)
-      case 3 => new Hotdog(0, 0)
+      case 0 => new Ghost(0, 0, waveNum)
+      case 1 => new Elsa(0, 0, waveNum)
+      case 2 => new PowerRanger(0, 0, waveNum)
+      case 3 => new Hotdog(0, 0, waveNum)
     }
     enemy.x = Game.spawnX(enemy.width)
     enemy.y = Game.spawnY(enemy.height)
@@ -105,8 +105,8 @@ class Game extends lib.slick2d.game.Game with TimerListener {
     enemy
   }
 
-  def createHorseMask() : Enemy = {
-    val enemy = new HorseMask(0, 0)
+  def createHorseMask(waveNum: Int) : Enemy = {
+    val enemy = new HorseMask(0, 0, waveNum)
     enemy.x = Game.spawnX(enemy.width, true)
     enemy.y = Game.spawnY(enemy.height)
     enemy
