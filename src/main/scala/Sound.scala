@@ -3,26 +3,34 @@ package eshe
 
 import org.newdawn.slick.Sound
 
-import lib.util.rand
+import lib.util.{rand,openFileAsStream}
 
 import game._
 
 object BossSFX {
-  val powerRanger1 = new Sound("sfx/power-ranger1.wav")
-  val powerRanger2 = new Sound("sfx/power-ranger2.wav")
-  val powerRanger3 = new Sound("sfx/power-ranger3.wav")
-  val horseMask1 = new Sound("sfx/horse-mask1.wav")
-  val horseMask2 = new Sound("sfx/horse-mask2.wav")
-  val horseMask3 = new Sound("sfx/horse-mask3.wav")
-  val elsa1 = new Sound("sfx/elsa1.wav")
-  val elsa2 = new Sound("sfx/elsa2.wav")
-  val elsa3 = new Sound("sfx/elsa3.wav")
-  val hotdog1 = new Sound("sfx/hotdog1.wav")
-  val hotdog2 = new Sound("sfx/hotdog2.wav")
-  val hotdog3 = new Sound("sfx/hotdog3.wav")
-  val ghost1 = new Sound("sfx/ghost1.wav")
-  val ghost2 = new Sound("sfx/ghost2.wav")
-  val ghost3 = new Sound("sfx/ghost3.wav")
+  def makeSound(name: String) = {
+    val path = s"sfx/${name}.wav"
+    if (openFileAsStream(path) == null) {
+      new Sound("sfx/default.wav")
+    } else {
+      new Sound(path)
+    }
+  }
+  val powerRanger1 = makeSound("power-ranger1")
+  val powerRanger2 = makeSound("power-ranger2")
+  val powerRanger3 = makeSound("power-ranger3")
+  val horseMask1 = makeSound("horse-mask1")
+  val horseMask2 = makeSound("horse-mask2")
+  val horseMask3 = makeSound("horse-mask3")
+  val elsa1 = makeSound("elsa1")
+  val elsa2 = makeSound("elsa2")
+  val elsa3 = makeSound("elsa3")
+  val hotdog1 = makeSound("hotdog1")
+  val hotdog2 = makeSound("hotdog2")
+  val hotdog3 = makeSound("hotdog3")
+  val ghost1 = makeSound("ghost1")
+  val ghost2 = makeSound("ghost2")
+  val ghost3 = makeSound("ghost3")
 
   trait Spawner[EnemyKind <: Enemy] {
     def soundList: Seq[Sound]

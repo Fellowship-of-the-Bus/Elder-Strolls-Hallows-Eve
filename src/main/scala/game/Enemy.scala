@@ -426,3 +426,22 @@ class BossUncoat(xc: Float, yc: Float)  extends Enemy(xc, yc, BossUncoat) with B
   }
 }
 
+
+object BossCellphone extends EnemyType {
+  val id = BossCellphoneID
+  val maxHp = 1000
+  val attack = 0
+  val defense = 3
+  val speed = 3
+  val walk1 = images(BossCellphoneID)
+  val knockback = images(ElsaKnockbackID)
+  val imgs = Array[Drawable](walk1, images(BossCellphoneWalkID))
+  val attackImg = images(BossCellphoneAttackID)
+  val atkHeight = 5.0f
+  val atkWidth = 50.0f
+}
+
+class BossCellphone(xc: Float, yc: Float)  extends Enemy(xc, yc, BossCellphone) with Boss {
+
+}
+
