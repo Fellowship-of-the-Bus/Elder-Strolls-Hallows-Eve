@@ -49,6 +49,7 @@ class Game extends lib.slick2d.game.Game with TimerListener {
     var waveNum = 0
     var hordeSpawnInterval = 90
     var hordeSpawnNum = 1
+    val BossWave = 1
 
     def numEnemy() = {
       waveNum + 2*players.filter(_.active).length
@@ -62,8 +63,8 @@ class Game extends lib.slick2d.game.Game with TimerListener {
     def apply(): Unit = {
       waveNum += 1
       waveNum match {
-        case 1 => waveTimer = new TickTimer(60, () => enemies = new BossFull(state.ui.GameArea.width*4f/5, state.ui.GameArea.height/2, waveNum)::enemies)
-        case 6 => {
+        case BossWave => waveTimer = new TickTimer(60, () => enemies = new BossFull(state.ui.GameArea.width*4f/5, state.ui.GameArea.height/2, waveNum)::enemies)
+        case x if (x > BossWave) => {
           waveTimer = new TickTimer(hordeSpawnInterval, () => enemies = createEnemy(waveNum) :: enemies, FireN(hordeSpawnNum))
           Game.this += new TickTimer(hordeSpawnInterval, () => {
             waveNum = 5

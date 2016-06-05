@@ -96,6 +96,10 @@ object IDMap{
   val BossFinalID = 20009
   val BossFinalAttackID = 20010
   val BossFinalWalkID = 20011
+  val TrenchcoatID = 20012
+  val BottomGuyID = 20013
+  val MiddleGuyID = 20014
+  val TopGuyID = 20015
 
   val imageMap = Map(
     IVGuyW1ID -> "img/IVWalk1.png",
@@ -156,6 +160,7 @@ object IDMap{
     HotdogW1ID -> "img/HotdogWalk1.png",
     HotdogW2ID -> "img/HotdogWalk2.png",
     HotdogKnockbackID -> "img/HotdogKnockback.png",
+
     BossFullID -> "img/BossFull.png",
     BossUncoatID -> "img/BossUncoat.png",
     BossUncoatAttackID -> "img/BossUncoatAttack.png",
@@ -169,6 +174,11 @@ object IDMap{
     BossFinalID -> "img/BossFinal.png",
     BossFinalAttackID -> "img/BossFinalAttack.png",
     BossFinalWalkID -> "img/BossFinalWalk.png",
+    TrenchcoatID -> "img/Trenchcoat.png",
+    BottomGuyID -> "img/BottomGuy.png",
+    MiddleGuyID -> "img/MiddleGuy.png",
+    TopGuyID -> "img/TopGuy.png",
+
     FotBLogoID -> "img/FotB-Logo.png",
     GameOverID -> "img/GameOver.png",
     BackgroundID -> "img/BackGround.png",
