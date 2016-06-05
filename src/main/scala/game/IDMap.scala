@@ -38,14 +38,39 @@ object IDMap{
   val ElsaShootID = 211
   val ElsaKnockbackID = 212
 
-  val PowerRangerW1ID = 220
-  val PowerRangerW2ID = 221
-  val PowerRangerKnockbackID = 222
-  val PowerRangerPunchID = 223
+  val HotdogW1ID = 220
+  val HotdogW2ID = 221
+  val HotdogKnockbackID = 222
 
-  val HotdogW1ID = 230
-  val HotdogW2ID = 231
-  val HotdogKnockbackID = 232
+  val PowerRangerW1ID = 230
+  val PowerRangerW2ID = 231
+  val PowerRangerKnockbackID = 232
+  val PowerRangerPunchID = 233
+
+  val PowerRangerW1BlueID = 240
+  val PowerRangerW2BlueID = 241
+  val PowerRangerKnockbackBlueID = 242
+  val PowerRangerPunchBlueID = 243
+
+  val PowerRangerW1GreenID = 250
+  val PowerRangerW2GreenID = 251
+  val PowerRangerKnockbackGreenID = 252
+  val PowerRangerPunchGreenID = 253
+
+  val PowerRangerW1YellowID = 260
+  val PowerRangerW2YellowID = 261
+  val PowerRangerKnockbackYellowID = 262
+  val PowerRangerPunchYellowID = 263
+
+  val PowerRangerW1PinkID = 270
+  val PowerRangerW2PinkID = 271
+  val PowerRangerKnockbackPinkID = 272
+  val PowerRangerPunchPinkID = 273
+
+  val PowerRangerW1BlackID = 280
+  val PowerRangerW2BlackID = 281
+  val PowerRangerKnockbackBlackID = 282
+  val PowerRangerPunchBlackID = 283
 
   val HorseMaskID = 40
 
@@ -107,6 +132,26 @@ object IDMap{
     PowerRangerW2ID -> "img/PowerRangerRun2.png",
     PowerRangerKnockbackID -> "img/PowerRangerKnockback.png",
     PowerRangerPunchID -> "img/PowerRangerPunch.png",
+    PowerRangerW1BlueID -> "img/PowerRangerRun1Blue.png",
+    PowerRangerW2BlueID -> "img/PowerRangerRun2Blue.png",
+    PowerRangerKnockbackBlueID -> "img/PowerRangerKnockbackBlue.png",
+    PowerRangerPunchBlueID -> "img/PowerRangerPunchBlue.png",
+    PowerRangerW1GreenID -> "img/PowerRangerRun1Green.png",
+    PowerRangerW2GreenID -> "img/PowerRangerRun2Green.png",
+    PowerRangerKnockbackGreenID -> "img/PowerRangerKnockbackGreen.png",
+    PowerRangerPunchGreenID -> "img/PowerRangerPunchGreen.png",
+    PowerRangerW1YellowID -> "img/PowerRangerRun1Yellow.png",
+    PowerRangerW2YellowID -> "img/PowerRangerRun2Yellow.png",
+    PowerRangerKnockbackYellowID -> "img/PowerRangerKnockbackYellow.png",
+    PowerRangerPunchYellowID -> "img/PowerRangerPunchYellow.png",
+    PowerRangerW1PinkID -> "img/PowerRangerRun1Pink.png",
+    PowerRangerW2PinkID -> "img/PowerRangerRun2Pink.png",
+    PowerRangerKnockbackPinkID -> "img/PowerRangerKnockbackPink.png",
+    PowerRangerPunchPinkID -> "img/PowerRangerPunchPink.png",
+    PowerRangerW1BlackID -> "img/PowerRangerRun1Black.png",
+    PowerRangerW2BlackID -> "img/PowerRangerRun2Black.png",
+    PowerRangerKnockbackBlackID -> "img/PowerRangerKnockbackBlack.png",
+    PowerRangerPunchBlackID -> "img/PowerRangerPunchBlack.png",
     HorseMaskID -> "img/HorseMask.png",
     HotdogW1ID -> "img/HotdogWalk1.png",
     HotdogW2ID -> "img/HotdogWalk2.png",

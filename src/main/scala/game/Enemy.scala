@@ -30,6 +30,21 @@ object HorseMaskOffset {
     images(PowerRangerW1ID) -> ((5,-5)),
     images(PowerRangerW2ID) -> ((5,-4)),
     images(PowerRangerKnockbackID) -> ((40,-10)),
+    images(PowerRangerW1BlueID) -> ((5,-5)),
+    images(PowerRangerW2BlueID) -> ((5,-4)),
+    images(PowerRangerKnockbackBlueID) -> ((40,-10)),
+    images(PowerRangerW1GreenID) -> ((5,-5)),
+    images(PowerRangerW2GreenID) -> ((5,-4)),
+    images(PowerRangerKnockbackGreenID) -> ((40,-10)),
+    images(PowerRangerW1YellowID) -> ((5,-5)),
+    images(PowerRangerW2YellowID) -> ((5,-4)),
+    images(PowerRangerKnockbackYellowID) -> ((40,-10)),
+    images(PowerRangerW1PinkID) -> ((5,-5)),
+    images(PowerRangerW2PinkID) -> ((5,-4)),
+    images(PowerRangerKnockbackPinkID) -> ((40,-10)),
+    images(PowerRangerW1BlackID) -> ((5,-5)),
+    images(PowerRangerW2BlackID) -> ((5,-4)),
+    images(PowerRangerKnockbackBlackID) -> ((40,-10)),
     images(HotdogW1ID) -> ((4,-18)),
     images(HotdogW2ID) -> ((-4,-18)),
     images(HotdogKnockbackID) -> ((3,-18))
@@ -68,7 +83,7 @@ object Enemy {
   def name() = rand(names)
   def fact() = rand(facts)
 
-  private val enemyKinds = Vector(Ghost, Elsa, PowerRanger, Hotdog)
+  private val enemyKinds = Vector(Ghost, Elsa, PowerRanger, PowerRangerBlue, PowerRangerGreen, PowerRangerYellow, PowerRangerPink, PowerRangerBlack, Hotdog)
   def random() = rand(enemyKinds)
 }
 
@@ -279,7 +294,7 @@ object Hotdog extends EnemyType {
   val speed = 4
   val walk1 = images(HotdogW1ID)
   val walk2 = images(HotdogW2ID)
-  val knockback = images(HotdogKnockbackID)  // TODO: fix this...
+  val knockback = images(HotdogKnockbackID)
   val imgs = Array[Drawable](walk1, walk2)
   val attackImg = images(HotdogW1ID)
   val atkHeight = 5.0f
@@ -294,22 +309,114 @@ class Hotdog(xc: Float, yc: Float) extends RangedEnemy(xc, yc, Hotdog) {
   def offsety = 0
 }
 
-object PowerRanger extends EnemyType {
+object PowerRangerCommon {
   val id = PowerRangerW1ID
   val maxHp = 150
   val attack = 10
   val defense = 6
   val speed = 3
+  val atkHeight = 5.0f
+  val atkWidth = 50.0f
+}
+
+object PowerRanger extends EnemyType {
+  val id = PowerRangerCommon.id
+  val maxHp = PowerRangerCommon.maxHp
+  val attack = PowerRangerCommon.attack
+  val defense = PowerRangerCommon.defense
+  val speed = PowerRangerCommon.speed
+  val atkHeight = PowerRangerCommon.atkHeight
+  val atkWidth = PowerRangerCommon.atkWidth
   val walk1 = images(PowerRangerW1ID)
   val walk2 = images(PowerRangerW2ID)
   val knockback = images(PowerRangerKnockbackID).copy
   val imgs = Array[Drawable](walk1, walk2)
   val attackImg = images(PowerRangerPunchID)
-  val atkHeight = 5.0f
-  val atkWidth = 50.0f
 }
 
-class PowerRanger(xc: Float, yc: Float) extends Enemy(xc, yc, PowerRanger) {
+object PowerRangerBlue extends EnemyType {
+  val id = PowerRangerCommon.id
+  val maxHp = PowerRangerCommon.maxHp
+  val attack = PowerRangerCommon.attack
+  val defense = PowerRangerCommon.defense
+  val speed = PowerRangerCommon.speed
+  val atkHeight = PowerRangerCommon.atkHeight
+  val atkWidth = PowerRangerCommon.atkWidth
+  val walk1 = images(PowerRangerW1BlueID)
+  val walk2 = images(PowerRangerW2BlueID)
+  val knockback = images(PowerRangerKnockbackBlueID).copy
+  val imgs = Array[Drawable](walk1, walk2)
+  val attackImg = images(PowerRangerPunchBlueID)
+}
+
+object PowerRangerGreen extends EnemyType {
+  val id = PowerRangerCommon.id
+  val maxHp = PowerRangerCommon.maxHp
+  val attack = PowerRangerCommon.attack
+  val defense = PowerRangerCommon.defense
+  val speed = PowerRangerCommon.speed
+  val atkHeight = PowerRangerCommon.atkHeight
+  val atkWidth = PowerRangerCommon.atkWidth
+  val walk1 = images(PowerRangerW1GreenID)
+  val walk2 = images(PowerRangerW2GreenID)
+  val knockback = images(PowerRangerKnockbackGreenID).copy
+  val imgs = Array[Drawable](walk1, walk2)
+  val attackImg = images(PowerRangerPunchGreenID)
+}
+
+object PowerRangerYellow extends EnemyType {
+  val id = PowerRangerCommon.id
+  val maxHp = PowerRangerCommon.maxHp
+  val attack = PowerRangerCommon.attack
+  val defense = PowerRangerCommon.defense
+  val speed = PowerRangerCommon.speed
+  val atkHeight = PowerRangerCommon.atkHeight
+  val atkWidth = PowerRangerCommon.atkWidth
+  val walk1 = images(PowerRangerW1YellowID)
+  val walk2 = images(PowerRangerW2YellowID)
+  val knockback = images(PowerRangerKnockbackYellowID).copy
+  val imgs = Array[Drawable](walk1, walk2)
+  val attackImg = images(PowerRangerPunchYellowID)
+}
+
+object PowerRangerPink extends EnemyType {
+  val id = PowerRangerCommon.id
+  val maxHp = PowerRangerCommon.maxHp
+  val attack = PowerRangerCommon.attack
+  val defense = PowerRangerCommon.defense
+  val speed = PowerRangerCommon.speed
+  val atkHeight = PowerRangerCommon.atkHeight
+  val atkWidth = PowerRangerCommon.atkWidth
+  val walk1 = images(PowerRangerW1PinkID)
+  val walk2 = images(PowerRangerW2PinkID)
+  val knockback = images(PowerRangerKnockbackPinkID).copy
+  val imgs = Array[Drawable](walk1, walk2)
+  val attackImg = images(PowerRangerPunchPinkID)
+}
+
+object PowerRangerBlack extends EnemyType {
+  val id = PowerRangerCommon.id
+  val maxHp = PowerRangerCommon.maxHp
+  val attack = PowerRangerCommon.attack
+  val defense = PowerRangerCommon.defense
+  val speed = PowerRangerCommon.speed
+  val atkHeight = PowerRangerCommon.atkHeight
+  val atkWidth = PowerRangerCommon.atkWidth
+  val walk1 = images(PowerRangerW1BlackID)
+  val walk2 = images(PowerRangerW2BlackID)
+  val knockback = images(PowerRangerKnockbackBlackID).copy
+  val imgs = Array[Drawable](walk1, walk2)
+  val attackImg = images(PowerRangerPunchBlackID)
+}
+class PowerRanger(xc: Float, yc: Float) extends Enemy(xc, yc, 
+  (rand(6)) match {
+    case 0 => PowerRanger
+    case 1 => PowerRangerBlue
+    case 2 => PowerRangerGreen
+    case 3 => PowerRangerYellow
+    case 4 => PowerRangerPink
+    case 5 => PowerRangerBlack
+  }) {
 
 }
 
