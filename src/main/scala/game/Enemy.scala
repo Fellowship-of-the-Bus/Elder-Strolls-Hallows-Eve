@@ -480,6 +480,27 @@ class BossCellphone(xc: Float, yc: Float)  extends Enemy(xc, yc, BossCellphone) 
     new BossFinal(x,y)
   }
 
+  this.cancelAll
+  this += new ConditionalTickTimer(3*60, () => hit(target, attack), () => ! attacking, RepeatForever)
+  this += new ConditionalTickTimer(1, move _, () => ! attacking && alive, RepeatForever)
+
+  override def hit(c: Character, strength: Int) = {
+    import BossSFX._
+    val spawner = BossSFX.random
+    val sound = spawner.sound
+    sound.play
+    this += new TickTimer(60, () => {
+      val enemies = spawner()
+      import state.Battle
+      Battle.game.enemies = Battle.game.enemies ++ enemies
+    })
+    attacking = true
+    img = base.attackImg
+    this += new ConditionalTickTimer(60, () => {
+      attacking = false
+      img = base.walk1
+    }, () => ! sound.playing)
+  }
 }
 
 object BossFinal extends EnemyType {
