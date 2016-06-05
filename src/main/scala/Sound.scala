@@ -6,6 +6,7 @@ import org.newdawn.slick.Music
 import lib.util.{rand,openFileAsStream}
 
 import game._
+import state.ui.GameArea
 
 object BossSFX {
   def makeMusic(name: String) = {
@@ -34,6 +35,7 @@ object BossSFX {
   val ghost3 = makeMusic("ghost3")
 
   trait Spawner[EnemyKind <: Enemy] {
+    def isHorse = false
     def musicList: Seq[Music]
     var curMusic = 0
     def music: Music = {
@@ -43,7 +45,8 @@ object BossSFX {
     def apply(): List[EnemyKind]
     def apply(x: Float, y: Float): EnemyKind
     def spawnRandomly(n: Int): List[EnemyKind] = List.fill(n)({
-      val enemy = apply(Game.spawnX, 0)
+      val enemy = apply(0, 0)
+      enemy.x = Game.spawnX(enemy.width, isHorse)
       enemy.y = Game.spawnY(enemy.height)
       enemy
     })
@@ -74,6 +77,7 @@ object BossSFX {
   }
 
   object HorseMaskSpawner extends Spawner[HorseMask] {
+    override def isHorse = true
     val musicList = Vector(horseMask1, horseMask2, horseMask3)
     def apply(x: Float, y: Float) = new HorseMask(x, y)
     def apply() = spawnRandomly(20)

@@ -12,7 +12,13 @@ import lib.math.clamp
 import state.ui.GameArea
 
 object Game {
-  def spawnX = GameArea.width
+  def spawnX(width: Float, horse: Boolean = false) = {
+    val side = rand(0,1)
+    side match {
+      case 0 if (! horse) => -width
+      case _ => GameArea.width
+    }
+  }
   def spawnY(height: Float) = rand(GameArea.fenceHeight.toInt, GameArea.height.toInt) - height
 }
 
@@ -84,19 +90,14 @@ class Game extends lib.slick2d.game.Game with TimerListener {
   }
 
   def createEnemy() : Enemy = {
-    val side = rand(0,1)
-    val x = side match {
-      case 0 => 0
-      case 1 => Game.spawnX
-    }
-
     val t = rand(0, 3)
     val enemy =  t match {
-      case 0 => new Ghost(x, 0)
-      case 1 => new Elsa(x, 0)
-      case 2 => new PowerRanger(x, 0)
-      case 3 => new Hotdog(x, 0)
+      case 0 => new Ghost(0, 0)
+      case 1 => new Elsa(0, 0)
+      case 2 => new PowerRanger(0, 0)
+      case 3 => new Hotdog(0, 0)
     }
+    enemy.x = Game.spawnX(enemy.width)
     enemy.y = Game.spawnY(enemy.height)
     if (enemy.x == 0) {
       enemy.direction = GameObject.Right
@@ -105,8 +106,8 @@ class Game extends lib.slick2d.game.Game with TimerListener {
   }
 
   def createHorseMask() : Enemy = {
-    val x = Game.spawnX
-    val enemy = new HorseMask(x, 0)
+    val enemy = new HorseMask(0, 0)
+    enemy.x = Game.spawnX(enemy.width, true)
     enemy.y = Game.spawnY(enemy.height)
     enemy
   }
