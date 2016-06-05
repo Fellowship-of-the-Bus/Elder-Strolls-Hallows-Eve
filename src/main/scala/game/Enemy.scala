@@ -479,6 +479,10 @@ class BossCellphone(xc: Float, yc: Float)  extends Enemy(xc, yc, BossCellphone) 
     new BossFinal(x,y)
   }
 
+  var (tarX, tarY) = (Width/2, Game.spawnY(height))
+  var dancing = false
+  var reached = false
+
   this.cancelAll
   this += new ConditionalTickTimer(3*60, () => hit(target, attack), () => ! attacking, RepeatForever)
   this += new ConditionalTickTimer(1, move _, () => alive, RepeatForever)
@@ -488,7 +492,12 @@ class BossCellphone(xc: Float, yc: Float)  extends Enemy(xc, yc, BossCellphone) 
     val spawner = BossSFX.random
     val sound = spawner.sound
     sound.play
+    dancing = true
     this += new TickTimer(60, () => {
+      tarX = rand(Width)
+      tarY = Game.spawnY(height).toInt
+      dancing = false
+      reached = false
       val enemies = spawner()
       import state.Battle
       Battle.game.enemies = Battle.game.enemies ++ enemies
@@ -499,6 +508,31 @@ class BossCellphone(xc: Float, yc: Float)  extends Enemy(xc, yc, BossCellphone) 
       attacking = false
       img = base.walk1
     }, () => ! sound.playing)
+  }
+
+  override def move() = {
+    var (xVec, yVec) = (0f,0f)
+    if (dancing || reached) {
+      val t = rand(4)
+      xVec = t match {
+        case 0 => 1
+        case 1 => -1
+        case _ => 0
+      }
+      yVec = t match {
+        case 2 => 1
+        case 3 => -1
+        case _ => 0
+      }
+    } else {
+      xVec = (tarX - (x + width / 2))
+      yVec = (tarY - (y + height / 2))
+      if (xVec < 5 && yVec < 5) 
+        reached = true
+    }
+    val norm = ((1 / sqrt((xVec * xVec) + (yVec * yVec))) * speed)
+    super.move(xVec * norm, yVec * norm)
+    clampY()
   }
 }
 
