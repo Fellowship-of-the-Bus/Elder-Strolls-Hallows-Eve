@@ -403,7 +403,7 @@ class BossFull(xc: Float, yc: Float)  extends RangedEnemy(xc, yc, BossFull) with
     if (canBurstShoot) {
       super.hit(c, strength)
       if (!burstTimer.ticking) {
-        burstTimer += new TickTimer(120, () => canBurstShoot = false)
+        burstTimer += new TickTimer(180, () => canBurstShoot = false)
       }
     } else {
       if (!burstTimer.ticking) {

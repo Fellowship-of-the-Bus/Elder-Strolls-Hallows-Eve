@@ -44,7 +44,7 @@ abstract case class Player(xc: Float, yc: Float, override val base: PlayerType) 
 
   var score = 0
 
-  override def hitbox = Rect(x, y + height/2, x + width, y + height)
+  override def hitbox = Rect(x, y + 4*height/9, x + width, y + height)
 
   override def hit(c: Character, strength: Int) = {
     val damage = strength
