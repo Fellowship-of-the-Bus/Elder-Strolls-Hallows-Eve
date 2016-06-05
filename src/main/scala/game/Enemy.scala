@@ -238,7 +238,7 @@ abstract class RangedEnemy(xc: Float, yc: Float, waveNum: Int, b: EnemyType) ext
 object Ghost extends EnemyType {
   val id = GhostW1ID
   val maxHp = 100
-  val attack = 2
+  val attack = 12
   val defense = 1
   val speed = 4
   val walk1 = images(GhostW1ID)
@@ -319,7 +319,7 @@ class Hotdog(xc: Float, yc: Float, waveNum: Int) extends RangedEnemy(xc, yc, wav
 object PowerRangerCommon {
   val id = PowerRangerW1ID
   val maxHp = 150
-  val attack = 10
+  val attack = 5
   val defense = 6
   val speed = 3
   val atkHeight = 5.0f
