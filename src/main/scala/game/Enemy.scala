@@ -446,7 +446,6 @@ class BossUncoat(xc: Float, yc: Float)  extends Enemy(xc, yc, BossUncoat) with B
       val yrot = 15*attackImg.height/18
       attackImg.setCenterOfRotation(xrot,yrot)
       val rot = rotation
-      println(rot)
       attackImg.setRotation(-rot*direction)
       img = attackImg
       images(BossUncoatAttackLegID).draw(x+xrot,y+yrot, direction != GameObject.Left)
@@ -482,7 +481,7 @@ class BossCellphone(xc: Float, yc: Float)  extends Enemy(xc, yc, BossCellphone) 
 
   this.cancelAll
   this += new ConditionalTickTimer(3*60, () => hit(target, attack), () => ! attacking, RepeatForever)
-  this += new ConditionalTickTimer(1, move _, () => ! attacking && alive, RepeatForever)
+  this += new ConditionalTickTimer(1, move _, () => alive, RepeatForever)
 
   override def hit(c: Character, strength: Int) = {
     import BossSFX._
@@ -532,8 +531,6 @@ class BossFinal(xc: Float, yc: Float)  extends Enemy(xc, yc, BossFinal) with Bos
       val xrot = (if (direction == GameObject.Left) 2f/3 else 1/3)*armImage.width
       val yrot = 15*armImage.height/18
       val rot = rotation
-      println(rot)
-
       armImage.setCenterOfRotation(xrot,yrot)
       armImage.setRotation(-rot*direction)
     } else {
