@@ -30,6 +30,10 @@ class Game extends lib.slick2d.game.Game with TimerListener {
     }
 
     spawnWave()
+    // enemies = new BossFull(state.ui.GameArea.width/2, 0)::enemies
+    // enemies = new BossUncoat(state.ui.GameArea.width/2, 0)::enemies
+    // enemies = new BossCellphone(state.ui.GameArea.width/2, 0)::enemies
+    // enemies = new BossFinal(state.ui.GameArea.width/2, 0)::enemies
   }
 
   this += new TickTimer(240, cleanup _, RepeatForever)
@@ -149,7 +153,4 @@ class Game extends lib.slick2d.game.Game with TimerListener {
       gameOver()
     }
   }
-
-  // enemies = new BossFull(state.ui.GameArea.width/2, 0)::enemies
-  // enemies = new BossUncoat(state.ui.GameArea.width/2, 0)::enemies
 }

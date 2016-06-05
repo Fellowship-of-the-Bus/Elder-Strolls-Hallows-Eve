@@ -406,40 +406,54 @@ object BossUncoat extends EnemyType {
   val atkWidth = 50.0f
 }
 
-class BossUncoat(xc: Float, yc: Float)  extends Enemy(xc, yc, BossUncoat) with Boss {
-  def finalStage: Boolean = true
+trait WindupEnemy extends Enemy {
+  def attackDuration: Int
+  var attackProgress = 0
+  def windup: Float
+  def swing: Float
+  def recovery: Float
+  lazy val sum = windup+swing+recovery
+  lazy val windupWeight: Float = windup/sum
+  lazy val swingWeight: Float = swing/sum
+  lazy val recoveryWeight: Float = recovery/sum
+  override def attackPoint = ((windupWeight+swingWeight)*attackDuration).toInt
+  override def backswing = (attackDuration*recoveryWeight).toInt
+  def rotation() = {
+    attackProgress = (attackProgress+1)%attackDuration
+    if (0 <= attackProgress && attackProgress <= attackDuration*windupWeight) {
+      30f*attackProgress/(attackDuration*windupWeight)
+    } else if (attackDuration*windupWeight <= attackProgress && attackProgress <= attackDuration*(windupWeight+swingWeight)) {
+      30-120f*(attackProgress-attackDuration*windupWeight)/(attackDuration*swingWeight)
+    } else {
+      -90+90f*(attackProgress-attackDuration*(windupWeight+swingWeight))/(attackDuration*recoveryWeight)
+    }
+  }
+}
+
+class BossUncoat(xc: Float, yc: Float)  extends Enemy(xc, yc, BossUncoat) with Boss with WindupEnemy {
+  def finalStage: Boolean = false
   def nextStage: Enemy = {
-    new BossUncoat(x,y)
+    new BossCellphone(x,y)
   }
   val attackDuration = 120
-  var attackProgress = 0
   val windup = 1f/2
   val swing = 1f/4
   val recovery = 1f/4
-  override def attackPoint = ((windup+swing)*attackDuration).toInt
-  override def backswing = (attackDuration*recovery).toInt
-  def rotation() = {
-    attackProgress = (attackProgress+1)%attackDuration
-    if (0 <= attackProgress && attackProgress <= attackDuration*windup) {
-      30f*attackProgress/(attackDuration*windup)
-    } else if (attackDuration*windup <= attackProgress && attackProgress <= attackDuration*(windup+swing)) {
-      30-120f*(attackProgress-attackDuration*windup)/(attackDuration*swing)
-    } else {
-      -90+90f*(attackProgress-attackDuration*(windup+swing))/(attackDuration*recovery)
-    }
-  }
   override def draw(g: org.newdawn.slick.Graphics, gc: org.newdawn.slick.GameContainer) = {
+    import BossUncoat.attackImg
     if (attacking) {
-      import BossUncoat.attackImg
       val xrot = (if (direction == GameObject.Left) 3f else 4f) *attackImg.width/8
       val yrot = 15*attackImg.height/18
       attackImg.setCenterOfRotation(xrot,yrot)
-      attackImg.setRotation(-rotation*direction)
+      val rot = rotation
+      println(rot)
+      attackImg.setRotation(-rot*direction)
       img = attackImg
       images(BossUncoatAttackLegID).draw(x+xrot,y+yrot, direction != GameObject.Left)
     } else {
       img = base.walk1
       attackProgress = 0
+      attackImg.setRotation(0)
     }
     super.draw(g, gc)
   }
@@ -463,8 +477,51 @@ object BossCellphone extends EnemyType {
 class BossCellphone(xc: Float, yc: Float)  extends Enemy(xc, yc, BossCellphone) with Boss {
   def finalStage: Boolean = false
   def nextStage: Enemy = {
-    new BossUncoat(x,y)
+    new BossFinal(x,y)
   }
 
+}
+
+object BossFinal extends EnemyType {
+  val id = BossFinalID
+  val maxHp = 1000
+  val attack = 0
+  val defense = 3
+  val speed = 3
+  val walk1 = images(BossFinalID)
+  val knockback = images(ElsaKnockbackID)
+  val imgs = Array[Drawable](walk1, images(BossFinalWalkID))
+  val attackImg = walk1
+  val armImage = images(BossFinalAttackID)
+  val atkHeight = 5.0f
+  val atkWidth = 50.0f
+}
+
+class BossFinal(xc: Float, yc: Float)  extends Enemy(xc, yc, BossFinal) with Boss with WindupEnemy {
+  def finalStage: Boolean = true
+  def nextStage: Enemy = null
+
+  val attackDuration = 15
+  val windup = 4f/10
+  val swing = 3f/10
+  val recovery = 3f/10
+  override def draw(g: org.newdawn.slick.Graphics, gc: org.newdawn.slick.GameContainer) = {
+    import BossFinal.armImage
+    if (attacking) {
+      val xrot = (if (direction == GameObject.Left) 2f/3 else 1/3)*armImage.width
+      val yrot = 15*armImage.height/18
+      val rot = rotation
+      println(rot)
+
+      armImage.setCenterOfRotation(xrot,yrot)
+      armImage.setRotation(-rot*direction)
+    } else {
+      img = base.walk1
+      attackProgress = 0
+      armImage.setRotation(0)
+    }
+    armImage.draw(x+(if (direction == GameObject.Left) armImage.width/2+5 else base.walk1.width-3*armImage.width/2-10),y, direction == GameObject.Left)
+    super.draw(g, gc)
+  }
 }
 
