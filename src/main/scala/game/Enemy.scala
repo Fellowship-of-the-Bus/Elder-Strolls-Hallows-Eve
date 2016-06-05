@@ -6,8 +6,10 @@ import IDMap._
 import java.util.Scanner
 import java.io.File
 
+import org.newdawn.slick.{GameContainer, Graphics, Color}
+
 import lib.game.GameConfig.{Width}
-import lib.slick2d.ui.{Drawable}
+import lib.slick2d.ui.{Drawable, SomeColor, NoColor}
 import lib.util.{TickTimer,TimerListener,FireN,RepeatForever,ConditionalTickTimer,rand}
 import lib.math.{sqrt, clamp}
 
@@ -381,6 +383,9 @@ class BossFull(xc: Float, yc: Float)  extends RangedEnemy(xc, yc, BossFull) with
   def nextStage: Enemy = {
     new BossUncoat(x,y)
   }
+  var canBurstShoot = true
+
+  val burstTimer = new TimerListener {}
 
   lazy val soaker = images(BossFullSuperSoakerID)
   def offsetx = if (direction == GameObject.Left) -soaker.width/2 else soaker.width/2-25
@@ -389,6 +394,19 @@ class BossFull(xc: Float, yc: Float)  extends RangedEnemy(xc, yc, BossFull) with
   override def draw(g: org.newdawn.slick.Graphics, gc: org.newdawn.slick.GameContainer) = {
     super.draw(g, gc)
     drawScaledImage(soaker, x + width/2 - soaker.width/2, y + height/2 - soaker.height/2, g)
+  }
+  override def hit(c:Character, strength: Int) {
+    burstTimer.tick(1)
+    if (canBurstShoot) {
+      super.hit(c, strength)
+      if (!burstTimer.ticking) {
+        burstTimer += new TickTimer(120, () => canBurstShoot = false)
+      }
+    } else {
+      if (!burstTimer.ticking) {
+        burstTimer += new TickTimer(120, () => canBurstShoot = true)
+      }
+    }
   }
 }
 
@@ -439,6 +457,8 @@ class BossUncoat(xc: Float, yc: Float)  extends Enemy(xc, yc, BossUncoat) with B
   val windup = 1f/2
   val swing = 1f/4
   val recovery = 1f/4
+
+  val leg = images(BossUncoatAttackLegID).copy
   override def draw(g: org.newdawn.slick.Graphics, gc: org.newdawn.slick.GameContainer) = {
     import BossUncoat.attackImg
     if (attacking) {
@@ -448,7 +468,8 @@ class BossUncoat(xc: Float, yc: Float)  extends Enemy(xc, yc, BossUncoat) with B
       val rot = rotation
       attackImg.setRotation(-rot*direction)
       img = attackImg
-      images(BossUncoatAttackLegID).draw(x+xrot,y+yrot, direction != GameObject.Left)
+      val filter = if (isHurt) (if (alive) SomeColor(Color.red) else SomeColor(Color.transparent)) else NoColor
+      leg.draw(x+xrot,y+yrot, direction != GameObject.Left, false, filter)
     } else {
       img = base.walk1
       attackProgress = 0
@@ -486,11 +507,12 @@ class BossCellphone(xc: Float, yc: Float)  extends Enemy(xc, yc, BossCellphone) 
   this.cancelAll
   this += new ConditionalTickTimer(3*60, () => hit(target, attack), () => ! attacking, RepeatForever)
   this += new ConditionalTickTimer(1, move _, () => alive, RepeatForever)
+  var sound = BossSFX.default
 
   override def hit(c: Character, strength: Int) = {
     import BossSFX._
     val spawner = BossSFX.random
-    val sound = spawner.sound
+    sound = spawner.music
     sound.play
     dancing = true
     this += new TickTimer(60, () => {
@@ -534,6 +556,21 @@ class BossCellphone(xc: Float, yc: Float)  extends Enemy(xc, yc, BossCellphone) 
     super.move(xVec * norm, yVec * norm)
     clampY()
   }
+
+  override def knockback(distance:Float) = {
+    super.knockback(distance)
+    if (hp <= 0) {
+      sound.stop()
+    }
+  }
+
+  override def pause(isPaused: Boolean) = {
+    if (isPaused) {
+      sound.pause
+    } else {
+      sound.resume
+    }
+  }
 }
 
 object BossFinal extends EnemyType {
@@ -572,7 +609,7 @@ class BossFinal(xc: Float, yc: Float)  extends Enemy(xc, yc, BossFinal) with Bos
       attackProgress = 0
       armImage.setRotation(0)
     }
-    armImage.draw(x+(if (direction == GameObject.Left) armImage.width/2+5 else base.walk1.width-3*armImage.width/2-10),y, direction == GameObject.Left)
+    drawScaledImage(armImage,x+(if (direction == GameObject.Left) armImage.width/2+5 else base.walk1.width-3*armImage.width/2-10), y, g)
     super.draw(g, gc)
   }
 }

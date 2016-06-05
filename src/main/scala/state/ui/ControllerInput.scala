@@ -7,6 +7,8 @@ import org.newdawn.slick.{GameContainer, Graphics, Color, Input}
 import org.newdawn.slick.state.{StateBasedGame}
 import org.newdawn.slick.util.InputAdapter
 
+import game.GameObject
+
 import game.IDMap._
 
 class ControllerInput(g: game.Game, gc: GameContainer, sbg: StateBasedGame) extends InputAdapter() {
@@ -83,6 +85,7 @@ class ControllerInput(g: game.Game, gc: GameContainer, sbg: StateBasedGame) exte
   override def controllerButtonPressed(controller: Int, button: Int) = {
     if (button == BUTTON_START) {
       gc.setPaused(!gc.isPaused)
+      game.pause(gc.isPaused)
     }
     else if (button == BUTTON_BACK) {
       sbg.enterState(Mode.MenuID)
@@ -95,13 +98,19 @@ class ControllerInput(g: game.Game, gc: GameContainer, sbg: StateBasedGame) exte
         else if (button == BUTTON_B) {
           System.exit(0)
         }
-      } else {
+      } else if (game.players(controller).active && !game.players(controller).dodging && game.players(controller).imgs.indexOf(game.players(controller).img) != -1) {
         if (button == BUTTON_A) {
-          if (game.players(controller).active) game.players(controller).tryAttack(game)
+          game.players(controller).tryAttack(game)
         } else if (button == BUTTON_B) {
-          if (game.players(controller).imgs.indexOf(game.players(controller).img) != -1) {
-            if (game.players(controller).active) game.players(controller).tryAttack2(game)
-          }
+          //if (game.players(controller).imgs.indexOf(game.players(controller).img) != -1) {
+            game.players(controller).tryAttack2(game)
+          //}
+        } else if (button == BUTTON_X) {
+          val p = game.players(controller)
+          p.dodgeDirX = input.getAxisValue(controller,AXIS_X)
+          p.dodgeDirY = input.getAxisValue(controller,AXIS_Y)
+          if (p.dodgeDirX == 0f && p.dodgeDirY == 0f) p.dodgeDirX = if (p.direction == GameObject.Left) 1f else -1f
+          p.dodge(game)
         }
       }
     }
@@ -120,13 +129,17 @@ class ControllerInput(g: game.Game, gc: GameContainer, sbg: StateBasedGame) exte
     if (!gc.isPaused) {
       for ((cnum,pnum) <- controllers) {
         val p = game.players(pnum)
-        if (p.active) p.move(p.speed*input.getAxisValue(cnum,AXIS_X),p.speed*input.getAxisValue(cnum,AXIS_Y))
+        if (p.active) {
+          if (p.dodging) p.move(p.speed * p.dodgeDirX * p.dodgeSpeed, p.speed * p.dodgeDirY * p.dodgeSpeed)
+          else p.move(p.speed*input.getAxisValue(cnum,AXIS_X),p.speed*input.getAxisValue(cnum,AXIS_Y))
+        }
       }
 
       if (controllers.length == 0) {
         // support single player if there are no controllers attached
         val p = game.players(0)
-        if (p.active) p.move(p.speed*horizontal, p.speed*vertical)
+        if (p.dodging) p.move(p.speed * p.dodgeDirX * p.dodgeSpeed, p.speed * p.dodgeDirY * p.dodgeSpeed)
+        else p.move(p.speed*horizontal, p.speed*vertical)
       }
     }
   }
@@ -155,7 +168,7 @@ class ControllerInput(g: game.Game, gc: GameContainer, sbg: StateBasedGame) exte
           if (sbg.getCurrentStateID == Mode.MenuID) {
             sbg.enterState(Mode.BattleID)
           } else {
-            if (player.active) player.tryAttack(game)
+            if (player.active && !player.dodging) player.tryAttack(game)
           }
 
         // kick/cancel button
@@ -163,7 +176,17 @@ class ControllerInput(g: game.Game, gc: GameContainer, sbg: StateBasedGame) exte
           if (sbg.getCurrentStateID == Mode.MenuID) {
             System.exit(0)
           } else if (player.imgs.contains(player.img)) {
-            if (player.active) player.tryAttack2(game)
+            if (player.active && !player.dodging) player.tryAttack2(game)
+          }
+
+        case Input.KEY_D =>
+          if (sbg.getCurrentStateID == Mode.BattleID) {
+            if (player.active && !player.dodging) {
+              player.dodgeDirX = horizontal
+              player.dodgeDirY = vertical
+              if (player.dodgeDirX == 0f && player.dodgeDirY == 0f) player.dodgeDirX = if (player.direction == GameObject.Left) 1f else -1f
+              player.dodge(game)
+            }
           }
 
         case _ => ()

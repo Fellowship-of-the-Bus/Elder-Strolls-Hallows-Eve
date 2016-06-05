@@ -19,6 +19,8 @@ import eshe.state.ui.{GameArea}
 trait PlayerType extends CharacterType {
   val kickImage: Drawable
   val jumpImage: Drawable
+  val dodgeImage: Drawable
+  def dodgeSpeed: Float
 }
 
 abstract case class Player(xc: Float, yc: Float, override val base: PlayerType) extends game.Character(xc, yc, base) {
@@ -28,6 +30,18 @@ abstract case class Player(xc: Float, yc: Float, override val base: PlayerType) 
   def tryAttack2(game: Game) = {
 
   }
+
+  def dodge(game: Game) = {
+
+  }
+
+  var dodging = false
+  var dodgeDirX = 0f
+  var dodgeDirY = 0f
+  val dodgeSpeed = base.dodgeSpeed
+
+  var iframes = 0;
+
   var score = 0
 
   override def hitbox = Rect(x, y + height/2, x + width, y + height)
@@ -65,6 +79,7 @@ object IVGuy extends PlayerType {
   val attack = 30
   val defense = 20
   val speed = 5
+  val dodgeSpeed = 2f
 
   var walk1 = images(IVGuyW1ID)
   var walk2 = images(IVGuyW2ID)
@@ -72,6 +87,8 @@ object IVGuy extends PlayerType {
 
   val kickImage = images(IVGuyKickID)
   val jumpImage = images(IVGuyJumpID)
+
+  val dodgeImage = images(IVGuyDodgeID)
 
   val atkHeight = 370.0f
   val atkWidth = 60.0f
@@ -85,6 +102,7 @@ object IVGuy2 extends PlayerType {
   val attack = IVGuy.attack
   val defense = IVGuy.defense
   val speed = IVGuy.speed
+  val dodgeSpeed = IVGuy.dodgeSpeed
 
   var walk1 = images(IVGuy2W1ID)
   var walk2 = images(IVGuy2W2ID)
@@ -92,6 +110,8 @@ object IVGuy2 extends PlayerType {
 
   val kickImage = images(IVGuy2KickID)
   val jumpImage = images(IVGuy2JumpID)
+
+  val dodgeImage = images(IVGuy2DodgeID)
 
   val atkHeight = IVGuy.atkHeight
   val atkWidth = IVGuy.atkWidth
@@ -103,6 +123,7 @@ object IVGuy3 extends PlayerType {
   val attack = IVGuy.attack
   val defense = IVGuy.defense
   val speed = IVGuy.speed
+  val dodgeSpeed = IVGuy.dodgeSpeed
 
   var walk1 = images(IVGuy3W1ID)
   var walk2 = images(IVGuy3W2ID)
@@ -110,6 +131,8 @@ object IVGuy3 extends PlayerType {
 
   val kickImage = images(IVGuy3KickID)
   val jumpImage = images(IVGuy3JumpID)
+
+  val dodgeImage = images(IVGuy3DodgeID)
 
   val atkHeight = IVGuy.atkHeight
   val atkWidth = IVGuy.atkWidth
@@ -121,6 +144,7 @@ object IVGuy4 extends PlayerType {
   val attack = IVGuy.attack
   val defense = IVGuy.defense
   val speed = IVGuy.speed
+  val dodgeSpeed = IVGuy.dodgeSpeed
 
   var walk1 = images(IVGuy4W1ID)
   var walk2 = images(IVGuy4W2ID)
@@ -128,6 +152,8 @@ object IVGuy4 extends PlayerType {
 
   val kickImage = images(IVGuy4KickID)
   val jumpImage = images(IVGuy4JumpID)
+
+  val dodgeImage = images(IVGuy4DodgeID)
 
   val atkHeight = IVGuy.atkHeight
   val atkWidth = IVGuy.atkWidth
@@ -142,6 +168,7 @@ class IVGuy(xc: Float, yc: Float, playerNum: Int) extends Player(xc, yc, IVGuys.
   val armPunch = images(IVGuyArmPunchID).copy
   val kick = guy.kickImage.copy
   val jump = guy.jumpImage.copy
+  val dodge = guy.dodgeImage.copy
 //  val kick = images(IVGuyKickID).copy
 //  val jump = images(IVGuyJumpID).copy
   var currArm = armDefault
@@ -202,6 +229,16 @@ class IVGuy(xc: Float, yc: Float, playerNum: Int) extends Player(xc, yc, IVGuys.
     img = jump
   }
 
+  override def dodge(game: Game) {
+    dodging = true
+    img = dodge
+    iframes = 5
+    action += new TickTimer(20, () => {
+      img = imgs(index)
+      dodging = false
+    })
+  }
+
   override def draw(g: Graphics, gc: GameContainer) = {
     SlickGameConfig.graphics = g
     drawScaledImage(img, x, y, g)
@@ -221,5 +258,7 @@ class IVGuy(xc: Float, yc: Float, playerNum: Int) extends Player(xc, yc, IVGuys.
     // movement image, so they should be updated second
     movement.tick(delta)
     action.tick(delta)
+
+    iframes = Math.max(0, iframes-1)
   }
 }

@@ -153,4 +153,10 @@ class Game extends lib.slick2d.game.Game with TimerListener {
       gameOver()
     }
   }
+
+  def pause(isPaused: Boolean) = {
+    for (e <- enemies; if (e.active)) {
+      e.pause(isPaused)
+    }
+  }
 }

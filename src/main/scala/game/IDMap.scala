@@ -23,6 +23,10 @@ object IDMap{
   val IVGuy4KickID = 116
   val IVGuyArmID = 150
   val IVGuyArmPunchID = 151
+  val IVGuyDodgeID = 152
+  val IVGuy2DodgeID = 153
+  val IVGuy3DodgeID = 154
+  val IVGuy4DodgeID = 155
 
   val GhostW1ID = 200
   val GhostW2ID = 201
@@ -87,6 +91,10 @@ object IDMap{
     IVGuy4KickID -> "img/P4KickFull.png",
     IVGuyArmID -> "img/ArmDefault.png",
     IVGuyArmPunchID -> "img/ArmPunch.png",
+    IVGuyDodgeID -> "img/Dodge.png",
+    IVGuy2DodgeID -> "img/P2Dodge.png",
+    IVGuy3DodgeID -> "img/P3Dodge.png",
+    IVGuy4DodgeID -> "img/P4Dodge.png",
     GhostW1ID -> "img/GhostRun1.png",
     GhostW2ID -> "img/GhostRun2.png",
     GhostWindupID -> "img/GhostWindup.png",
