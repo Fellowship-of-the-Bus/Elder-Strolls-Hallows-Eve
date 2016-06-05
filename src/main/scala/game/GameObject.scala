@@ -75,6 +75,7 @@ abstract class GameObject(xc: Float, yc: Float) extends lib.game.TopLeftCoordina
     c.hp = c.hp - damage
 
     if (c.hp <= 0) {
+      c.hp = 0
       //c.inactivate
       c match {
         case e: Enemy => {

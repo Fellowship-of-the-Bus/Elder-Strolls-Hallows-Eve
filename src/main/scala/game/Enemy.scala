@@ -102,7 +102,7 @@ abstract case class Enemy(xc: Float, yc: Float, waveNum: Int, override val base:
     if (target == null || ! target.active) false
     else {
       val (xVec, yVec) = distanceToTarget
-      xVec > -(target.hitbox.x2-target.hitbox.x1 + width)/2 && xVec < (target.hitbox.x2-target.hitbox.x1 + width)/2 && 
+      xVec > -(target.hitbox.x2-target.hitbox.x1 + width)/2 && xVec < (target.hitbox.x2-target.hitbox.x1 + width)/2 &&
       yVec > -(target.hitbox.y2-target.hitbox.y1 + height)/2 && yVec < (target.hitbox.y2-target.hitbox.y1 + height)/2
     }
   }
@@ -354,15 +354,27 @@ class HorseMask(xc: Float, yc: Float, waveNum: Int) extends Enemy(xc, yc, waveNu
 trait Boss extends Enemy {
   def finalStage: Boolean
   def nextStage: Enemy
+  def deadImage: Drawable
+  def die() = {
+    img = deadImage
+    cancelAll()
+    alive = false
+    attacking = false
+  }
   override def knockback(distance: Float) = {
     if (hp <= 0) {
       if (! finalStage) {
         this += new TickTimer(0, () => {
-          inactivate
+          die()
           state.Battle.game.enemies = nextStage :: state.Battle.game.enemies
           })
       } else {
-        inactivate
+        die()
+        val game = state.Battle.game
+        for (player <- game.players.filter(_.active)) {
+          player.heal(1f)
+        }
+        game.spawnWave()
       }
       for (player <- state.Battle.game.players.filter(_.active)) {
         player.heal(0.05f)
@@ -387,6 +399,7 @@ object BossFull extends EnemyType {
 }
 
 class BossFull(xc: Float, yc: Float, waveNum: Int)  extends RangedEnemy(xc, yc, waveNum, BossFull) with Boss {
+  val deadImage = images(TrenchcoatID)
   def range: Int = GameArea.width.toInt
   def projType: ProjectileID = BossFullProjectile
   def shootSpeed = 1
@@ -461,6 +474,7 @@ trait WindupEnemy extends Enemy {
 }
 
 class BossUncoat(xc: Float, yc: Float, waveNum: Int)  extends Enemy(xc, yc, waveNum, BossUncoat) with Boss with WindupEnemy {
+  val deadImage = images(TopGuyID)
   def finalStage: Boolean = false
   def nextStage: Enemy = {
     new BossCellphone(x,y, waveNum)
@@ -482,6 +496,8 @@ class BossUncoat(xc: Float, yc: Float, waveNum: Int)  extends Enemy(xc, yc, wave
       img = attackImg
       val filter = if (isHurt) (if (alive) SomeColor(Color.red) else SomeColor(Color.transparent)) else NoColor
       leg.draw(x+xrot,y+yrot, direction != GameObject.Left, false, filter)
+    } else if(! alive) {
+      img = deadImage
     } else {
       img = base.walk1
       attackProgress = 0
@@ -508,6 +524,7 @@ object BossCellphone extends EnemyType {
 }
 
 class BossCellphone(xc: Float, yc: Float, waveNum: Int)  extends Enemy(xc, yc, waveNum, BossCellphone) with Boss {
+  val deadImage = images(MiddleGuyID)
   def finalStage: Boolean = false
   def nextStage: Enemy = {
     new BossFinal(x,y,waveNum)
@@ -518,6 +535,7 @@ class BossCellphone(xc: Float, yc: Float, waveNum: Int)  extends Enemy(xc, yc, w
   var reached = false
 
   this.cancelAll
+  this += new TickTimer(60, () => hit(target, attack))
   this += new ConditionalTickTimer(3*60, () => hit(target, attack), () => ! attacking, RepeatForever)
   this += new ConditionalTickTimer(1, move _, () => alive, RepeatForever)
   var sound = BossSFX.default
@@ -603,6 +621,7 @@ object BossFinal extends EnemyType {
 }
 
 class BossFinal(xc: Float, yc: Float, waveNum: Int)  extends Enemy(xc, yc, waveNum, BossFinal) with Boss with WindupEnemy {
+  val deadImage = images(BottomGuyID)
   def finalStage: Boolean = true
   def nextStage: Enemy = null
 
@@ -618,12 +637,16 @@ class BossFinal(xc: Float, yc: Float, waveNum: Int)  extends Enemy(xc, yc, waveN
       val rot = rotation
       armImage.setCenterOfRotation(xrot,yrot)
       armImage.setRotation(-rot*direction)
+    } else if (! alive) {
+      img = deadImage
     } else {
       img = base.walk1
       attackProgress = 0
       armImage.setRotation(0)
     }
-    drawScaledImage(armImage,x+(if (direction == GameObject.Left) armImage.width/2+5 else base.walk1.width-3*armImage.width/2-10), y, g)
+    if (alive) {
+      drawScaledImage(armImage,x+(if (direction == GameObject.Left) armImage.width/2+5 else base.walk1.width-3*armImage.width/2-10), y, g)
+    }
     super.draw(g, gc)
   }
 }
