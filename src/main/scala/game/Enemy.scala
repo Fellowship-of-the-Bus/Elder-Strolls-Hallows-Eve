@@ -357,6 +357,9 @@ trait Boss extends Enemy {
       } else {
         inactivate
       }
+      for (player <- state.Battle.game.players.filter(_.active)) {
+        player.heal(0.05f)
+      }
     }
   }
 }
