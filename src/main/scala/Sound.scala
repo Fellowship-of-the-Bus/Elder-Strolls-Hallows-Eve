@@ -1,40 +1,45 @@
 package com.github.fellowship_of_the_bus
 package eshe
 
-import org.newdawn.slick.Sound
+import org.newdawn.slick.Music
 
 import lib.util.{rand,openFileAsStream}
 
 import game._
 
 object BossSFX {
-  def makeSound(name: String) = {
+  def makeMusic(name: String) = {
     val path = s"sfx/${name}.wav"
     if (openFileAsStream(path) == null) {
-      new Sound("sfx/default.wav")
+      default
     } else {
-      new Sound(path)
+      new Music(path)
     }
   }
-  val powerRanger1 = makeSound("power-ranger1")
-  val powerRanger2 = makeSound("power-ranger2")
-  val powerRanger3 = makeSound("power-ranger3")
-  val horseMask1 = makeSound("horse-mask1")
-  val horseMask2 = makeSound("horse-mask2")
-  val horseMask3 = makeSound("horse-mask3")
-  val elsa1 = makeSound("elsa1")
-  val elsa2 = makeSound("elsa2")
-  val elsa3 = makeSound("elsa3")
-  val hotdog1 = makeSound("hotdog1")
-  val hotdog2 = makeSound("hotdog2")
-  val hotdog3 = makeSound("hotdog3")
-  val ghost1 = makeSound("ghost1")
-  val ghost2 = makeSound("ghost2")
-  val ghost3 = makeSound("ghost3")
+  val default = new Music("sfx/default.wav")
+  val powerRanger1 = makeMusic("power-ranger1")
+  val powerRanger2 = makeMusic("power-ranger2")
+  val powerRanger3 = makeMusic("power-ranger3")
+  val horseMask1 = makeMusic("horse-mask1")
+  val horseMask2 = makeMusic("horse-mask2")
+  val horseMask3 = makeMusic("horse-mask3")
+  val elsa1 = makeMusic("elsa1")
+  val elsa2 = makeMusic("elsa2")
+  val elsa3 = makeMusic("elsa3")
+  val hotdog1 = makeMusic("hotdog1")
+  val hotdog2 = makeMusic("hotdog2")
+  val hotdog3 = makeMusic("hotdog3")
+  val ghost1 = makeMusic("ghost1")
+  val ghost2 = makeMusic("ghost2")
+  val ghost3 = makeMusic("ghost3")
 
   trait Spawner[EnemyKind <: Enemy] {
-    def soundList: Seq[Sound]
-    def sound: Sound = rand(soundList)
+    def musicList: Seq[Music]
+    var curMusic = 0
+    def music: Music = {
+      curMusic = (curMusic+1)%musicList.length
+      musicList(curMusic)
+    }
     def apply(): List[EnemyKind]
     def apply(x: Float, y: Float): EnemyKind
     def spawnRandomly(n: Int): List[EnemyKind] = List.fill(n)({
@@ -45,31 +50,31 @@ object BossSFX {
   }
 
   object GhostSpawner extends Spawner[Ghost] {
-    val soundList = Vector(ghost1, ghost2, ghost3)
+    val musicList = Vector(ghost1, ghost2, ghost3)
     def apply(x: Float, y: Float) = new Ghost(x, y)
     def apply() = spawnRandomly(3)
   }
 
   object ElsaSpawner extends Spawner[Elsa] {
-    val soundList = Vector(elsa1, elsa2, elsa3)
+    val musicList = Vector(elsa1, elsa2, elsa3)
     def apply(x: Float, y: Float) = new Elsa(x, y)
     def apply() = spawnRandomly(4)
   }
 
   object PowerRangerSpawner extends Spawner[PowerRanger] {
-    val soundList = Vector(powerRanger1, powerRanger2, powerRanger3)
+    val musicList = Vector(powerRanger1, powerRanger2, powerRanger3)
     def apply(x: Float, y: Float) = new PowerRanger(x, y)
     def apply() = spawnRandomly(5)
   }
 
   object HotdogSpawner extends Spawner[Hotdog] {
-    val soundList = Vector(hotdog1, hotdog2, hotdog3)
+    val musicList = Vector(hotdog1, hotdog2, hotdog3)
     def apply(x: Float, y: Float) = new Hotdog(x, y)
     def apply() = spawnRandomly(2)
   }
 
   object HorseMaskSpawner extends Spawner[HorseMask] {
-    val soundList = Vector(horseMask1, horseMask2, horseMask3)
+    val musicList = Vector(horseMask1, horseMask2, horseMask3)
     def apply(x: Float, y: Float) = new HorseMask(x, y)
     def apply() = spawnRandomly(20)
   }

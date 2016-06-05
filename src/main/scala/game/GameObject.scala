@@ -101,4 +101,6 @@ abstract class GameObject(xc: Float, yc: Float) extends lib.game.TopLeftCoordina
   def draw(g: Graphics, gc: GameContainer) = {
     drawScaledImage(img, x, y, g)
   }
+
+  def pause(isPaused: Boolean) = ()
 }

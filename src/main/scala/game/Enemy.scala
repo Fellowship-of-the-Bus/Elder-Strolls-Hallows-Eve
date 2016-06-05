@@ -498,11 +498,12 @@ class BossCellphone(xc: Float, yc: Float)  extends Enemy(xc, yc, BossCellphone) 
   this.cancelAll
   this += new ConditionalTickTimer(3*60, () => hit(target, attack), () => ! attacking, RepeatForever)
   this += new ConditionalTickTimer(1, move _, () => alive, RepeatForever)
+  var sound = BossSFX.default
 
   override def hit(c: Character, strength: Int) = {
     import BossSFX._
     val spawner = BossSFX.random
-    val sound = spawner.sound
+    sound = spawner.music
     sound.play
     this += new TickTimer(60, () => {
       val enemies = spawner()
@@ -515,6 +516,21 @@ class BossCellphone(xc: Float, yc: Float)  extends Enemy(xc, yc, BossCellphone) 
       attacking = false
       img = base.walk1
     }, () => ! sound.playing)
+  }
+
+  override def knockback(distance:Float) = {
+    super.knockback(distance)
+    if (hp <= 0) {
+      sound.stop()
+    }
+  }
+
+  override def pause(isPaused: Boolean) = {
+    if (isPaused) {
+      sound.pause
+    } else {
+      sound.resume
+    }
   }
 }
 

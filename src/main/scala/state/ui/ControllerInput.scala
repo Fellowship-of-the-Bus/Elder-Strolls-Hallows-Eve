@@ -85,6 +85,7 @@ class ControllerInput(g: game.Game, gc: GameContainer, sbg: StateBasedGame) exte
   override def controllerButtonPressed(controller: Int, button: Int) = {
     if (button == BUTTON_START) {
       gc.setPaused(!gc.isPaused)
+      game.pause(gc.isPaused)
     }
     else if (button == BUTTON_BACK) {
       sbg.enterState(Mode.MenuID)
