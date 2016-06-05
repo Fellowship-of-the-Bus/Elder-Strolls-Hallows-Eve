@@ -515,6 +515,8 @@ class BossFull(xc: Float, yc: Float, waveNum: Int)  extends RangedEnemy(xc, yc, 
   var canBurstShoot = true
 
   val burstTimer = new TimerListener {}
+  val shotInterval = 3
+  var shotIntervalCounter = 0
 
   lazy val soaker = images(BossFullSuperSoakerID)
   def offsetx = if (direction == GameObject.Left) -soaker.width/2 else soaker.width/2-25
@@ -527,7 +529,9 @@ class BossFull(xc: Float, yc: Float, waveNum: Int)  extends RangedEnemy(xc, yc, 
   override def hit(c:Character, strength: Int) {
     burstTimer.tick(1)
     if (canBurstShoot) {
-      super.hit(c, strength)
+      shotIntervalCounter = (shotIntervalCounter + 1) % shotInterval
+      if (shotIntervalCounter == 0)
+        super.hit(c, strength)
       if (!burstTimer.ticking) {
         burstTimer += new TickTimer(240, () => canBurstShoot = false)
       }
