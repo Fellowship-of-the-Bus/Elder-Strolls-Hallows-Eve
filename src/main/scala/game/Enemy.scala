@@ -461,6 +461,10 @@ object BossCellphone extends EnemyType {
 }
 
 class BossCellphone(xc: Float, yc: Float)  extends Enemy(xc, yc, BossCellphone) with Boss {
+  def finalStage: Boolean = false
+  def nextStage: Enemy = {
+    new BossUncoat(x,y)
+  }
 
 }
 
