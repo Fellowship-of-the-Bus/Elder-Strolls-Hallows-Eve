@@ -1,6 +1,5 @@
 Today's todo
 boss: 
-	music pause
 	display defeated stages
 enemies:
   	blue, pink, yellow, black, green power rangers
@@ -8,6 +7,8 @@ enemies:
 items
   -health recovery items
   -extra lives
+
+balance
 All Todo
 
 -extra characters / enemies
@@ -38,4 +39,8 @@ All Todo
   -weapons
 
 -fix bugs (99 bugs on the wall, take one down, pass it around, 117 bugs on the wall)
+
+	arm flashing 
+	leg flashing
+	boss second stage too large?
 
