@@ -491,7 +491,7 @@ trait Boss extends Enemy {
 object BossFull extends EnemyType {
   val id = BossFullID
   val maxHp = 500
-  val attack = 0
+  val attack = 1
   val defense = 3
   val speed = 3
   val walk1 = images(BossFullID)
@@ -529,11 +529,11 @@ class BossFull(xc: Float, yc: Float, waveNum: Int)  extends RangedEnemy(xc, yc, 
     if (canBurstShoot) {
       super.hit(c, strength)
       if (!burstTimer.ticking) {
-        burstTimer += new TickTimer(180, () => canBurstShoot = false)
+        burstTimer += new TickTimer(240, () => canBurstShoot = false)
       }
     } else {
       if (!burstTimer.ticking) {
-        burstTimer += new TickTimer(120, () => canBurstShoot = true)
+        burstTimer += new TickTimer(180, () => canBurstShoot = true)
       }
     }
   }
@@ -542,7 +542,7 @@ class BossFull(xc: Float, yc: Float, waveNum: Int)  extends RangedEnemy(xc, yc, 
 object BossUncoat extends EnemyType {
   val id = BossUncoatID
   val maxHp = 500
-  val attack = 0
+  val attack = 50
   val defense = 3
   val speed = 3
   val walk1 = images(BossUncoatID)
@@ -712,7 +712,7 @@ class BossCellphone(xc: Float, yc: Float, waveNum: Int)  extends Enemy(xc, yc, w
 object BossFinal extends EnemyType {
   val id = BossFinalID
   val maxHp = 1000
-  val attack = 0
+  val attack = 5
   val defense = 3
   val speed = 3
   val walk1 = images(BossFinalID)
