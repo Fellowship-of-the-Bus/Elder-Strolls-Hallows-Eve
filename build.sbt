@@ -15,7 +15,7 @@ val separator = System.getProperty("os.name").split(" ")(0).toLowerCase match {
 }
 
 lazy val commonSettings = Seq(
-  name := "Elder Strolls: Hallow's Eve",
+  name := "Elder-Strolls-Hallows-Eve",
   organization := "com.github.fellowship_of_the_bus",
   scalaVersion := "2.11.8",
   fork := true,
