@@ -45,15 +45,12 @@ object Battle extends BasicGameState {
   }
 
   def newGame() = {
-    val pnum = game.players.length
     game.pause(true)
     game = new Game
-    println("Game made")
     GameArea.controller.game = game
     game.setPlayers(GameArea.controller.controllers.length)
     ui.resetGame(game)
     HUD.restart(game)
-
   }
 
   def getID() = Mode.BattleID

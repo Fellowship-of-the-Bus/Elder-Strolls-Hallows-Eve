@@ -8,7 +8,7 @@ import scala.collection.immutable.Queue
 import org.newdawn.slick.{AppGameContainer, GameContainer, Graphics, SlickException, Color, Input}
 import org.newdawn.slick.state.{BasicGameState, StateBasedGame}
 
-import lib.slick2d.ui.{Pane,TextBox}
+import lib.slick2d.ui.{TextBox}
 import lib.util.{TickTimer,TimerListener,RepeatForever}
 
 import eshe.game.{GameObject,Player,Enemy}
