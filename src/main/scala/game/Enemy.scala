@@ -640,7 +640,7 @@ class BossCellphone(xc: Float, yc: Float, waveNum: Int)  extends Enemy(xc, yc, w
         Battle.game.enemies = Battle.game.enemies ++ enemies
       }
       spawnEnemies()
-      extraSpawnTimer += new ConditionalTickTimer(4*60, () => {
+      extraSpawnTimer += new ConditionalTickTimer(7*60, () => {
         spawnEnemies()
       }, () => sound.playing, RepeatForever)
     })

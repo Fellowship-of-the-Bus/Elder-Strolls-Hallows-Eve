@@ -31,7 +31,7 @@ object ElderStrolls extends App {
     Width = appgc.getScreenWidth
     appgc.setDisplayMode(Width, Height, true)
     appgc.setTargetFrameRate(FrameRate)
-    appgc.setVSync(true)
+    appgc.setVSync(if (GameConfig.OS == GameConfig.MacOS) false else true)
     appgc.start()
   } catch {
     case ex: SlickException => Logger.getLogger(ElderStrolls.getClass.getName()).log(Level.SEVERE, null, ex)

@@ -58,5 +58,7 @@ extends Pane(x, y, width, height)(parentCol) with PlayerListener with TimerListe
 
   override def enemyDied(e: Enemy): Unit = {
     enemyQueue = enemyQueue :+ e
+    // temporary: increase life for each enemy defeated to make game easier
+    player.hp = lib.math.min(player.hp+player.maxHp*.05f, player.maxHp).toInt
   }
 }
