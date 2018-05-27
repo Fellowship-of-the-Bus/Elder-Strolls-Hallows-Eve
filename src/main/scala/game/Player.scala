@@ -68,22 +68,12 @@ object IVGuys {
   val guys = Array(IVGuy, IVGuy2, IVGuy3, IVGuy4)
 }
 
-object IVGuy extends PlayerType {
-  val id = IVGuyW1ID
+trait IVGuyType extends PlayerType {
   val maxHp = 100
   val attack = 30
   val defense = 20
   val speed = 5
   val dodgeSpeed = 2f
-
-  var walk1 = images(IVGuyW1ID)
-  var walk2 = images(IVGuyW2ID)
-  var imgs = Array[Drawable](walk1, walk2)
-
-  val kickImage = images(IVGuyKickID)
-  val jumpImage = images(IVGuyJumpID)
-
-  val dodgeImage = images(IVGuyDodgeID)
 
   val atkHeight = 370.0f
   val atkWidth = 60.0f
@@ -94,13 +84,21 @@ object IVGuy extends PlayerType {
   val attack2Damage = 40
 }
 
-object IVGuy2 extends PlayerType {
+object IVGuy extends IVGuyType {
+  val id = IVGuyW1ID
+
+  var walk1 = images(IVGuyW1ID)
+  var walk2 = images(IVGuyW2ID)
+  var imgs = Array[Drawable](walk1, walk2)
+
+  val kickImage = images(IVGuyKickID)
+  val jumpImage = images(IVGuyJumpID)
+
+  val dodgeImage = images(IVGuyDodgeID)
+}
+
+object IVGuy2 extends IVGuyType {
   val id = IVGuy.id
-  val maxHp = IVGuy.maxHp
-  val attack = IVGuy.attack
-  val defense = IVGuy.defense
-  val speed = IVGuy.speed
-  val dodgeSpeed = IVGuy.dodgeSpeed
 
   var walk1 = images(IVGuy2W1ID)
   var walk2 = images(IVGuy2W2ID)
@@ -110,21 +108,10 @@ object IVGuy2 extends PlayerType {
   val jumpImage = images(IVGuy2JumpID)
 
   val dodgeImage = images(IVGuy2DodgeID)
-
-  val atkHeight = IVGuy.atkHeight
-  val atkWidth = IVGuy.atkWidth
-
-  val attack1Damage = IVGuy.attack1Damage
-  val attack2Damage = IVGuy.attack2Damage
 }
 
-object IVGuy3 extends PlayerType {
+object IVGuy3 extends IVGuyType {
   val id = IVGuy.id
-  val maxHp = IVGuy.maxHp
-  val attack = IVGuy.attack
-  val defense = IVGuy.defense
-  val speed = IVGuy.speed
-  val dodgeSpeed = IVGuy.dodgeSpeed
 
   var walk1 = images(IVGuy3W1ID)
   var walk2 = images(IVGuy3W2ID)
@@ -134,21 +121,10 @@ object IVGuy3 extends PlayerType {
   val jumpImage = images(IVGuy3JumpID)
 
   val dodgeImage = images(IVGuy3DodgeID)
-
-  val atkHeight = IVGuy.atkHeight
-  val atkWidth = IVGuy.atkWidth
-
-  val attack1Damage = IVGuy.attack1Damage
-  val attack2Damage = IVGuy.attack2Damage
 }
 
-object IVGuy4 extends PlayerType {
+object IVGuy4 extends IVGuyType {
   val id = IVGuy.id
-  val maxHp = IVGuy.maxHp
-  val attack = IVGuy.attack
-  val defense = IVGuy.defense
-  val speed = IVGuy.speed
-  val dodgeSpeed = IVGuy.dodgeSpeed
 
   var walk1 = images(IVGuy4W1ID)
   var walk2 = images(IVGuy4W2ID)
@@ -158,21 +134,15 @@ object IVGuy4 extends PlayerType {
   val jumpImage = images(IVGuy4JumpID)
 
   val dodgeImage = images(IVGuy4DodgeID)
-
-  val atkHeight = IVGuy.atkHeight
-  val atkWidth = IVGuy.atkWidth
-
-  val attack1Damage = IVGuy.attack1Damage
-  val attack2Damage = IVGuy.attack2Damage
 }
 
 class IVGuy(xc: Float, yc: Float, playerNum: Int) extends Player(xc, yc, IVGuys.guys(playerNum)) {
   val name = "Herbert"
 
-  def atkHeight2 = IVGuy.atkHeight2
   val guy = IVGuys.guys(playerNum)
   val armDefault = images(IVGuyArmID).copy
   val armPunch = images(IVGuyArmPunchID).copy
+  def atkHeight2 = guy.atkHeight2
   val kick = guy.kickImage.copy
   val jump = guy.jumpImage.copy
   val dodge = guy.dodgeImage.copy
