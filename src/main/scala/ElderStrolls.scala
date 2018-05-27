@@ -23,13 +23,26 @@ object ElderStrolls extends App {
 
   GameConfig.FrameRate = 60
 
+  def calculateScreenSize(width: Int, height: Int): (Int, Int) = {
+    // calculate maximum screen size using desired aspect ratio and known width and height.
+    val aspect = 16.0/9
+    val newWidth = (height * aspect).toInt
+    if (width < newWidth) {
+      (width, (width/aspect).toInt)
+    } else {
+      (newWidth, height)
+    }
+  }
+
   try {
     import GameConfig._
+    import scala.math.min
     Native.loadLibraryFromJar()
     val appgc = new AppGameContainer(new ElderStrolls("Elder Strolls: Hallow's Eve"))
-    Height = appgc.getScreenHeight
-    Width = appgc.getScreenWidth
-    appgc.setDisplayMode(Width, Height, true)
+    val (w, h) = calculateScreenSize(appgc.getScreenWidth, appgc.getScreenHeight)
+    Width = w
+    Height = h
+    appgc.setDisplayMode(Width, Height, false)
     appgc.setTargetFrameRate(FrameRate)
     appgc.setVSync(if (GameConfig.OS == GameConfig.MacOS) false else true)
     appgc.start()

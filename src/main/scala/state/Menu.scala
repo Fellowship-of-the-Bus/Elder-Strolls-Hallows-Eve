@@ -8,68 +8,74 @@ import lib.game.GameConfig
 import lib.game.GameConfig.{Width,Height}
 
 import org.newdawn.slick.{GameContainer, Graphics, Color, Input, KeyListener}
-import org.newdawn.slick.state.{BasicGameState, StateBasedGame}
+import org.newdawn.slick.state.{BasicGameState => SlickBasicGameState, StateBasedGame}
 
-
-object Menu extends BasicGameState {
-  val centerx = Width/2-Button.width/2
-  implicit val id = getID
-
+trait BasicGameState extends SlickBasicGameState {
   implicit var input: Input = null
   implicit var SBGame: StateBasedGame = null
+  var container: GameContainer = null
 
-  lazy val choices = List(
-    Button("New Game (A/X)", centerx, 400, () => SBGame.enterState(Mode.BattleID)),
-    Button("Options", centerx, 400+30, () => SBGame.enterState(Mode.OptionsID)),
-    Button("Quit (B/O)", centerx, 400+60, () => System.exit(0)))
+  val centerx = Width/2-Button.width/2
+  val startY = 400
+  val padding = 30 // space from start of one button to start of next
+  val logoStartY = 200
 
-  def update(gc: GameContainer, game: StateBasedGame, delta: Int) = {
-  }
+  def update(gc: GameContainer, game: StateBasedGame, delta: Int) = {}
 
-  def render(gc: GameContainer, game: StateBasedGame, g: Graphics) = {
+  def render(gc: GameContainer, game: StateBasedGame, g: Graphics): Unit = {
+    gc.getGraphics.setBackground(Color.cyan)
     val fotb = images(FotBLogoID)
     val logo = images(LogoID)
     fotb.scaleFactor = 1
     logo.scaleFactor = 1
 
     fotb.draw(Width/2-fotb.getWidth/2, 3*Height/4)
-    for ( item <- choices ) {
-      item.render(g)
-    }
-    logo.draw(Width/2-logo.getWidth/2, 200)
+    logo.draw(Width/2-logo.getWidth/2, logoStartY)
   }
 
   def init(gc: GameContainer, game: StateBasedGame) = {
     input = gc.getInput
     SBGame = game
-    gc.getGraphics.setBackground(Color.cyan)
+    container = gc
+  }
+}
+
+object Menu extends BasicGameState {
+  implicit val id = getID
+
+  lazy val choices = List(
+    Button("New Game (A/X)", centerx, startY, () => SBGame.enterState(Mode.BattleID)),
+    Button("Options", centerx, startY+padding, () => SBGame.enterState(Mode.OptionsID)),
+    Button("Quit (B/O)", centerx, startY+2*padding, () => System.exit(0)))
+
+  override def render(gc: GameContainer, game: StateBasedGame, g: Graphics): Unit = {
+    super.render(gc, game, g)
+
+    for ( item <- choices ) {
+      item.render(g)
+    }
   }
 
   def getID() = Mode.MenuID
 }
 
 object Options extends BasicGameState {
-  import Menu.{centerx, SBGame, input}
-
   implicit val id = getID
 
   lazy val choices = List(
-    ToggleButton("Display Lifebars", centerx, 200,
+    ToggleButton("Display Lifebars", centerx, startY,
       () => GameConfig.showLifebars = !GameConfig.showLifebars, // update
       () => GameConfig.showLifebars), // query
-    Button("Back", centerx, 200+30, () => SBGame.enterState(Mode.MenuID)))
+    ToggleButton("Full Screen", centerx, startY+padding,
+      () => container.setFullscreen(! container.isFullscreen), // update
+      () => container.isFullscreen), // query
+    Button("Back", centerx, startY+2*padding, () => SBGame.enterState(Mode.MenuID)))
 
-  def update(gc: GameContainer, game: StateBasedGame, delta: Int) = {
-  }
-
-  def render(gc: GameContainer, game: StateBasedGame, g: Graphics) = {
+  override def render(gc: GameContainer, game: StateBasedGame, g: Graphics) = {
+    super.render(gc, game, g)
     for ( item <- choices ) {
       item.render(g)
     }
-  }
-
-  def init(gc: GameContainer, game: StateBasedGame) = {
-
   }
 
   def getID() = Mode.OptionsID
