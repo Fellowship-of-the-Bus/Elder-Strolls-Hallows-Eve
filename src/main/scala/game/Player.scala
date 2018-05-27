@@ -26,16 +26,9 @@ trait PlayerType extends CharacterType {
 }
 
 abstract case class Player(xc: Float, yc: Float, override val base: PlayerType) extends game.Character(xc, yc, base) {
-  def tryAttack(game: Game) = {
-
-  }
-  def tryAttack2(game: Game) = {
-
-  }
-
-  def dodge(game: Game) = {
-
-  }
+  def tryAttack(game: Game) = {}
+  def tryAttack2(game: Game) = {}
+  def dodge(game: Game) = {}
 
   var dodging = false
   var dodgeDirX = 0f
@@ -192,14 +185,15 @@ class IVGuy(xc: Float, yc: Float, playerNum: Int) extends Player(xc, yc, IVGuys.
   val attack1Damage = guy.attack1Damage
   val attack2Damage = guy.attack2Damage
 
+  def resetArm() = {
+    currArm = armDefault
+    img = imgs(index)
+  }
+
   override def tryAttack(game: Game) = {
     // only one action at a time
     action.cancelAll()
 
-    def resetArm() = {
-      currArm = armDefault
-      img = imgs(index)
-    }
     resetArm
     action += new TickTimer(10, resetArm _)
 
@@ -236,21 +230,18 @@ class IVGuy(xc: Float, yc: Float, playerNum: Int) extends Player(xc, yc, IVGuys.
       }
     }
 
-    def resetArm() = {
-      currArm = armDefault
-      img = imgs(index)
-    }
-
     img = jump
   }
 
   override def dodge(game: Game) {
     dodging = true
+    currArm = null
     img = dodge
     iframes = 5
     action += new TickTimer(20, () => {
       img = imgs(index)
       dodging = false
+      resetArm
     })
   }
 
