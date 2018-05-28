@@ -1,1 +1,150 @@
-# GI Jam Fall 2015
+# Elder Strolls: Hallow's Eve
+This game was originally created for the University of Waterloo Games Institute Jam (Fall 2015)
+
+![Fellowship of the Bus][logo]
+
+## Installation
+There are two recommended options for running this game.
+
+1. Download one of the pre-built executable JAR files under [releases]. Run by either double clicking the JAR file or entering the command `java -jar <jar-name>` on the commandline.
+2. Build from source. The easiest way to do so is to use [sbt]
+    1. Install sbt.
+    2. Run sbt from the commandline.
+    3. At the prompt, type `run`.
+
+## Controls:
+This game can be controlled via keyboard or a game pad, tested with both Playstation 3 or Xbox 360 controllers. The controls are (PS3/X360/Keyboard)
+
+* Start/Start/P - pause
+* Select/Back/Escape - return to main menu
+* Cross/A/a - punch
+* Circle/B/s - kick
+* Square/X/d - dodge
+* Left stick/Left Stick/Arrow Keys - move
+
+## How to Play
+Elder Strolls: Hallow's Eve is a side-scrolling beat 'em up game taking place on Halloween. The main character, Herbert, is an elderly man who is sick of giving out candy to noisy, ungrateful kids on Halloween.
+
+The main object of the game is to get those rotten kids off your lawn! To do so, you must defeat the boss enemy before losing all of your health. To reach the boss enemy, you must first clear several waves of randomly generated enemies. Your current health is displayed as a bar at the top of the screen, along with your current score.
+
+![Elder Strolls: Hallow's Eve][screenshot]
+
+Each time you defeat an enemy a popup appears below your health and score that describes some details about the enemy you defeated, including their name, age, and a fact about them.
+
+This game supports multiplayer for up to 4 players using controllers. Each player character heals by 20% of their maximum HP at the start of each wave.
+
+### Playable Characters
+
+The main character is Herbert, and elderly man who just wants some peace and quiet on Halloween.
+
+<img src="src/main/resources/img/Herbert-left.png" height="300">
+
+Herbert has three actions:
+
+1. <img src="src/main/resources/img/Herbert-left-punch.png" height="300"> Punch deals 15 damage
+2. <img src="src/main/resources/img/KickFull.png" height="300"> Kick deals 40 damage
+3. <img src="src/main/resources/img/Dodge.png" height="300"> Dodge dashes to the side at double speed
+
+### Enemy Types
+
+Enemies are spawned in waves from the left and right sides of the screen. Upon defeating an enemy you receive their base score value multiplied by the current wave number. The various types of enemies in the game are:
+
+1. <img src="src/main/resources/img/GhostRun1.png" width="120"> Ghost
+    * Health: 100
+    * Attack: 12
+    * Speed: 4
+    * Points: 1
+    * Attacks with a wind up kick
+1. <img src="src/main/resources/img/ElsaShoot.png" width="120"> Elsa
+    * Health: 15
+    * Attack: 4
+    * Speed: 3
+    * Points: 1
+    * Range: 400
+    * Attacks with a snowflake projectile
+1. <img src="src/main/resources/img/HotdogWalk1.png" width="120"> Hotdog
+    * Health: 60
+    * Attack: 5
+    * Speed: 4
+    * Points: 2
+    * Attacks by throwing ketchup dispensers
+1. <img src="src/main/resources/img/PowerRangerPunch.png" width="120"> Power Ranger
+    * Health: 150
+    * Attack: 5
+    * Speed: 3
+    * Points: 3
+    * Attacks with a fast punch
+    * Can appears in 6 varieties: Red, Black, Blue, Pink, Yellow, and Green
+1. <img src="src/main/resources/img/HorseMask.png" width="120"> Horse Mask
+    * Any common enemy type can appear as a bonus enemy with a horse mask
+    * Horse mask enemies never attack and always spawn from the right side of the screen and run in a straight line to the left side of the screen
+    * Health, Attack, and Speed are the same as the non-horse-masked enemy
+    * Points: 5
+
+#### Boss Enemies
+
+Elder Strolls: Hallow's Eve has one multi-stage bonus enemy that appears after clearing 4 waves.
+
+1. <img src="src/main/resources/img/BossFull.png" width="120">
+    * Health: 500
+    * Attack: 1
+    * Speed: 3
+    * Points: 3
+    * Shoots with his super soaker
+    * Defeating this stage knocks off the trench coat, to reveal his true form...
+1. <img src="src/main/resources/img/BossUncoat.png" width="120">
+    * Health: 500
+    * Attack: 50
+    * Speed: 3
+    * Points: 2
+    * Attacks with a windup "body slam" attack
+1. <img src="src/main/resources/img/BossUncoat2.png" width="120">
+    * Health: 1000
+    * Attack: 0
+    * Speed: 3
+    * Points: 1
+    * Summons allies using his cell phone
+    * Additional spawned enemies are randomized, but always of the same type
+    * While playing a song on his cell phone, this stage dances around. Attack while he's vulnerable!
+1. <img src="src/main/resources/img/BossFinal-Full.png" width="160">
+    * Health: 1000
+    * Attack: 5
+    * Speed: 3
+    * Points: 3
+    * Uses a fist slam attack
+
+After clearing the boss enemy, a bonus round begins where additional waves spawn endlessly with more and more enemies until the player is defeated. Try to rack up as many point as possible!
+
+## Credits
+
+### Programming
+* [Rob Schluntz]
+* [Travis Bartlett]
+* [Abraham Dubrisingh]
+* [Kevin Wu]
+
+### Art
+* Abraham Dubrisingh, using [SumoPaint](https://www.sumopaint.com/)
+
+### Sound Effects
+* [Hit 1](http://soundbible.com/1414-Batman-Punch.html)
+* [Hit 2](http://soundbible.com/1418-Sharp-Punch.html)
+* [Hit 3](http://soundbible.com/1952-Punch-Or-Whack.html)
+* Default Cell Tune - [iPhone Ringtone feat. SIRI (Trap Remix) by Kemical Kidd](https://www.youtube.com/watch?v=LDGUJgOZQ3E)
+
+### Special Thanks
+* This game was heavily inspired by games such as Streets of Rage, Golden Axe, and other classic beat 'em ups
+
+### Disclaimer
+This is a work of fiction. Any resemblance to actual events or locales or persons, living or dead, is entirely coincidental. No trick or treaters were harmed in the making of this game.
+
+[Rob Schluntz]: https://github.com/saitou1024
+[Abraham Dubrisingh]: https://github.com/Greatrabe
+[Kevin Wu]: https://github.com/smashkevin
+[Erin Blackmere]: https://github.com/erin2kb
+[Travis Bartlett]: https://github.com/kjifs
+
+[screenshot]: http://fellowship-of-the-bus.github.io/Elder-Strolls-Hallows-Eve/images/screenshot.png
+[logo]: src/main/resources/img/FotB-Logo.png
+[releases]: ./releases
+[sbt]: http://www.scala-sbt.org/
