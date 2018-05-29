@@ -2,7 +2,7 @@ package com.github.fellowship_of_the_bus
 package eshe
 package state
 import org.newdawn.slick.{AppGameContainer, GameContainer, Graphics, SlickException, Color, Input}
-import org.newdawn.slick.state.{BasicGameState, StateBasedGame}
+import org.newdawn.slick.state.{BasicGameState => SlickBasicGameState, StateBasedGame}
 
 import game._
 import game.IDMap._
@@ -10,7 +10,7 @@ import lib.slick2d.ui.{Image,Pane}
 import lib.game.GameConfig.{Width,Height}
 import ui._
 
-object Battle extends BasicGameState {
+object Battle extends SlickBasicGameState {
   var game = new Game
 
   val ui = new Pane(0, 0, Width, Height)(Color.white)

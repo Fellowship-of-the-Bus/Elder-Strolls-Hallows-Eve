@@ -5,11 +5,13 @@ package game
 import IDMap._
 import eshe.state.ui.{GameArea}
 
+import org.newdawn.slick.{GameContainer, Graphics}
+
 import lib.game.GameConfig.{Width,Height}
+import lib.slick2d.game.Lifebar
 import lib.slick2d.ui.{Drawable}
 import lib.math.{Rect, clamp}
 import lib.util.{TimerListener}
-
 
 trait CharacterType {
   def id: Int
@@ -24,7 +26,7 @@ trait CharacterType {
   def atkWidth: Float
 }
 
-abstract class Character(xc: Float, yc: Float, val base: CharacterType) extends GameObject(xc, yc) {
+abstract class Character(xc: Float, yc: Float, val base: CharacterType) extends GameObject(xc, yc) with Lifebar {
   def name: String
 
   var hp: Float = base.maxHp
@@ -88,5 +90,10 @@ abstract class Character(xc: Float, yc: Float, val base: CharacterType) extends 
 
   def heal(amt: Float) = {
     hp = clamp( (hp + amt*base.maxHp).toInt, 0, base.maxHp)
+  }
+
+  override def draw(g: Graphics, gc: GameContainer): Unit = {
+    super.draw(g, x, y)
+    super.draw(g, gc)
   }
 }

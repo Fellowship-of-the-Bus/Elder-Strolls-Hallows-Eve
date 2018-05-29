@@ -217,6 +217,7 @@ class IVGuy(xc: Float, yc: Float, playerNum: Int) extends Player(xc, yc, IVGuys.
 
   override def draw(g: Graphics, gc: GameContainer) = {
     SlickGameConfig.graphics = g
+    super.draw(g, x, y)
     drawScaledImage(img, x, y, g)
     if (currArm != null && img != jump && img != kick) {
       if (direction == GameObject.Left) {
