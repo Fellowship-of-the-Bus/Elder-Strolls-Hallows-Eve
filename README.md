@@ -153,5 +153,5 @@ This is a work of fiction. Any resemblance to actual events or locales or person
 
 [screenshot]: http://fellowship-of-the-bus.github.io/Elder-Strolls-Hallows-Eve/images/screenshot.png
 [logo]: src/main/resources/img/FotB-Logo.png
-[releases]: /releases
+[releases]: ../../releases
 [sbt]: http://www.scala-sbt.org/
