@@ -22,12 +22,19 @@ trait BasicGameState extends SlickBasicGameState {
 
   def update(gc: GameContainer, game: StateBasedGame, delta: Int) = {}
 
+  val bgColor = new Color(0, 20, 46)
   def render(gc: GameContainer, game: StateBasedGame, g: Graphics): Unit = {
-    gc.getGraphics.setBackground(Color.cyan)
+    gc.getGraphics.setBackground(bgColor)
     val fotb = images(FotBLogoID)
     val logo = images(LogoID)
+    val background = images(BackgroundFullID)
     fotb.scaleFactor = 1
     logo.scaleFactor = 1
+    background.scaleFactor = state.ui.GameArea.ratio
+
+    background.draw(0,0)
+    background.draw(background.width,0)
+    background.draw(2*background.width,0)
 
     fotb.draw(Width/2-fotb.getWidth/2, 3*Height/4)
     logo.draw(Width/2-logo.getWidth/2, logoStartY)
