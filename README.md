@@ -12,7 +12,7 @@ There are two recommended options for running this game.
     2. Run sbt from the command line in the project root directory.
     3. At the prompt, type `run`.
 
-## Controls:
+## Controls
 This game can be controlled via keyboard or gamepad, tested with both Playstation 3 and Xbox 360 controllers. The controls are given as follows (PS3/X360/Keyboard):
 
 * pause - Start/Start/P
@@ -35,7 +35,7 @@ This game supports multiplayer for up to 4 players using controllers. Each playe
 
 ### Playable Characters
 
-The main character is Herbert, and elderly man who just wants some peace and quiet on Halloween.
+The main character is Herbert, an elderly man who just wants some peace and quiet on Halloween.
 
 <img src="src/main/resources/img/Herbert-left.png" height="300">
 
@@ -141,6 +141,7 @@ After clearing the boss enemy, a bonus round begins where additional waves spawn
 
 ### Special Thanks
 * This game was heavily inspired by games such as Streets of Rage, Golden Axe, and other classic beat 'em ups
+* [Double Feature](http://www.fontspace.com/david-shetterly/double-feature) font created by David Shetterly
 
 ### Disclaimer
 This is a work of fiction. Any resemblance to actual events or locales or persons, living or dead, is entirely coincidental. No trick-or-treaters were harmed in the making of this game.
