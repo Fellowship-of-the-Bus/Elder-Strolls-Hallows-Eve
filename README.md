@@ -142,6 +142,7 @@ After clearing the boss enemy, a bonus round begins where additional waves spawn
 ### Special Thanks
 * This game was heavily inspired by games such as Streets of Rage, Golden Axe, and other classic beat 'em ups
 * [Double Feature](http://www.fontspace.com/david-shetterly/double-feature) font created by David Shetterly
+* [Ringbearer](http://www.fontspace.com/pete-klassen/ringbearer) font created by Pete Klassen
 
 ### Disclaimer
 This is a work of fiction. Any resemblance to actual events or locales or persons, living or dead, is entirely coincidental. No trick-or-treaters were harmed in the making of this game.
