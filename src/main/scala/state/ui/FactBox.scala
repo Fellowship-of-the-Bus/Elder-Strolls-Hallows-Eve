@@ -13,7 +13,7 @@ import lib.util.{TickTimer,TimerListener,RepeatForever}
 
 import eshe.game.{GameObject,Player,Enemy}
 
-class FactBox(x: Float, y: Float, width: Float, height: Float, player: Player, parentCol: Color)
+class FactBox(x: Float, y: Float, width: Float, height: Float, var player: Player, parentCol: Color)
 extends Pane(x, y, width, height)(parentCol) with PlayerListener with TimerListener {
   var enemy: Option[Enemy] = None
   var enemyQueue = Queue[Enemy]()
@@ -53,7 +53,7 @@ extends Pane(x, y, width, height)(parentCol) with PlayerListener with TimerListe
 
   override def update(gc: GameContainer, sbg: StateBasedGame, delta: Int): Unit = {
     super.update(gc, sbg, delta)
-    tick(delta)
+    if (! gc.isPaused) tick(delta)
   }
 
   override def enemyDied(e: Enemy): Unit = {

@@ -40,6 +40,8 @@ object HUD extends Pane(0, 0, Width, Height*60.0f/1024)(Color.white) {
     for (p <- players) {
       p.player = g.players(i)
       p.hp.obj = g.players(i)
+      p.facts.player = g.players(i)
+      g.players(i).addListener(p.facts)
       i += 1
     }
   }

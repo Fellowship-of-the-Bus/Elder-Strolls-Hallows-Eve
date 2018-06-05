@@ -22,12 +22,13 @@ class PlayerHUD(x: Float, y: Float, width: Float, height: Float, var player: Pla
     super.draw(gc, sbg, g)
   }
   var hp : Lifebar = null
+  var facts: FactBox = null
   override def init(gc: GameContainer, sbg: StateBasedGame) = {
     val nameText = new TextBox(0, 0, width/2, height/3, () => player.name)
     val colorBox = new Pane(width/2, 0, width/2, height/3)(playerColor)
     val scoreText = new TextBox(0, height/3, width, 2*height/3, () => ("Score: " + player.score))
     hp = new Lifebar(0, 2*height/3, player)
-    val facts = new FactBox(0, height, width, 4*height/3, player, color)
+    facts = new FactBox(0, height, width, 4*height/3, player, color)
 
     val wasActive = player.active
     setIsVisible(() => wasActive)
