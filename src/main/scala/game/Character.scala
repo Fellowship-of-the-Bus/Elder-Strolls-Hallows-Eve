@@ -93,7 +93,7 @@ abstract class Character(xc: Float, yc: Float, val base: CharacterType) extends 
   }
 
   override def draw(g: Graphics, gc: GameContainer): Unit = {
-    super.draw(g, x, y)
+    super.draw(g) // Lifebars
     super.draw(g, gc)
   }
 }
