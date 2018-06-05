@@ -1,4 +1,5 @@
-# Elder Strolls: Hallow's Eve
+![Elder Strolls: Hallow's Eve][game logo]
+
 This game was originally created for the University of Waterloo Games Institute Jam (Fall 2015)
 
 ![Fellowship of the Bus][logo]
@@ -25,13 +26,19 @@ This game can be controlled via keyboard or gamepad, tested with both Playstatio
 ## How to Play
 Elder Strolls: Hallow's Eve is a side-scrolling beat 'em up game taking place on Halloween. The main character, Herbert, is an elderly man who is sick of giving out candy to noisy, ungrateful kids on Halloween.
 
+[![video image]][video]
+
 The main object of the game is to get those rotten kids off your lawn! To do so, you must defeat the boss enemy before losing all of your health. To reach the boss, you must first clear several waves of randomly generated enemies. Your current health is displayed as a bar at the top of the screen, along with your current score.
 
 ![Elder Strolls: Hallow's Eve][screenshot]
 
 Each time you defeat an enemy, a pop-up appears below your health that describes some details about the enemy you defeated, including their name, age, and a fact about them.
 
+![The fact box contains trivia on enemies][factbox]
+
 This game supports multiplayer for up to 4 players using controllers. Each player character heals by 20% of their maximum HP at the start of each wave.
+
+![Beat 'em up action][gameplay]
 
 ### Playable Characters
 
@@ -153,7 +160,13 @@ This is a work of fiction. Any resemblance to actual events or locales or person
 [Erin Blackmere]: https://github.com/erin2kb
 [Travis Bartlett]: https://github.com/kjifs
 
-[screenshot]: http://fellowship-of-the-bus.github.io/Elder-Strolls-Hallows-Eve/images/screenshot.png
+[screenshot]: images/screenshot.png
+[gameplay]: images/gameplay.png
+[factbox]: images/factbox.png
+[video]: https://www.youtube.com/watch?v=ygYUDxEgPwQ
+[video image]: images/video.png
+
+[game logo]: src/main/resources/img/GameLogo.png
 [logo]: src/main/resources/img/FotB-Logo.png
 [releases]: ../../releases
 [sbt]: http://www.scala-sbt.org/
