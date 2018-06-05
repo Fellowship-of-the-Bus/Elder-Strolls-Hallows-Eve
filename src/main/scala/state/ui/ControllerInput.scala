@@ -64,6 +64,22 @@ class ControllerInput(g: game.Game, gc: GameContainer, sbg: StateBasedGame) exte
     case MacOS => 10
     case _ => 0
   }
+  lazy val BUTTON_UP = OS match {
+    case MacOS => 5
+    case _ => -1
+  }
+  lazy val BUTTON_LEFT = OS match {
+    case MacOS => 8
+    case _ => -1
+  }
+  lazy val BUTTON_DOWN = OS match {
+    case MacOS => 7
+    case _ => -1
+  }
+  lazy val BUTTON_RIGHT = OS match {
+    case MacOS => 6
+    case _ => -1
+  }
   var controllers: Vector[(Int, Int)] = Vector()
   override def setInput(in: Input) = {
     in.addControllerListener(this)
@@ -92,14 +108,20 @@ class ControllerInput(g: game.Game, gc: GameContainer, sbg: StateBasedGame) exte
       Battle.newGame()
     }
     if (!gc.isPaused) {
-      if (sbg.getCurrentStateID == Mode.MenuID) {
+      if (sbg.getCurrentStateID == Mode.MenuID || sbg.getCurrentStateID == Mode.OptionsID) {
+        // menu controls
+        val state = sbg.getCurrentState().asInstanceOf[MenuState]
         if (button == BUTTON_A) {
-          sbg.enterState(Mode.BattleID)
-        }
-        else if (button == BUTTON_B) {
-          System.exit(0)
+          state.confirm()
+        } else if (button == BUTTON_B) {
+          state.back()
+        } else if (button == BUTTON_UP) {
+          state.previous()
+        } else if (button == BUTTON_DOWN) {
+          state.next()
         }
       } else if (game.players(controller).active && !game.players(controller).dodging && game.players(controller).imgs.indexOf(game.players(controller).img) != -1) {
+        // game controls
         if (button == BUTTON_A) {
           game.players(controller).tryAttack(game)
         } else if (button == BUTTON_B) {
@@ -148,49 +170,57 @@ class ControllerInput(g: game.Game, gc: GameContainer, sbg: StateBasedGame) exte
   var horizontal = 0
   var vertical = 0
   override def keyPressed(key: Int, c: Char) = {
+    import Input._
     key match {
       // movement
-      case Input.KEY_LEFT => horizontal += -1
-      case Input.KEY_RIGHT => horizontal += 1
-      case Input.KEY_UP => vertical += -1
-      case Input.KEY_DOWN => vertical += 1
-      case Input.KEY_ESCAPE => sbg.enterState(Mode.MenuID)
+      case KEY_LEFT => horizontal += -1
+      case KEY_RIGHT => horizontal += 1
+      case KEY_UP => vertical += -1
+      case KEY_DOWN => vertical += 1
+      case KEY_ESCAPE => sbg.enterState(Mode.MenuID)
       // pause/unpause
-      case Input.KEY_P => gc.setPaused(!gc.isPaused)
+      case KEY_P => gc.setPaused(!gc.isPaused)
 
       case _ => ()
     }
 
     if (!gc.isPaused) {
-      val player = game.players(0)
-      key match {
-        // punch/confirm button
-        case Input.KEY_A =>
-          if (sbg.getCurrentStateID == Mode.MenuID) {
-            sbg.enterState(Mode.BattleID)
-          } else {
+      if (sbg.getCurrentStateID == Mode.MenuID || sbg.getCurrentStateID == Mode.OptionsID) {
+        // menu controls
+        val state = sbg.getCurrentState().asInstanceOf[MenuState]
+        if (key == KEY_A) {
+          state.confirm()
+        } else if (key == KEY_ESCAPE) {
+          state.back()
+        } else if (key == KEY_UP) {
+          state.previous()
+        } else if (key == KEY_DOWN) {
+          state.next()
+        }
+      } else {
+        val player = game.players(0)
+        // game controls
+        key match {
+          // punch/confirm button
+          case Input.KEY_A =>
             if (player.active && !player.dodging) player.tryAttack(game)
-          }
 
-        // kick/cancel button
-        case Input.KEY_S =>
-          if (sbg.getCurrentStateID == Mode.MenuID) {
-            System.exit(0)
-          } else if (player.imgs.contains(player.img)) {
+          // kick/cancel button
+          case Input.KEY_S =>
             if (player.active && !player.dodging) player.tryAttack2(game)
-          }
 
-        case Input.KEY_D =>
-          if (sbg.getCurrentStateID == Mode.BattleID) {
+          case Input.KEY_D =>
             if (player.active && !player.dodging) {
               player.dodgeDirX = horizontal
               player.dodgeDirY = vertical
-              if (player.dodgeDirX == 0f && player.dodgeDirY == 0f) player.dodgeDirX = if (player.direction == GameObject.Left) 1f else -1f
+              if (player.dodgeDirX == 0f && player.dodgeDirY == 0f) {
+                player.dodgeDirX = if (player.direction == GameObject.Left) 1f else -1f
+              }
               player.dodge(game)
             }
-          }
 
-        case _ => ()
+          case _ => ()
+        }
       }
     }
   }
