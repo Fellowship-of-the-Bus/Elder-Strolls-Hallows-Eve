@@ -163,7 +163,7 @@ This is a work of fiction. Any resemblance to actual events or locales or person
 [screenshot]: images/screenshot.png
 [gameplay]: images/gameplay.png
 [factbox]: images/factbox.png
-[video]: https://www.youtube.com/watch?v=ygYUDxEgPwQ
+[video]: https://https://youtu.be/jQlvQUVgZ8o
 [video image]: images/video.png
 
 [game logo]: src/main/resources/img/GameLogo.png
