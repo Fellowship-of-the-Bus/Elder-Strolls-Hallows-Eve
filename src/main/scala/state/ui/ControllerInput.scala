@@ -82,16 +82,21 @@ class ControllerInput(g: game.Game, gc: GameContainer, sbg: StateBasedGame) exte
   }
   var controllers: Vector[(Int, Int)] = Vector()
   override def setInput(in: Input) = {
-    in.addControllerListener(this)
+    if (input != null) {
+      input.removeControllerListener(this)
+      input.removeKeyListener(this)
+    }
     input = in
-    val controllerCount = in.getControllerCount()
+    input.addControllerListener(this)
+    val controllerCount = input.getControllerCount()
+    controllers = Vector()
     for (i <- 0 until controllerCount) {
-      if (in.getAxisCount(i) >= 2) {
+      if (input.getAxisCount(i) >= 2) {
         controllers = controllers :+ ((i, controllers.length))
       }
     }
     if (controllers.length == 0) {
-      in.addKeyListener(this)
+      input.addKeyListener(this)
       game.setPlayers(1)
     } else {
       game.setPlayers(controllers.length)
@@ -202,26 +207,27 @@ class ControllerInput(g: game.Game, gc: GameContainer, sbg: StateBasedGame) exte
       } else {
         val player = game.players(0)
         // game controls
-        key match {
-          // punch/confirm button
-          case Input.KEY_A =>
-            if (player.active && !player.dodging) player.tryAttack(game)
+        if (player.active && !player.dodging && player.imgs.indexOf(player.img) != -1) {
 
-          // kick/cancel button
-          case Input.KEY_S =>
-            if (player.active && !player.dodging) player.tryAttack2(game)
+          key match {
+            // punch/confirm button
+            case Input.KEY_A =>
+              player.tryAttack(game)
 
-          case Input.KEY_D =>
-            if (player.active && !player.dodging) {
+            // kick/cancel button
+            case Input.KEY_S =>
+              player.tryAttack2(game)
+
+            case Input.KEY_D =>
               player.dodgeDirX = horizontal
               player.dodgeDirY = vertical
               if (player.dodgeDirX == 0f && player.dodgeDirY == 0f) {
                 player.dodgeDirX = if (player.direction == GameObject.Left) -1f else 1f
               }
               player.dodge(game)
-            }
 
-          case _ => ()
+            case _ => ()
+          }
         }
       }
     }

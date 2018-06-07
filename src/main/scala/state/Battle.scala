@@ -48,7 +48,7 @@ object Battle extends SlickBasicGameState {
     game.pause(true)
     game = new Game
     GameArea.controller.game = game
-    game.setPlayers(GameArea.controller.controllers.length)
+    GameArea.controller.setInput(thegc.getInput)
     ui.resetGame(game)
     HUD.restart(game)
   }
