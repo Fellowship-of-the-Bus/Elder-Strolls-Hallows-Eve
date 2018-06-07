@@ -14,19 +14,19 @@ There are two recommended options for running this game.
     3. At the prompt, type `run`.
 
 ## Controls
-This game can be controlled via keyboard or gamepad, tested with both Playstation 3 and Xbox 360 controllers. The controls are given as follows (PS3/X360/Keyboard):
+This game can be controlled via keyboard or gamepad (compatible with both Playstation 3 and Xbox 360 controllers). The controls are given as follows (PS3/X360/Keyboard):
 
-* pause - Start/Start/P
-* return to main menu - Select/Back/Esc
-* punch - Cross/A/S
-* kick - Circle/B/S
-* dodge - Square/X/D
-* move - Left Stick/Left Stick/Arrow Keys
+* Pause - Start/Start/P
+* Return to main menu - Select/Back/Esc
+* Punch - Cross/A/S
+* Kick - Circle/B/S
+* Dodge - Square/X/D
+* Move - Left Stick/Left Stick/Arrow Keys
 
 ## How to Play
 Elder Strolls: Hallow's Eve is a side-scrolling beat 'em up game taking place on Halloween. The main character, Herbert, is an elderly man who is sick of giving out candy to noisy, ungrateful kids on Halloween.
 
-[![video image]][video]
+![Beat 'em up action][gameplay]
 
 The main object of the game is to get those rotten kids off your lawn! To do so, you must defeat the boss enemy before losing all of your health. To reach the boss, you must first clear several waves of randomly generated enemies. Your current health is displayed as a bar at the top of the screen, along with your current score.
 
@@ -38,7 +38,7 @@ Each time you defeat an enemy, a pop-up appears below your health that describes
 
 This game supports multiplayer for up to 4 players using controllers. Each player character heals by 20% of their maximum HP at the start of each wave.
 
-![Beat 'em up action][gameplay]
+[![video image]][video]
 
 ### Playable Characters
 
@@ -54,7 +54,7 @@ Herbert has three actions:
 
 ### Enemy Types
 
-Enemies are spawned in waves from the left and right sides of the screen. Upon defeating an enemy you receive their base score value multiplied by the current wave number. The various types of enemies in the game are:
+Enemies are spawned in waves from the left and right sides of the screen. Upon defeating an enemy, you receive their base score value multiplied by the current wave number. The various types of enemies in the game are:
 
 1. <img src="src/main/resources/img/GhostRun1.png" width="120"><p> Ghost
     * Health: 100
