@@ -132,7 +132,9 @@ class ControllerInput(g: game.Game, gc: GameContainer, sbg: StateBasedGame) exte
           val p = game.players(controller)
           p.dodgeDirX = input.getAxisValue(controller,AXIS_X)
           p.dodgeDirY = input.getAxisValue(controller,AXIS_Y)
-          if (p.dodgeDirX == 0f && p.dodgeDirY == 0f) p.dodgeDirX = if (p.direction == GameObject.Left) 1f else -1f
+          if (p.dodgeDirX == 0f && p.dodgeDirY == 0f) {
+            p.dodgeDirX = if (p.direction == GameObject.Left) -1f else 1f
+          }
           p.dodge(game)
         }
       }
@@ -214,7 +216,7 @@ class ControllerInput(g: game.Game, gc: GameContainer, sbg: StateBasedGame) exte
               player.dodgeDirX = horizontal
               player.dodgeDirY = vertical
               if (player.dodgeDirX == 0f && player.dodgeDirY == 0f) {
-                player.dodgeDirX = if (player.direction == GameObject.Left) 1f else -1f
+                player.dodgeDirX = if (player.direction == GameObject.Left) -1f else 1f
               }
               player.dodge(game)
             }
