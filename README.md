@@ -64,33 +64,47 @@ Herbert has three actions:
 
 Enemies are spawned in waves from the left and right sides of the screen. Upon defeating an enemy, you receive their base score value multiplied by the current wave number. The various types of enemies in the game are:
 
-1. <img src="src/main/resources/img/GhostRun1.png" width="120"><p> Ghost
+1. <img src="src/main/resources/img/GhostRun1.png" width="120">
+
+    Ghost
     * Health: 100
     * Attack: 12
     * Speed: 4
     * Points: 1
     * Attacks with a wind-up kick
-1. <img src="src/main/resources/img/ElsaShoot.png" width="120"><p> Elsa
+    
+2. <img src="src/main/resources/img/ElsaShoot.png" width="120">
+
+    Elsa
     * Health: 15
     * Attack: 4
     * Speed: 3
     * Points: 1
     * Range: 400
     * Attacks with a snowflake projectile
-1. <img src="src/main/resources/img/HotdogWalk1.png" width="120"><p> Hotdog
+    
+3. <img src="src/main/resources/img/HotdogWalk1.png" width="120">
+    
+    Hotdog
     * Health: 60
     * Attack: 5
     * Speed: 4
     * Points: 2
     * Attacks by throwing ketchup bottles
-1. <img src="src/main/resources/img/PowerRangerPunch.png" width="120"><p> Power Ranger
+    
+4. <img src="src/main/resources/img/PowerRangerPunch.png" width="120">
+    
+    Power Ranger
     * Health: 150
     * Attack: 5
     * Speed: 3
     * Points: 3
     * Attacks with a fast punch
     * Can appear in 6 varieties: Red, Black, Blue, Pink, Yellow, and Green
-1. <img src="src/main/resources/img/HorseMask.png" width="120"><p> Horse Mask
+    
+5. <img src="src/main/resources/img/HorseMask.png" width="120">
+    
+    Horse Mask
     * Any common enemy type can appear as a bonus enemy with a horse mask
     * Horse mask enemies never attack and always spawn from the right side of the screen and run in a straight line to the left side of the screen
     * Health, Attack, and Speed are the same as the non-horse-masked enemy
