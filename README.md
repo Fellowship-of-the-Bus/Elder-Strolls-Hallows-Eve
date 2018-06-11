@@ -48,9 +48,9 @@ The main character is Herbert, an elderly man who just wants some peace and quie
 
 Herbert has three actions:
 
-1. <img src="src/main/resources/img/Herbert-left-punch.png" height="300"> <p> Punch deals 15 damage
-2. <img src="src/main/resources/img/KickFull.png" height="300"> <p> Kick deals 40 damage
-3. <img src="src/main/resources/img/Dodge.png" height="300"> <p> Dodge dashes to the side at double speed
+1. <img src="src/main/resources/img/Herbert-left-punch.png" height="300"> <p> Punch deals 15 damage </p>
+2. <img src="src/main/resources/img/KickFull.png" height="300"> <p> Kick deals 40 damage </p>
+3. <img src="src/main/resources/img/Dodge.png" height="300"> <p> Dodge dashes to the side at double speed </p>
 
 ### Enemy Types
 
